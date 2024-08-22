@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="NOIp范围内的数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NOIp 2018 前的数据结构板子总结">
+<meta property="og:url" content="https://shifuru.github.io/2018/10/11/NOIp-2018-%E5%89%8D%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="NOIp范围内的数据结构">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-10-11T03:43:00.000Z">
+<meta property="article:modified_time" content="2020-09-24T11:46:32.000Z">
+<meta property="article:author" content="Sifr">
+<meta property="article:tag" content="Segment Tree">
+<meta property="article:tag" content="Heavy Path Decomposition">
+<meta property="article:tag" content="Data Structures">
+<meta property="article:tag" content="Disjoint-set">
+<meta property="article:tag" content="Heap">
+<meta property="article:tag" content="Fenwick Tree">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2018/10/11/NOIp-2018-%E5%89%8D%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2018/10/11/NOIp-2018-%E5%89%8D%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/","path":"2018/10/11/NOIp-2018-前的数据结构板子总结/","title":"NOIp 2018 前的数据结构板子总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>NOIp 2018 前的数据结构板子总结 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#disjoint-set-data-structure"><span class="nav-number">1.</span> <span class="nav-text">Disjoint-set data structure</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#heap"><span class="nav-number">2.</span> <span class="nav-text">Heap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fenwick-tree"><span class="nav-number">3.</span> <span class="nav-text">Fenwick tree</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E7%82%B9%E4%BF%AE%E6%94%B9-%E5%8C%BA%E9%97%B4%E6%9F%A5%E8%AF%A2"><span class="nav-number">3.1.</span> <span class="nav-text">单点修改 + 区间查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BA%E9%97%B4%E4%BF%AE%E6%94%B9-%E5%8D%95%E7%82%B9%E6%9F%A5%E8%AF%A2"><span class="nav-number">3.2.</span> <span class="nav-text">区间修改 + 单点查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BA%E9%97%B4%E4%BF%AE%E6%94%B9-%E5%8C%BA%E9%97%B4%E6%9F%A5%E8%AF%A2"><span class="nav-number">3.3.</span> <span class="nav-text">区间修改 + 区间查询</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#segment-tree"><span class="nav-number">4.</span> <span class="nav-text">Segment tree</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#heavy-path-decomposition"><span class="nav-number">5.</span> <span class="nav-text">Heavy path decomposition</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意にみつだ人間は絶滅すべき。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2018/10/11/NOIp-2018-%E5%89%8D%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意にみつだ人間は絶滅すべき。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="NOIp 2018 前的数据结构板子总结 | FORTH">
+      <meta itemprop="description" content="NOIp范围内的数据结构">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NOIp 2018 前的数据结构板子总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-10-11 11:43:00" itemprop="dateCreated datePublished" datetime="2018-10-11T11:43:00+08:00">2018-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2020-09-24 19:46:32" itemprop="dateModified" datetime="2020-09-24T19:46:32+08:00">2020-09-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OI/" itemprop="url" rel="index"><span itemprop="name">OI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">NOIp范围内的数据结构</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="disjoint-set-data-structure">Disjoint-set data structure</h1>
+<p>通过路径压缩实现最常用的并查集</p>
+<p>题目链接: <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3367">Luogu
+P3367 【模板】并查集</a></p>
+<p>时间复杂度: 1. <code>MakeSet</code>: <span
+class="math inline">\(\Theta(n)\)</span> 2. <code>Find</code>: <span
+class="math inline">\(\Theta(\alpha(n))\)</span> 3. <code>Union</code>:
+<span class="math inline">\(\Theta(\alpha(n))\)</span> (<span
+class="math inline">\(\alpha(n)\)</span>为inverse Ackermann
+function)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="type">int</span> parent[<span class="number">10010</span>];</span><br><span class="line"><span class="type">int</span> n, m, opt, u, v;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">MakeSet</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;maximum)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">0</span>); i &lt;= maximum; ++i) &#123;</span><br><span class="line">    parent[i] = i;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">Find</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;cur)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> cur == parent[cur] ? cur : parent[cur] = <span class="built_in">Find</span>(parent[cur]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Union</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;x, <span class="type">const</span> <span class="type">int</span> &amp;y)</span> </span>&#123;</span><br><span class="line">  parent[<span class="built_in">Find</span>(y)] = <span class="built_in">Find</span>(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">  <span class="built_in">MakeSet</span>(n);</span><br><span class="line">  <span class="keyword">while</span> (m--) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d %d&quot;</span>, &amp;opt, &amp;u, &amp;v);</span><br><span class="line">    <span class="keyword">switch</span> (opt) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="built_in">Union</span>(u, v);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="built_in">Find</span>(u) == <span class="built_in">Find</span>(v) ? <span class="string">&quot;Y&quot;</span> : <span class="string">&quot;N&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="heap">Heap</h1>
+<p>由于C++中包含用堆实现的<code>priority_queue</code>, 就不手写了。</p>
+<p>题目链接: <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3378">Luogu
+P3378 【模板】堆</a></p>
+<p>时间复杂度: 1. <code>top</code>: <span
+class="math inline">\(\Theta(1)\)</span> 2. <code>pop</code>: <span
+class="math inline">\(\Theta(\lg n)\)</span> 3. <code>push</code>: <span
+class="math inline">\(\Theta(\lg n)\)</span></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line">std::priority_queue&lt;<span class="type">int</span>, std::vector&lt;<span class="type">int</span>&gt;, std::greater&lt;<span class="type">int</span>&gt; &gt; Q;</span><br><span class="line"><span class="type">int</span> n, opt, x;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  <span class="keyword">while</span> (n--) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;opt);</span><br><span class="line">    <span class="keyword">switch</span> (opt) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;x);</span><br><span class="line">        Q.<span class="built_in">push</span>(x);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, Q.<span class="built_in">top</span>());</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: &#123;</span><br><span class="line">        Q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="fenwick-tree">Fenwick tree</h1>
+<p>也叫binary indexed tree</p>
+<p>时间复杂度: 1. <code>LOWBIT</code>: <span
+class="math inline">\(\Theta(1)\)</span> 2. <code>Sum</code>: <span
+class="math inline">\(\Theta(\lg n)\)</span> 3. <code>Add</code>: <span
+class="math inline">\(\Theta(\lg n)\)</span></p>
+<h2 id="单点修改-区间查询">单点修改 + 区间查询</h2>
+<p>题目链接: <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3374">Luogu
+P3374 【模板】树状数组 1</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOWBIT(a) (a &amp; -a)</span></span><br><span class="line"><span class="type">int</span> fenwick_tree[<span class="number">500010</span>], n;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">Sum</span><span class="params">(<span class="keyword">register</span> <span class="type">int</span> index)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> <span class="type">int</span> <span class="title">ret</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">  <span class="keyword">while</span> (index) &#123;</span><br><span class="line">    ret += fenwick_tree[index],</span><br><span class="line">    index -= <span class="built_in">LOWBIT</span>(index);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Add</span><span class="params">(<span class="keyword">register</span> <span class="type">int</span> index, <span class="type">const</span> <span class="type">int</span> &amp;kDelta)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (index &lt;= n) &#123;</span><br><span class="line">    fenwick_tree[index] += kDelta,</span><br><span class="line">    index += <span class="built_in">LOWBIT</span>(index);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> LOWBIT</span></span><br><span class="line"><span class="type">int</span> m, opt, x, y;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">1</span>); i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;y),</span><br><span class="line">    <span class="built_in">Add</span>(i, y);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> (m--) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d %d&quot;</span>, &amp;opt, &amp;x, &amp;y);</span><br><span class="line">    <span class="keyword">switch</span> (opt) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="built_in">Add</span>(x, y);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">Sum</span>(y) - <span class="built_in">Sum</span>(x - <span class="number">1</span>));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="区间修改-单点查询">区间修改 + 单点查询</h2>
+<p>原树状数组的基础上使用差分。</p>
+<p>题目链接: <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3368">Luogu
+P3368 【模板】树状数组 2</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOWBIT(a) (a &amp; -a)</span></span><br><span class="line"><span class="type">int</span> fenwick_tree[<span class="number">500010</span>], n;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">Sum</span><span class="params">(<span class="keyword">register</span> <span class="type">int</span> index)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> <span class="type">int</span> <span class="title">ret</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">  <span class="keyword">while</span> (index) &#123;</span><br><span class="line">    ret += fenwick_tree[index],</span><br><span class="line">    index -= <span class="built_in">LOWBIT</span>(index);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Add</span><span class="params">(<span class="keyword">register</span> <span class="type">int</span> index, <span class="type">const</span> <span class="type">int</span> &amp;kDelta)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (index &lt;= n) &#123;</span><br><span class="line">    fenwick_tree[index] += kDelta,</span><br><span class="line">    index += <span class="built_in">LOWBIT</span>(index);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> LOWBIT</span></span><br><span class="line"><span class="type">int</span> m, opt, x, y, k;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">1</span>); i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;y),</span><br><span class="line">    <span class="built_in">Add</span>(i, y - x),</span><br><span class="line">    x = y;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> (m--) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;opt, &amp;x);</span><br><span class="line">    <span class="keyword">switch</span> (opt) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;y, &amp;k);</span><br><span class="line">        <span class="built_in">Add</span>(x, k), <span class="built_in">Add</span>(y + <span class="number">1</span>, -k);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">Sum</span>(x));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="区间修改-区间查询">区间修改 + 区间查询</h2>
+<p>仍然使用了差分, 推导过程如下:</p>
+<p>设原数组为<span class="math inline">\(a_n\)</span>,
+考虑一个差分数组<span class="math inline">\(b_n = a_n - a_{n -
+1}\)</span>(约定<span class="math inline">\(b_0 = 0\)</span>),
+可以得到</p>
+<p><span class="math display">\[
+\begin {aligned}
+\sum_{i = 1}^n a_i &amp;= \sum_{i = 1}^n \sum_{j = 1}^i b_i \\\\
+&amp;= \sum_{i = 1}^{n - i + 1} b_i \\\\
+&amp;= \sum_{i = 1}^n (n + 1 - i)b_i \\\\
+&amp;= (n + 1)\sum_{i = 1}^n b_i - \sum_{i = 1}^n ib_i
+\end {aligned}
+\]</span></p>
+<p>写的简单易懂就是</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;a_1 + a_2 + \cdots + a_{n - 1} + a_n \\\\
+= &amp;b_1 + (b_1 + b_2) + \cdots + (b_1 + b_2 + \cdots + b_{n - 2} +
+b_{n - 1}) + (b_1 + b_2 + \cdots + b_{n - 1} + b_n)\\\\
+= &amp;nb_1 + (n - 1)b_2 + \cdots + 2b_{n - 1} + b_n\\\\
+= &amp;(n + 1 - 1)b_1 + (n + 1 - 2)b_2 + \cdots + [n + 1 - (n - 1)]b_{n
+- 1} + (n + 1 - n)b_n\\\\
+= &amp;(n + 1)(b_1 + b_2 + \cdots + b_{n - 1} + b_n) - (b_1 + 2b_2 +
+\cdots + (n - 1)b_{n - 1} + nb_n)
+\end{aligned}
+\]</span></p>
+<p>把<span class="math inline">\(b_i\)</span>和<span
+class="math inline">\(ib_i\)</span>分别用两个树状数组维护就可以了。</p>
+<p>题目链接: <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3372">Luogu
+P3372 【模板】线段树 1</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOWBIT(a) (a &amp; -a)</span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> fenwick_tree1[<span class="number">100010</span>], fenwick_tree2[<span class="number">100010</span>];</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">long</span> <span class="type">long</span> <span class="title">Sum</span><span class="params">(<span class="type">const</span> <span class="type">long</span> <span class="type">long</span> *fenwick_tree, <span class="keyword">register</span> <span class="type">int</span> index)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> <span class="type">long</span> <span class="type">long</span> <span class="title">ret</span><span class="params">(<span class="number">0ll</span>)</span></span>;</span><br><span class="line">  <span class="keyword">while</span> (index) &#123;</span><br><span class="line">    ret += fenwick_tree[index],</span><br><span class="line">    index -= <span class="built_in">LOWBIT</span>(index);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Add</span><span class="params">(<span class="keyword">register</span> <span class="type">long</span> <span class="type">long</span> *fenwick_tree, <span class="keyword">register</span> <span class="type">int</span> index, <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> &amp;kDelta)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (index &lt;= n) &#123;</span><br><span class="line">    fenwick_tree[index] += kDelta,</span><br><span class="line">    index += <span class="built_in">LOWBIT</span>(index);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> LOWBIT</span></span><br><span class="line"><span class="type">int</span> m, opt;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> x, y, k;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">1</span>); i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;y);</span><br><span class="line">    <span class="built_in">Add</span>(fenwick_tree1, i, y - x), <span class="built_in">Add</span>(fenwick_tree2, i, i * (y - x));</span><br><span class="line">    x = y;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> (m--) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %lld %lld&quot;</span>, &amp;opt, &amp;x, &amp;y);</span><br><span class="line">    <span class="keyword">switch</span> (opt) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;k);</span><br><span class="line">        <span class="built_in">Add</span>(fenwick_tree1, x, k), <span class="built_in">Add</span>(fenwick_tree1, y + <span class="number">1</span>, -k),</span><br><span class="line">        <span class="built_in">Add</span>(fenwick_tree2, x, x * k), <span class="built_in">Add</span>(fenwick_tree2, y + <span class="number">1</span>, (y + <span class="number">1</span>) * -k);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, (y + <span class="number">1</span>) * <span class="built_in">Sum</span>(fenwick_tree1, y) - x * <span class="built_in">Sum</span>(fenwick_tree1, x - <span class="number">1</span>) - (<span class="built_in">Sum</span>(fenwick_tree2, y) - <span class="built_in">Sum</span>(fenwick_tree2, x - <span class="number">1</span>)));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="segment-tree">Segment tree</h1>
+<p>只放一个板子题吧, 记住框架就行。</p>
+<p>时间复杂度: 1. <code>Construct</code>: <span
+class="math inline">\(\Theta(n \lg n)\)</span> 2. <code>Update</code>:
+<span class="math inline">\(\Theta(1)\)</span> 3. <code>PushDown</code>:
+<span class="math inline">\(\Theta(1)\)</span> 4. <code>Sum</code>:
+<span class="math inline">\(\Omega(\lg n)\)</span> 5.
+<code>Query</code>: <span class="math inline">\(\Omega(\lg
+n)\)</span></p>
+<p>题目链接: <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3372">Luogu
+P3372 【模板】线段树 1</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SegmentTree</span> &#123;</span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> value, delta;</span><br><span class="line">  <span class="type">int</span> l, r;</span><br><span class="line">  SegmentTree *left, *right;</span><br><span class="line">  <span class="built_in">SegmentTree</span>(<span class="type">const</span> <span class="type">long</span> <span class="type">long</span> &amp;val = <span class="number">0</span>) &#123;</span><br><span class="line">    value = val, delta = <span class="number">0</span>;</span><br><span class="line">    left = right = <span class="literal">nullptr</span>;</span><br><span class="line">    l = r = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;value = (<span class="keyword">this</span>-&gt;left ? <span class="keyword">this</span>-&gt;left-&gt;value : <span class="number">0ll</span>) + (<span class="keyword">this</span>-&gt;right ? <span class="keyword">this</span>-&gt;right-&gt;value : <span class="number">0ll</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">PushDown</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>-&gt;delta &amp;&amp; <span class="keyword">this</span>-&gt;left) &#123;</span><br><span class="line">      <span class="keyword">this</span>-&gt;left-&gt;value += (<span class="keyword">this</span>-&gt;left-&gt;r - <span class="keyword">this</span>-&gt;left-&gt;l + <span class="number">1</span>) * <span class="keyword">this</span>-&gt;delta,</span><br><span class="line">      <span class="keyword">this</span>-&gt;right-&gt;value += (<span class="keyword">this</span>-&gt;right-&gt;r - <span class="keyword">this</span>-&gt;right-&gt;l + <span class="number">1</span>) * <span class="keyword">this</span>-&gt;delta;</span><br><span class="line">      <span class="keyword">this</span>-&gt;left-&gt;delta += <span class="keyword">this</span>-&gt;delta,</span><br><span class="line">      <span class="keyword">this</span>-&gt;right-&gt;delta += <span class="keyword">this</span>-&gt;delta;</span><br><span class="line">      <span class="keyword">this</span>-&gt;delta = <span class="number">0ll</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">SegmentTree</span>(<span class="type">const</span> <span class="type">int</span> &amp;le, <span class="type">const</span> <span class="type">int</span> &amp;ri) &#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;l = le, <span class="keyword">this</span>-&gt;r = ri;</span><br><span class="line">    <span class="keyword">this</span>-&gt;left = <span class="keyword">this</span>-&gt;right = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="keyword">this</span>-&gt;delta = <span class="number">0ll</span>;</span><br><span class="line">    <span class="keyword">if</span> (le == ri) &#123;</span><br><span class="line">      <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;<span class="keyword">this</span>-&gt;value);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">register</span> <span class="type">int</span> <span class="built_in">mid</span>((le + ri) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">      <span class="keyword">this</span>-&gt;left = <span class="keyword">new</span> <span class="built_in">SegmentTree</span>(le, mid);</span><br><span class="line">      <span class="keyword">this</span>-&gt;right = <span class="keyword">new</span> <span class="built_in">SegmentTree</span>(mid + <span class="number">1</span>, ri);</span><br><span class="line">      <span class="keyword">this</span>-&gt;<span class="built_in">Update</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  ~<span class="built_in">SegmentTree</span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (left) &#123;</span><br><span class="line">      <span class="keyword">delete</span> left;</span><br><span class="line">      <span class="keyword">delete</span> right;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">inline</span> <span class="type">long</span> <span class="type">long</span> <span class="title">Query</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;le, <span class="type">const</span> <span class="type">int</span> &amp;ri)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (le &lt;= <span class="keyword">this</span>-&gt;l &amp;&amp; <span class="keyword">this</span>-&gt;r &lt;= ri) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>-&gt;value;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>-&gt;<span class="built_in">PushDown</span>();</span><br><span class="line">      <span class="function"><span class="keyword">register</span> <span class="type">int</span> <span class="title">mid</span><span class="params">((<span class="keyword">this</span>-&gt;l + <span class="keyword">this</span>-&gt;r) &gt;&gt; <span class="number">1</span>)</span></span>;</span><br><span class="line">      <span class="keyword">return</span> (le &lt;= mid ? <span class="keyword">this</span>-&gt;left-&gt;<span class="built_in">Query</span>(le, ri) : <span class="number">0ll</span>) + (mid &lt; ri ? <span class="keyword">this</span>-&gt;right-&gt;<span class="built_in">Query</span>(le, ri) : <span class="number">0ll</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Add</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;le, <span class="type">const</span> <span class="type">int</span> &amp;ri, <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> &amp;kDelta)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (le &lt;= <span class="keyword">this</span>-&gt;l &amp;&amp; <span class="keyword">this</span>-&gt;r &lt;= ri) &#123;</span><br><span class="line">      <span class="keyword">this</span>-&gt;value += (<span class="keyword">this</span>-&gt;r - <span class="keyword">this</span>-&gt;l + <span class="number">1</span>) * kDelta,</span><br><span class="line">      <span class="keyword">this</span>-&gt;delta += kDelta;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>-&gt;<span class="built_in">PushDown</span>();</span><br><span class="line">      <span class="function"><span class="keyword">register</span> <span class="type">int</span> <span class="title">mid</span><span class="params">((<span class="keyword">this</span>-&gt;l + <span class="keyword">this</span>-&gt;r) &gt;&gt; <span class="number">1</span>)</span></span>;</span><br><span class="line">      <span class="keyword">if</span> (le &lt;= mid) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;left-&gt;<span class="built_in">Add</span>(le, ri, kDelta);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (mid &lt; ri) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;right-&gt;<span class="built_in">Add</span>(le, ri, kDelta);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">this</span>-&gt;<span class="built_in">Update</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; *root;</span><br><span class="line"><span class="type">int</span> n, m, opt, x, y;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> k;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">  root = <span class="keyword">new</span> <span class="built_in">SegmentTree</span>(<span class="number">1</span>, n);</span><br><span class="line">  <span class="keyword">while</span> (m--) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d %d&quot;</span>, &amp;opt, &amp;x, &amp;y);</span><br><span class="line">    <span class="keyword">switch</span> (opt) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;k);</span><br><span class="line">        root-&gt;<span class="built_in">Add</span>(x, y, k);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, root-&gt;<span class="built_in">Query</span>(x, y));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="heavy-path-decomposition">Heavy path decomposition</h1>
+<p><del>别人都放在图论里, 就我一个放在数据结构里。</del></p>
+<p>推荐博客: <a
+target="_blank" rel="noopener" href="http://www.cnblogs.com/zwfymqz/p/8094500.html">树链剖分详解</a></p>
+<p>题目链接: <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3384">Luogu
+P3384 【模板】树链剖分</a></p>
+<p>时间复杂度: 1. <code>Dfs1</code>: <span
+class="math inline">\(\Theta(n)\)</span> 2. <code>Dfs2</code>: <span
+class="math inline">\(\Theta(n)\)</span> 3. <code>PathModify</code>:
+<span class="math inline">\(\Omega(\lg n)\)</span> 4.
+<code>PathGetSum</code>: <span class="math inline">\(\Omega(\lg
+n)\)</span> 5. <code>SubTreeModify</code>: <span
+class="math inline">\(\Omega(\lg n)\)</span> 6.
+<code>SubTreeGetSum</code>: <span class="math inline">\(\Omega(\lg
+n)\)</span></p>
+<p>可以换用树状数组, 常数更小。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> value, delta;</span><br><span class="line">  Node *left, *right;</span><br><span class="line">  <span class="type">int</span> l, r;</span><br><span class="line">  <span class="built_in">Node</span>() &#123;</span><br><span class="line">    left = right = <span class="literal">nullptr</span>;</span><br><span class="line">    l = r = delta = value = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  ~<span class="built_in">Node</span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (left) &#123;</span><br><span class="line">      <span class="keyword">delete</span> left;</span><br><span class="line">      <span class="keyword">delete</span> right;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; *root;</span><br><span class="line">std::vector&lt;<span class="type">int</span>&gt; adj[<span class="number">100010</span>];</span><br><span class="line"><span class="type">int</span> heavy[<span class="number">100010</span>], size[<span class="number">100010</span>], father[<span class="number">100010</span>], top[<span class="number">100010</span>], depth[<span class="number">100010</span>];</span><br><span class="line"><span class="type">int</span> new_index[<span class="number">100010</span>];</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> original_value[<span class="number">100010</span>], indexed_value[<span class="number">100010</span>];</span><br><span class="line"><span class="type">int</span> maxtop, n, m;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> kMod;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Dfs1</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;cur, <span class="type">const</span> <span class="type">int</span> &amp;fathernode)</span> </span>&#123;</span><br><span class="line">  father[cur] = fathernode,</span><br><span class="line">  depth[cur] = depth[fathernode] + <span class="number">1</span>,</span><br><span class="line">  size[cur] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> i : adj[cur]) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i != fathernode) &#123;</span><br><span class="line">      <span class="built_in">Dfs1</span>(i, cur),</span><br><span class="line">      size[cur] += size[i];</span><br><span class="line">      <span class="keyword">if</span> (size[i] &gt; size[heavy[cur]]) heavy[cur] = i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Dfs2</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;cur, <span class="type">const</span> <span class="type">int</span> &amp;topnode)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="type">int</span> <span class="title">index_count</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">  new_index[cur] = ++index_count,</span><br><span class="line">  indexed_value[index_count] = original_value[cur];</span><br><span class="line">  top[cur] = topnode;</span><br><span class="line">  <span class="keyword">if</span> (heavy[cur]) &#123;</span><br><span class="line">    <span class="built_in">Dfs2</span>(heavy[cur], topnode);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> i : adj[cur]) &#123;</span><br><span class="line">      <span class="keyword">if</span> (i != father[cur] &amp;&amp; i != heavy[cur]) &#123;</span><br><span class="line">        <span class="built_in">Dfs2</span>(i, i);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PUSH_UP(cur) cur-&gt;value = cur-&gt;left-&gt;value + cur-&gt;right-&gt;value;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Build</span><span class="params">(Node *cur, <span class="type">const</span> <span class="type">int</span> &amp;l, <span class="type">const</span> <span class="type">int</span> &amp;r)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (l == r) &#123;</span><br><span class="line">    cur-&gt;value = indexed_value[l];</span><br><span class="line">    cur-&gt;l = cur-&gt;r = l;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    cur-&gt;left = <span class="keyword">new</span> Node, cur-&gt;right = <span class="keyword">new</span> Node;</span><br><span class="line">    <span class="function"><span class="keyword">register</span> <span class="type">int</span> <span class="title">mid</span><span class="params">((l + r) &gt;&gt; <span class="number">1</span>)</span></span>;</span><br><span class="line">    cur-&gt;l = l, cur-&gt;r = r;</span><br><span class="line">    <span class="built_in">Build</span>(cur-&gt;left, l, mid), <span class="built_in">Build</span>(cur-&gt;right, mid + <span class="number">1</span>, r);</span><br><span class="line">    <span class="built_in">PUSH_UP</span>(cur);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PUSH_DOWN(cur) <span class="keyword">if</span> (cur-&gt;delta) &#123;cur-&gt;left-&gt;value = (cur-&gt;left-&gt;value + cur-&gt;delta * (cur-&gt;left-&gt;r - cur-&gt;left-&gt;l + 1)) % kMod, cur-&gt;right-&gt;value = (cur-&gt;right-&gt;value + cur-&gt;delta * (cur-&gt;right-&gt;r - cur-&gt;right-&gt;l + 1)) % kMod, cur-&gt;left-&gt;delta = (cur-&gt;left-&gt;delta + cur-&gt;delta) % kMod, cur-&gt;right-&gt;delta = (cur-&gt;right-&gt;delta + cur-&gt;delta) % kMod, cur-&gt;delta = 0;&#125;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Modify</span><span class="params">(Node *cur, <span class="type">const</span> <span class="type">int</span> &amp;l, <span class="type">const</span> <span class="type">int</span> &amp;r, <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> &amp;kDelta)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (l &lt;= cur-&gt;l &amp;&amp; cur-&gt;r &lt;= r) &#123;</span><br><span class="line">    cur-&gt;value += kDelta* ((cur-&gt;r - cur-&gt;l) + <span class="number">1</span>),</span><br><span class="line">    cur-&gt;delta += kDelta;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">PUSH_DOWN</span>(cur);</span><br><span class="line">    <span class="function"><span class="keyword">register</span> <span class="type">int</span> <span class="title">mid</span><span class="params">((cur-&gt;l + cur-&gt;r) &gt;&gt; <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (l &lt;= mid) <span class="built_in">Modify</span>(cur-&gt;left, l, r, kDelta);</span><br><span class="line">    <span class="keyword">if</span> (mid &lt; r) <span class="built_in">Modify</span>(cur-&gt;right, l, r, kDelta);</span><br><span class="line">    <span class="built_in">PUSH_UP</span>(cur);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">long</span> <span class="type">long</span> <span class="title">GetSum</span><span class="params">(Node *cur, <span class="type">const</span> <span class="type">int</span> &amp;l, <span class="type">const</span> <span class="type">int</span> &amp;r)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (l &lt;= cur-&gt;l &amp;&amp; cur-&gt;r &lt;= r) &#123;</span><br><span class="line">    <span class="keyword">return</span> cur-&gt;value;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">PUSH_DOWN</span>(cur);</span><br><span class="line">    <span class="function"><span class="keyword">register</span> <span class="type">long</span> <span class="type">long</span> <span class="title">ret</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">register</span> <span class="type">int</span> <span class="title">mid</span><span class="params">((cur-&gt;l + cur-&gt;r) &gt;&gt; <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (l &lt;= mid) (ret += <span class="built_in">GetSum</span>(cur-&gt;left, l, r)) %= kMod;</span><br><span class="line">    <span class="keyword">if</span> (mid &lt; r) (ret += <span class="built_in">GetSum</span>(cur-&gt;right, l, r)) %= kMod;</span><br><span class="line">    <span class="keyword">return</span> ret % kMod;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">PathModify</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;x, <span class="type">const</span> <span class="type">int</span> &amp;y, <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> &amp;kDelta)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> <span class="type">int</span> <span class="title">a</span><span class="params">(x)</span>, <span class="title">b</span><span class="params">(y)</span></span>;</span><br><span class="line">  <span class="keyword">while</span> (top[a] != top[b]) &#123;</span><br><span class="line">    <span class="keyword">if</span> (depth[top[a]] &lt; depth[top[b]]) std::<span class="built_in">swap</span>(a, b);</span><br><span class="line">    <span class="built_in">Modify</span>(root, new_index[top[a]], new_index[a], kDelta);</span><br><span class="line">    a = father[top[a]];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (depth[a] &gt; depth[b]) std::<span class="built_in">swap</span>(a, b);</span><br><span class="line">  <span class="built_in">Modify</span>(root, new_index[a], new_index[b], kDelta);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">long</span> <span class="type">long</span> <span class="title">PathGetSum</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;x, <span class="type">const</span> <span class="type">int</span> &amp;y)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> <span class="type">int</span> <span class="title">a</span><span class="params">(x)</span>, <span class="title">b</span><span class="params">(y)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> <span class="type">long</span> <span class="type">long</span> <span class="title">ret</span><span class="params">(<span class="number">0ll</span>)</span></span>;</span><br><span class="line">  <span class="keyword">while</span> (top[a] != top[b]) &#123;</span><br><span class="line">    <span class="keyword">if</span> (depth[top[a]] &lt; depth[top[b]]) std::<span class="built_in">swap</span>(a, b);</span><br><span class="line">    (ret += <span class="built_in">GetSum</span>(root, new_index[top[a]], new_index[a])) %= kMod;</span><br><span class="line">    a = father[top[a]];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (depth[a] &gt; depth[b]) std::<span class="built_in">swap</span>(a, b);</span><br><span class="line">  <span class="keyword">return</span> (ret + <span class="built_in">GetSum</span>(root, new_index[a], new_index[b])) % kMod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">SubTreeModify</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;x, <span class="type">const</span> <span class="type">long</span> <span class="type">long</span> &amp;kDelta)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">Modify</span>(root, new_index[x], new_index[x] + size[x] - <span class="number">1</span>, kDelta);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">long</span> <span class="type">long</span> <span class="title">SubTreeGetSum</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">GetSum</span>(root, new_index[x], new_index[x] + size[x] - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d %d %d %lld&quot;</span>, &amp;n, &amp;m, &amp;maxtop, &amp;kMod);</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="built_in">i</span>(<span class="number">1</span>); i &lt;= n; ++i) <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;original_value[i]);</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="built_in">i</span>(<span class="number">1</span>), u, v; i &lt; n; ++i) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;u, &amp;v),</span><br><span class="line">    adj[u].<span class="built_in">push_back</span>(v),</span><br><span class="line">    adj[v].<span class="built_in">push_back</span>(u);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">Dfs1</span>(maxtop, maxtop), <span class="built_in">Dfs2</span>(maxtop, maxtop),</span><br><span class="line">  root = <span class="keyword">new</span> Node,</span><br><span class="line">  <span class="built_in">Build</span>(root, <span class="number">1</span>, n);</span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> z;</span><br><span class="line">  <span class="keyword">register</span> <span class="type">int</span> opt, x, y;</span><br><span class="line">  <span class="keyword">while</span> (m--) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;opt);</span><br><span class="line">    <span class="keyword">switch</span> (opt) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d %lld&quot;</span>, &amp;x, &amp;y, &amp;z),</span><br><span class="line">        <span class="built_in">PathModify</span>(x, y, z % kMod);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;x, &amp;y),</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">PathGetSum</span>(x, y));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %lld&quot;</span>, &amp;x, &amp;z),</span><br><span class="line">        <span class="built_in">SubTreeModify</span>(x, z % kMod);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">4</span>: &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;x),</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">SubTreeGetSum</span>(x));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Segment-Tree/" rel="tag"># Segment Tree</a>
+              <a href="/tags/Heavy-Path-Decomposition/" rel="tag"># Heavy Path Decomposition</a>
+              <a href="/tags/Data-Structures/" rel="tag"># Data Structures</a>
+              <a href="/tags/Disjoint-set/" rel="tag"># Disjoint-set</a>
+              <a href="/tags/Heap/" rel="tag"># Heap</a>
+              <a href="/tags/Fenwick-Tree/" rel="tag"># Fenwick Tree</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/10/09/NOIp-2018-%E5%89%8D%E7%9A%84%E6%95%B0%E5%AD%A6%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/" rel="prev" title="NOIp 2018 前的数学板子总结">
+                  <i class="fa fa-angle-left"></i> NOIp 2018 前的数学板子总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/10/11/%E5%85%A5%E9%97%A8OJ-1203-%E9%85%92%E9%AC%BC/" rel="next" title="入门OJ 1203: 酒鬼">
+                  入门OJ 1203: 酒鬼 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="题目 题目描述 有一棵苹果树，如果树枝有分叉，一定是分2叉（就是说没有只有1个儿子的结点） 这棵树共有N个结点（叶子点或者树枝分叉点），编号为1-N,树根编号一定是1。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Luogu P2015 二叉苹果树  (树形DP)">
+<meta property="og:url" content="https://shifuru.github.io/2018/08/26/Luogu-P2015-%E4%BA%8C%E5%8F%89%E8%8B%B9%E6%9E%9C%E6%A0%91-%E6%A0%91%E5%BD%A2DP/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="题目 题目描述 有一棵苹果树，如果树枝有分叉，一定是分2叉（就是说没有只有1个儿子的结点） 这棵树共有N个结点（叶子点或者树枝分叉点），编号为1-N,树根编号一定是1。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-08-26T08:03:00.000Z">
+<meta property="article:modified_time" content="2020-09-24T11:42:58.000Z">
+<meta property="article:author" content="Sifr">
+<meta property="article:tag" content="Dynamic Programming">
+<meta property="article:tag" content="Tree-shaped Dynamic Programming">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2018/08/26/Luogu-P2015-%E4%BA%8C%E5%8F%89%E8%8B%B9%E6%9E%9C%E6%A0%91-%E6%A0%91%E5%BD%A2DP/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2018/08/26/Luogu-P2015-%E4%BA%8C%E5%8F%89%E8%8B%B9%E6%9E%9C%E6%A0%91-%E6%A0%91%E5%BD%A2DP/","path":"2018/08/26/Luogu-P2015-二叉苹果树-树形DP/","title":"Luogu P2015 二叉苹果树  (树形DP)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Luogu P2015 二叉苹果树  (树形DP) | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">输入输出格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">输入格式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">输出格式：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B"><span class="nav-number">1.3.</span> <span class="nav-text">输入输出样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%A0%B7%E4%BE%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">输入样例：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B"><span class="nav-number">1.3.2.</span> <span class="nav-text">输出样例：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">2.1.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意にみつだ人間は絶滅すべき。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2018/08/26/Luogu-P2015-%E4%BA%8C%E5%8F%89%E8%8B%B9%E6%9E%9C%E6%A0%91-%E6%A0%91%E5%BD%A2DP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意にみつだ人間は絶滅すべき。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Luogu P2015 二叉苹果树  (树形DP) | FORTH">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Luogu P2015 二叉苹果树  (树形DP)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-08-26 16:03:00" itemprop="dateCreated datePublished" datetime="2018-08-26T16:03:00+08:00">2018-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2020-09-24 19:42:58" itemprop="dateModified" datetime="2020-09-24T19:42:58+08:00">2020-09-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OI/" itemprop="url" rel="index"><span itemprop="name">OI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="题目">题目</h1>
+<h2 id="题目描述">题目描述</h2>
+<p>有一棵苹果树，如果树枝有分叉，一定是分<code>2</code>叉（就是说没有只有1个儿子的结点）</p>
+<p>这棵树共有<code>N</code>个结点（叶子点或者树枝分叉点），编号为<code>1-N</code>,树根编号一定是<code>1</code>。</p>
+<span id="more"></span>
+<p>我们用一根树枝两端连接的结点的编号来描述一根树枝的位置。下面是一颗有<code>4</code>个树枝的树
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2   5</span><br><span class="line"> \ / </span><br><span class="line">  3   4</span><br><span class="line">   \ /</span><br><span class="line">    1</span><br></pre></td></tr></table></figure>
+现在这颗树枝条太多了，需要剪枝。但是一些树枝上长有苹果。</p>
+<p>给定需要保留的树枝数量，求出最多能留住多少苹果。</p>
+<h2 id="输入输出格式">输入输出格式</h2>
+<h3 id="输入格式">输入格式：</h3>
+<p>第<code>1</code>行<code>2</code>个数，<code>N</code>和<code>Q</code>(<code>1&lt;=Q&lt;=N</code>,<code>1&lt;N&lt;=100</code>)。</p>
+<p><code>N</code>表示树的结点数，<code>Q</code>表示要保留的树枝数量。接下来<code>N-1</code>行描述树枝的信息。</p>
+<p>每行<code>3</code>个整数，前两个是它连接的结点的编号。第<code>3</code>个数是这根树枝上苹果的数量。</p>
+<p>每根树枝上的苹果不超过<code>30000</code>个。</p>
+<h3 id="输出格式">输出格式：</h3>
+<p>一个数，最多能留住的苹果的数量。</p>
+<h2 id="输入输出样例">输入输出样例</h2>
+<h3 id="输入样例">输入样例：</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5 2</span><br><span class="line">1 3 1</span><br><span class="line">1 4 10</span><br><span class="line">2 3 20</span><br><span class="line">3 5 20</span><br></pre></td></tr></table></figure>
+<h3 id="输出样例">输出样例：</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">21</span><br></pre></td></tr></table></figure>
+<h1 id="题解">题解</h1>
+<p>也是树形DP经典入门题，我这里用了记忆化搜索</p>
+<p><code>dp[i][j]</code>表示<code>i</code>结点下剩余<code>j</code>条边留下的苹果最大值</p>
+<h2 id="代码">代码</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span> &#123;</span><br><span class="line">  <span class="type">int</span> value, left, right, father;</span><br><span class="line">&#125; tree[<span class="number">110</span>];</span><br><span class="line"><span class="type">int</span> edge[<span class="number">110</span>][<span class="number">110</span>];</span><br><span class="line"><span class="type">int</span> connected[<span class="number">110</span>][<span class="number">3</span>];</span><br><span class="line"><span class="type">int</span> dp[<span class="number">110</span>][<span class="number">110</span>];</span><br><span class="line"><span class="type">int</span> n, q;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Build</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;now)</span> </span>&#123;</span><br><span class="line">  tree[now].value = edge[tree[now].father][now];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">0</span>); i &lt; <span class="number">3</span>; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (connected[now][i] &amp;&amp; connected[now][i] != tree[now].father) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!tree[now].left) &#123;</span><br><span class="line">        tree[now].left = connected[now][i];</span><br><span class="line">        tree[tree[now].left].father = now;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        tree[now].right = connected[now][i];</span><br><span class="line">        tree[tree[now].right].father = now;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="built_in">Build</span>(connected[now][i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">Dfs</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;now, <span class="type">const</span> <span class="type">int</span> &amp;leave)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!leave || !tree[now].left) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (dp[now][leave]) <span class="keyword">return</span> dp[now][leave];</span><br><span class="line">  dp[now][leave] = <span class="built_in">max</span>(<span class="built_in">Dfs</span>(tree[now].left, leave - <span class="number">1</span>) + </span><br><span class="line">                       tree[tree[now].left].value, </span><br><span class="line">                       <span class="built_in">Dfs</span>(tree[now].right, leave - <span class="number">1</span>) + </span><br><span class="line">                       tree[tree[now].right].value);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">0</span>); i &lt; leave - <span class="number">1</span>; ++i)&#123;</span><br><span class="line">    dp[now][leave] = <span class="built_in">max</span>(dp[now][leave], </span><br><span class="line">                         <span class="built_in">Dfs</span>(tree[now].left, i) + </span><br><span class="line">                         tree[tree[now].left].value + </span><br><span class="line">                         <span class="built_in">Dfs</span>(tree[now].right, leave - <span class="number">2</span> - i) + </span><br><span class="line">                         tree[tree[now].right].value);</span><br><span class="line">  &#125; </span><br><span class="line">  <span class="keyword">return</span> dp[now][leave];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;q);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">1</span>), u, v, w; i &lt; n; ++i) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d %d&quot;</span>, &amp;u, &amp;v, &amp;w);</span><br><span class="line">    edge[u][v] = edge[v][u] = w;</span><br><span class="line">    connected[u][connected[u][<span class="number">0</span>] ? (connected[u][<span class="number">1</span>] ? <span class="number">2</span> : <span class="number">1</span>) : <span class="number">0</span>] = v;</span><br><span class="line">    connected[v][connected[v][<span class="number">0</span>] ? (connected[v][<span class="number">1</span>] ? <span class="number">2</span> : <span class="number">1</span>) : <span class="number">0</span>] = u;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">Build</span>(<span class="number">1</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">Dfs</span>(<span class="number">1</span>, q));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Dynamic-Programming/" rel="tag"># Dynamic Programming</a>
+              <a href="/tags/Tree-shaped-Dynamic-Programming/" rel="tag"># Tree-shaped Dynamic Programming</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/26/Luogu-P1352-%E6%B2%A1%E6%9C%89%E4%B8%8A%E5%8F%B8%E7%9A%84%E8%88%9E%E4%BC%9A-%E6%A0%91%E5%BD%A2DP/" rel="prev" title="Luogu P1352 没有上司的舞会 (树形DP)">
+                  <i class="fa fa-angle-left"></i> Luogu P1352 没有上司的舞会 (树形DP)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/26/Luogu-P2014-%E9%80%89%E8%AF%BE-%E6%A0%91%E5%BD%A2DP/" rel="next" title="Luogu P2014 选课 (树形DP)">
+                  Luogu P2014 选课 (树形DP) <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

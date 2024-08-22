@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="NOIp范围内的数学定理及算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NOIp 2018 前的数学板子总结">
+<meta property="og:url" content="https://shifuru.github.io/2018/10/09/NOIp-2018-%E5%89%8D%E7%9A%84%E6%95%B0%E5%AD%A6%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="NOIp范围内的数学定理及算法">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-10-09T12:08:00.000Z">
+<meta property="article:modified_time" content="2020-09-24T11:50:36.000Z">
+<meta property="article:author" content="Sifr">
+<meta property="article:tag" content="Combinatorics">
+<meta property="article:tag" content="Number Theory">
+<meta property="article:tag" content="Matrix">
+<meta property="article:tag" content="Euclidean Algorithm">
+<meta property="article:tag" content="Extended Euclidean Algorithm">
+<meta property="article:tag" content="Modular Multiplicative Inverse">
+<meta property="article:tag" content="Chinese Remainder Theorem">
+<meta property="article:tag" content="Extended Chinese Remainder Theorem">
+<meta property="article:tag" content="Sieve of Eratosthenes">
+<meta property="article:tag" content="Miller-Rabin Primality Test">
+<meta property="article:tag" content="Euler&#39;s Totient Function">
+<meta property="article:tag" content="Lucas&#39;s Theorem">
+<meta property="article:tag" content="Kirchhoff&#39;s theorem">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2018/10/09/NOIp-2018-%E5%89%8D%E7%9A%84%E6%95%B0%E5%AD%A6%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2018/10/09/NOIp-2018-%E5%89%8D%E7%9A%84%E6%95%B0%E5%AD%A6%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/","path":"2018/10/09/NOIp-2018-前的数学板子总结/","title":"NOIp 2018 前的数学板子总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>NOIp 2018 前的数学板子总结 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">数论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#euclidean-algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">Euclidean algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#extended-euclidean-algorithm"><span class="nav-number">1.2.</span> <span class="nav-text">Extended Euclidean algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#modular-multiplicative-inverse"><span class="nav-number">1.3.</span> <span class="nav-text">Modular multiplicative
+inverse</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#quick-power"><span class="nav-number">1.3.1.</span> <span class="nav-text">Quick Power</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extended-euclidean-algorithm-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">Extended Euclidean
+algorithm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#recurse"><span class="nav-number">1.3.3.</span> <span class="nav-text">Recurse</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chinese-remainder-theorem"><span class="nav-number">1.4.</span> <span class="nav-text">Chinese remainder theorem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#extended-chinese-remainder-theorem"><span class="nav-number">1.5.</span> <span class="nav-text">Extended Chinese remainder
+theorem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A0%E6%95%B0%E5%88%A4%E5%AE%9A"><span class="nav-number">1.6.</span> <span class="nav-text">素数判定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sieve-of-eratosthenes"><span class="nav-number">1.7.</span> <span class="nav-text">Sieve of Eratosthenes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#miller-rabin-primality-test"><span class="nav-number">1.8.</span> <span class="nav-text">Miller-Rabin primality test</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eulers-totient-function%E7%9A%84%E7%BA%BF%E6%80%A7%E7%AD%9B%E9%80%89%E6%B3%95"><span class="nav-number">1.9.</span> <span class="nav-text">Euler&#39;s totient
+function的线性筛选法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B1%82%E4%B8%80%E4%B8%AA%E6%95%B0%E7%9A%84phi%E5%87%BD%E6%95%B0%E5%80%BC"><span class="nav-number">1.10.</span> <span class="nav-text">求一个数的\(\phi\)函数值</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6"><span class="nav-number">2.</span> <span class="nav-text">组合数学</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lucass-theorem"><span class="nav-number">2.1.</span> <span class="nav-text">Lucas&#39;s theorem</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5"><span class="nav-number">3.</span> <span class="nav-text">矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#kirchhoffs-theorem"><span class="nav-number">3.1.</span> <span class="nav-text">Kirchhoff&#39;s theorem</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意にみつだ人間は絶滅すべき。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2018/10/09/NOIp-2018-%E5%89%8D%E7%9A%84%E6%95%B0%E5%AD%A6%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意にみつだ人間は絶滅すべき。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="NOIp 2018 前的数学板子总结 | FORTH">
+      <meta itemprop="description" content="NOIp范围内的数学定理及算法">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NOIp 2018 前的数学板子总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-10-09 20:08:00" itemprop="dateCreated datePublished" datetime="2018-10-09T20:08:00+08:00">2018-10-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2020-09-24 19:50:36" itemprop="dateModified" datetime="2020-09-24T19:50:36+08:00">2020-09-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OI/" itemprop="url" rel="index"><span itemprop="name">OI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">NOIp范围内的数学定理及算法</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="数论">数论</h1>
+<h2 id="euclidean-algorithm">Euclidean algorithm</h2>
+<p>用于求两个数的最大公因数, 也称辗转相除法。</p>
+<p>证明:</p>
+<p>设<span class="math inline">\(z \mid x\)</span>, <span
+class="math inline">\(z \mid y\)</span>, 则<span class="math inline">\(z
+\mid (y - x)\)</span>。</p>
+<p>设<span class="math inline">\(z\)</span>不是<span
+class="math inline">\(x\)</span>的因子, 则<span
+class="math inline">\(z\)</span>不是<span
+class="math inline">\(x\)</span>, <span class="math inline">\(y -
+x\)</span>的公因子。</p>
+<p>设<span class="math inline">\(z \mid x\)</span>, <span
+class="math inline">\(z\)</span>不是<span
+class="math inline">\(y\)</span>的因子, 则<span
+class="math inline">\(z\)</span>不是<span
+class="math inline">\(x\)</span>, <span class="math inline">\(y -
+x\)</span>的公因子。</p>
+<p>代码: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt; </span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">Euclidean</span><span class="params">(<span class="type">const</span> IntegerType &amp;a, <span class="type">const</span> IntegerType &amp;b)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> b ? <span class="built_in">Euclidean</span>(b, a % b) : a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 或 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">Euclidean</span><span class="params">(<span class="keyword">register</span> IntegerType a, <span class="keyword">register</span> IntegerType b)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (b) <span class="keyword">while</span> (b ^= a ^= b ^= a %= b) &#123;&#125;</span><br><span class="line">  <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="extended-euclidean-algorithm">Extended Euclidean algorithm</h2>
+<p>用于求在已知<span class="math inline">\((a, b)\)</span>时,
+求解一组<span class="math inline">\((x, y)\)</span>, 使得<span
+class="math inline">\(ax+by=(a, b)\)</span>。</p>
+<p>首先, <del>书上说</del>根据数论中的相关定理, 解一定存在。</p>
+<p>其次, 因为<span class="math inline">\((a, b) = (b, a \bmod
+b)\)</span>, 所以</p>
+<p><span class="math display">\[
+\begin {aligned}
+ax + by &amp;= (a, b) \\\\
+&amp;= (b, a \bmod b) \\\\
+&amp;= bx + (a \bmod b)y \\\\
+&amp;= bx + \left(a - \left\lfloor \frac{a}{b} \right\rfloor b\right)y
+\\\\
+&amp;= ay + \left(x - \left\lfloor \frac{a}{b} \right\rfloor y\right)b
+\end {aligned}
+\]</span></p>
+<p>根据前面的结论: <span class="math inline">\(a\)</span>和<span
+class="math inline">\(b\)</span>都在减小, 当<span
+class="math inline">\(b\)</span>减小到<span
+class="math inline">\(0\)</span>时, 就可以得出<span
+class="math inline">\(x = 1\)</span>, <span class="math inline">\(y =
+0\)</span>。然后递归回去就可以求出最终的<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(y\)</span>了。</p>
+<p>代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">ExtendedEuclidean</span><span class="params">(<span class="type">const</span> IntegerType &amp;a, <span class="type">const</span> IntegerType &amp;b, <span class="keyword">register</span> IntegerType &amp;gcd, <span class="keyword">register</span> IntegerType &amp;x, <span class="keyword">register</span> IntegerType &amp;y)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!b) &#123;</span><br><span class="line">    x = <span class="number">1</span>, y = <span class="number">0</span>, gcd = a;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">ExtendedEuclidean</span>(b, a % b, gcd, y, x), </span><br><span class="line">    y -= a / b * x;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="modular-multiplicative-inverse">Modular multiplicative
+inverse</h2>
+<p>若有<span class="math inline">\(ax \equiv 1 \pmod
+b\)</span>(其中<span class="math inline">\(a\)</span>, <span
+class="math inline">\(b\)</span>互素), 则称<span
+class="math inline">\(x\)</span>为<span
+class="math inline">\(a\)</span>的逆元, 记为<span
+class="math inline">\(a^{-1}\)</span>。</p>
+<p>因此逆元有如下性质:</p>
+<p><span class="math display">\[a \cdot a^{-1} \equiv 1 \pmod
+b\]</span></p>
+<p>逆元的一大应用是模意义下的除法,
+除法在模意义下并不是封闭的，但我们可以根据上述公式，将其转化为乘法。</p>
+<p><span class="math display">\[\frac{x}{a} = x \cdot a^{-1} \pmod
+b\]</span></p>
+<h3 id="quick-power">Quick Power</h3>
+<p>根据Fermat's little theorem(即<span class="math inline">\(a^p \equiv
+a \pmod p\)</span>, 其中<span
+class="math inline">\(p\)</span>为素数且<span
+class="math inline">\(a\)</span>为<span
+class="math inline">\(p\)</span>的倍数。若<span
+class="math inline">\(a\)</span>, <span
+class="math inline">\(p\)</span>互素, 则有<span
+class="math inline">\(a^{p - 1} \equiv 1 \pmod p\)</span>)的公式,
+变形可以得到</p>
+<p><span class="math display">\[a \cdot a^{p - 2} \equiv 1 \pmod
+p\]</span></p>
+<p>根据乘法逆元的定义, <span class="math inline">\(a^{p -
+2}\)</span>即为<span class="math inline">\(a\)</span>的乘法逆元。</p>
+<p>使用快速幂计算, 时间复杂度为<span class="math inline">\(\Theta(\lg
+p)\)</span></p>
+<p>代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">QuickPower</span><span class="params">(<span class="keyword">register</span> IntegerType base, <span class="keyword">register</span> IntegerType times, <span class="type">const</span> IntegerType &amp;kMod)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> IntegerType <span class="title">ret</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">  <span class="keyword">while</span> (times) &#123;</span><br><span class="line">    <span class="keyword">if</span> (times &amp; <span class="number">1</span>) ret = ret * base % kMod;</span><br><span class="line">    base = base * base % kMod,</span><br><span class="line">    times &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ret % kMod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">ModularMultiplicativeInverse</span><span class="params">(<span class="type">const</span> IntegerType a, <span class="type">const</span> IntegerType &amp;p)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">QuickPower</span>(a, p - <span class="number">2</span>, p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="extended-euclidean-algorithm-1">Extended Euclidean
+algorithm</h3>
+<p>Extended Euclidean algorithm用来求解方程<span
+class="math inline">\(ax + by = (a, b)\)</span>的一组解, 其中, 当<span
+class="math inline">\(b\)</span>为素数时, 有<span
+class="math inline">\((a, b) = 1\)</span>, 则有</p>
+<p><span class="math display">\[ax \equiv 1 \pmod b\]</span></p>
+<p>时间复杂度: <span class="math inline">\(\Theta(\lg a)\)</span></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">ExtendedEuclidean</span><span class="params">(<span class="type">const</span> IntegerType &amp;a, <span class="type">const</span> IntegerType &amp;b, <span class="keyword">register</span> IntegerType &amp;x, <span class="keyword">register</span> IntegerType &amp;y)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!b) &#123;</span><br><span class="line">    x = <span class="number">1</span>, y = <span class="number">0</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">ExtendedEuclidean</span>(b, a % b, y, x), </span><br><span class="line">    y -= a / b * x;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">ModularMultiplicativeInverse</span><span class="params">(<span class="type">const</span> IntegerType a, <span class="type">const</span> IntegerType &amp;p)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">register</span> IntegerType x, y;</span><br><span class="line">  <span class="built_in">ExtendedEuclidean</span>(a, p, x, y);</span><br><span class="line">  <span class="keyword">return</span> (x % p + p) % p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="recurse">Recurse</h3>
+<p>设<span class="math inline">\(t = \left\lfloor \frac{p}{i}
+\right\rfloor\)</span>, <span class="math inline">\(k = p \bmod
+i\)</span>, 那么</p>
+<p><span class="math display">\[ti + k \equiv 0 \pmod p \Rightarrow -ti
+\equiv k \pmod p\]</span></p>
+<p>两边同时除以<span class="math inline">\(ki\)</span>, 得到</p>
+<p><span class="math display">\[-tk^{-1} \equiv i^{-1} \pmod
+p\]</span></p>
+<p>把<span class="math inline">\(t\)</span>和<span
+class="math inline">\(k\)</span>替换回来, 得到递推式</p>
+<p><span class="math display">\[i^{-1} = \left(p - \left\lfloor
+\frac{p}{i} \right\rfloor\right)(p \bmod i)^{-1} \bmod p\]</span></p>
+<p>其中<span class="math inline">\(i \leq p\)</span>。</p>
+<p>时间复杂度: <span class="math inline">\(\Theta(a)\)</span></p>
+<p>代码: <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">ModularMultiplicativeInverse</span><span class="params">(<span class="type">const</span> IntegerType a, <span class="type">const</span> IntegerType &amp;p)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">register</span> IntegerType inverse[<span class="number">100000</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> IntegerType <span class="built_in">i</span>(<span class="number">2</span>); i &lt;= a; ++i) &#123;</span><br><span class="line">    inverse[i] = ((-p / i * inverse[p % i]) % p + p) % p;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> inverse[a];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="chinese-remainder-theorem">Chinese remainder theorem</h2>
+<p>设自然数<span class="math inline">\(m_1, m_2, \cdots ,
+m_r\)</span>两两互素, 并记<span class="math inline">\(N = m_1m_2\cdots
+m_r\)</span>, 则同余方程组:</p>
+<p><span class="math display">\[
+\begin{cases}
+x \equiv a_1 \pmod {m_1}  \\\\
+x \equiv a_2 \pmod {m_2}  \\\\
+\cdots \\\\
+x \equiv a_r \pmod {m_r}
+\end{cases}
+\]</span></p>
+<p>在模<span class="math inline">\(N\)</span>同余的意义下有唯一解。</p>
+<p>解法:</p>
+<p>考虑方程组<span class="math inline">\((1 \leq i \leq r)\)</span>:</p>
+<p><span class="math display">\[
+\begin{cases}
+x \equiv 0 \pmod {m_1} \\\\
+\cdots \\\\
+x \equiv 0 \pmod {m_{i - 1}} \\\\
+x \equiv 1 \pmod {m_i} \\\\
+x \equiv 0 \pmod {m_{i + 1}} \\\\
+\cdots \\\\
+x \equiv 0 \pmod {m_r}
+\end{cases}
+\]</span></p>
+<p>由于各<span class="math inline">\(m_i\)</span>(<span
+class="math inline">\(1 \leq i \leq r\)</span>)两两互素,
+这个方程组作变量替换, 令<span class="math inline">\(x = \left\lfloor
+\frac{N}{m_i} \right\rfloor y\)</span>, 方程组等价于解同余方程: <span
+class="math inline">\(\left\lfloor \frac{N}{m_i} \right\rfloor y \equiv
+1 \pmod {m_i}\)</span>, 若要得到特解<span
+class="math inline">\(y_i\)</span>, 只要令:<span
+class="math inline">\(x_i = \left\lfloor \frac{N}{m_i} \right\rfloor
+y_i\)</span>, 则方程组的解为:<span class="math inline">\(x_0 = a_1x_1 +
+a_2x_2 + \cdots + a_rx_r \pmod N\)</span>, 在模<span
+class="math inline">\(N\)</span>的意义下唯一。</p>
+<p>时间复杂度: <span class="math inline">\(\Theta(n \lg a)\)</span></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">ExtendedEuclidean</span><span class="params">(<span class="type">const</span> IntegerType &amp;a, <span class="type">const</span> IntegerType &amp;b, <span class="keyword">register</span> IntegerType &amp;x, <span class="keyword">register</span> IntegerType &amp;y)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!b) &#123;</span><br><span class="line">    x = <span class="number">1</span>, y = <span class="number">0</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">ExtendedEuclidean</span>(b, a % b, y, x), </span><br><span class="line">    y -= a / b * x;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">ChineseRemainderTheorem</span><span class="params">(<span class="type">const</span> std::vector&lt;IntegerType&gt; &amp;a, <span class="type">const</span> std::vector&lt;IntegerType&gt; &amp;m)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> IntegerType <span class="title">N</span><span class="params">(<span class="number">1</span>)</span>, x, y, <span class="title">ret</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> i : m) &#123;</span><br><span class="line">    N *= i;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">0</span>), <span class="built_in">maximum</span>(a.<span class="built_in">size</span>()); i &lt; maximum; ++i) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">register</span> IntegerType <span class="title">b</span><span class="params">(N / m[i])</span></span>;</span><br><span class="line">    <span class="built_in">ExtendedEuclidean</span>(b, m[i], x, y),</span><br><span class="line">    ret = (ret + b * x * a[i]) % N;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (ret % N + N) % N;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="extended-chinese-remainder-theorem">Extended Chinese remainder
+theorem</h2>
+<p>并不是所有的同余方程组的<span
+class="math inline">\(m_i\)</span>(<span class="math inline">\(1 \leq i
+\leq r\)</span>)都互素, 这时候就需要用到扩展中国剩余定理。</p>
+<p>对于同余方程组:</p>
+<p><span class="math display">\[
+\begin{cases}
+x \equiv a_1 \pmod {m_1} \\\\
+x \equiv a_2 \pmod {m_2} \\\\
+\cdots \\\\
+x \equiv a_r \pmod {m_r}
+\end{cases}
+\]</span></p>
+<p>我们首先只考虑其中的两个方程, 可以得到</p>
+<p><span class="math display">\[
+\begin{cases}
+x = a_1 + k_1m_1 \\\\
+x = a_2 + k_2m_2
+\end{cases}
+\Rightarrow
+a_1 + k_1m_1 = a_2 + k_2m_2 \\\\
+\Rightarrow k_2m_2 - k_1m_1 = a_1 - a_2
+\]</span></p>
+<p>其形式类似于<span class="math inline">\(ax + by = c\)</span></p>
+<p>则当<span class="math inline">\((m_1, m_2) \nmid (a_1 -
+a_2)\)</span>时, 方程无解。</p>
+<p>若<span class="math inline">\((m_1, m_2) \mid (a_1 - a_2)\)</span>,
+就用Extended Euclidean algorithm求出<span class="math inline">\(m_1x +
+m_2y = (m_1, m_2)\)</span>的<span class="math inline">\(y\)</span>,
+两边同时乘上<span class="math inline">\(\frac{a_1 - a_2}{(m_1,
+m_2)}\)</span>, 就得到了<span class="math inline">\(k_1\)</span>。</p>
+<p>然后反推<span class="math inline">\(x\)</span>, 得到<span
+class="math inline">\(x = a_1 - k_1m_1\)</span>。</p>
+<p>这个<span class="math inline">\(x\)</span>适用于这两个方程,
+设它为<span class="math inline">\(x_0\)</span>, 就得到了通解: <span
+class="math inline">\(x = x_0 + k[m_1, m_2]\)</span>,
+且原两个方程与该方程是等价的。</p>
+<p>我们把这个方程稍微转化一下, 就得到了新的同余方程: <span
+class="math inline">\(x \equiv x_0 \pmod {[m_1, m_2]}\)</span>,
+以此类推, 得到的最后的方程的最小非负数解就是我们要找的答案。</p>
+<p>时间复杂度: <span class="math inline">\(\Theta(n \lg b)\)</span></p>
+<p>题目链接: <a target="_blank" rel="noopener" href="http://poj.org/problem?id=2891">POJ 2891 Strange
+Way to Express Integers</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">ExtendedEuclidean</span><span class="params">(<span class="type">const</span> IntegerType &amp;a, <span class="type">const</span> IntegerType &amp;b, <span class="keyword">register</span> IntegerType &amp;gcd, <span class="keyword">register</span> IntegerType &amp;x, <span class="keyword">register</span> IntegerType &amp;y)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!b) &#123;</span><br><span class="line">    x = <span class="number">1</span>, y = <span class="number">0</span>, gcd = a;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">ExtendedEuclidean</span>(b, a % b, gcd, y, x), </span><br><span class="line">    y -= a / b * x;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">ExtendedChineseRemainderTheorem</span><span class="params">(<span class="type">const</span> std::vector&lt;IntegerType&gt; &amp;a, <span class="type">const</span> std::vector&lt;IntegerType&gt; &amp;m)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> IntegerType <span class="title">N</span><span class="params">(m[<span class="number">1</span>])</span>, <span class="title">ret</span><span class="params">(a[<span class="number">1</span>])</span>, x, y, gcd</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">0</span>), <span class="built_in">maximum</span>(a.<span class="built_in">size</span>()); i &lt; maximum; ++i) &#123;</span><br><span class="line">    <span class="built_in">ExtendedEuclidean</span>(N, m[i], gcd, x, y);</span><br><span class="line">    <span class="keyword">if</span> ((ret - a[i]) % gcd) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    x = (ret - a[i]) / gcd * x % m[i],</span><br><span class="line">    ret -= N * x;</span><br><span class="line">    N = N / gcd * m[i];</span><br><span class="line">    ret %= N;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (ret % N + N) % N;</span><br><span class="line">&#125;</span><br><span class="line">std::vector&lt;<span class="type">long</span> <span class="type">long</span>&gt; a, r;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (~<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n)) &#123;</span><br><span class="line">    a.<span class="built_in">clear</span>(), r.<span class="built_in">clear</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">long</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>), _a, _r; i &lt;= n; ++i) &#123;</span><br><span class="line">      <span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld&quot;</span>, &amp;_a, &amp;_r);</span><br><span class="line">      a.<span class="built_in">push_back</span>(_a), r.<span class="built_in">push_back</span>(_r);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">ExtendedChineseRemainderTheorem</span>(r, a));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="素数判定">素数判定</h2>
+<p>素数判定的暴力方法</p>
+<p>时间复杂度: <span
+class="math inline">\(\Theta\left(\sqrt{n}\right)\)</span></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">bool</span> <span class="title">IsPrime</span><span class="params">(<span class="type">const</span> IntegerType &amp;n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">2</span>); i * i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!(n % i)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="sieve-of-eratosthenes">Sieve of Eratosthenes</h2>
+<p>又称素数的线性筛法。</p>
+<p>方法如下:</p>
+<ol type="1">
+<li>使<span class="math inline">\(p\)</span>等于<span
+class="math inline">\(2\)</span>, 即最小的素数</li>
+<li>将表中所有<span
+class="math inline">\(p\)</span>的倍数标记为合数</li>
+<li>使<span class="math inline">\(p\)</span>等于表中大于<span
+class="math inline">\(p\)</span>的最小素数, 若没有则结束</li>
+<li>重复第<span class="math inline">\(2\)</span>步</li>
+</ol>
+<p>时间复杂度: <span class="math inline">\(\Theta(n \lg \lg
+n)\)</span></p>
+<p>题目链接: <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3383">Luogu
+P3383 【模板】线性筛素数</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">bool</span> isnt_prime[<span class="number">10000010</span>] = &#123;<span class="number">1</span>, <span class="number">1</span>&#125;;</span><br><span class="line">std::vector&lt;<span class="type">int</span>&gt; prime;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">SieveOfEratosthenes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">2</span>); i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isnt_prime[i]) &#123;</span><br><span class="line">      prime.<span class="built_in">push_back</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> j : prime) &#123;</span><br><span class="line">      <span class="keyword">if</span> (i * j &gt; n) <span class="keyword">break</span>;</span><br><span class="line">      isnt_prime[i * j] = <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">if</span> (!(i % j)) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">  <span class="built_in">SieveOfEratosthenes</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">0</span>), x; i &lt; m; ++i) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;x),</span><br><span class="line">    <span class="built_in">puts</span>(isnt_prime[x] ? <span class="string">&quot;No&quot;</span> : <span class="string">&quot;Yes&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="miller-rabin-primality-test">Miller-Rabin primality test</h2>
+<p>这是一种随机性素性测试算法, 结果可能出错, 但可能性极小。</p>
+<p>费马小定理:</p>
+<p>若<span class="math inline">\(p\)</span>为素数, <span
+class="math inline">\(a\)</span>为正整数, 且<span
+class="math inline">\((a, p) \ne 1\)</span>, 则<span
+class="math inline">\(a^p \equiv a \pmod p\)</span>。</p>
+<p>若有<span class="math inline">\((a, p) = 1\)</span>, 则<span
+class="math inline">\(a^{p - 1} \equiv 1 \pmod p\)</span>。</p>
+<p>但对于一些数<span class="math inline">\(p\)</span>, 它们满足<span
+class="math inline">\(a^p \equiv a \pmod p\)</span>, 但却是合数,
+我们将它们定义为伪素数(Pseudoprime)。</p>
+<p>费马小定理的逆定理并不成立, 但很多时候是可行的。</p>
+<p>Miller-Rabin正是基于费马小定理:</p>
+<p>取多个底<span class="math inline">\(a\)</span>使得<span
+class="math inline">\((a, n) = 1\)</span>, 测试是否有<span
+class="math inline">\(a^{p - 1} \equiv 1 \pmod p\)</span>, 若成立,
+则可以近似地将<span class="math inline">\(n\)</span>看作素数。</p>
+<p>还有一类被称为Carmichael数的数, 它们满足<span
+class="math inline">\(a^{p - 1} \equiv 1 \pmod p\)</span>,
+但是是合数。</p>
+<p>为了减少Carmichael数对素性测试的影响, 我们引进一个引理:</p>
+<p><span class="math inline">\(1\)</span>和<span
+class="math inline">\(-1\)</span>的平方模<span
+class="math inline">\(p\)</span>总得到<span
+class="math inline">\(1\)</span>, 称它们为<span
+class="math inline">\(1\)</span>的平凡平方根; 同样地, 有<span
+class="math inline">\(1\)</span>的非平凡平方根。使得<span
+class="math inline">\(x\)</span>为一个与<span
+class="math inline">\(1\)</span>关于模<span
+class="math inline">\(p\)</span>同余的数的平方根, 那么:</p>
+<p><span class="math display">\[
+x^{2}\equiv 1{\pmod {p}} \\\\
+(x-1)(x+1)\equiv 0{\pmod {p}}
+\]</span></p>
+<p>换句话说, <span class="math inline">\(p \mid (x - 1)(x +
+1)\)</span>。根据Euclid's lemma, <span class="math inline">\(p \mid (x -
+1)\)</span>或<span class="math inline">\(p \mid (x + 1)\)</span>,
+也就是<span class="math inline">\(x \equiv 1 \pmod p\)</span>或<span
+class="math inline">\(x \equiv -1 \pmod p\)</span>。</p>
+<p>由此推出, 若<span class="math inline">\(p\)</span>为素数, 那么<span
+class="math inline">\(x^2 \equiv 1 \pmod p\)</span>(<span
+class="math inline">\(0 &lt; x &lt; p\)</span>)的解为<span
+class="math inline">\(\begin{cases}x_1 = 1 \\\\ x_2 = p -
+1\end{cases}\)</span></p>
+<p>时间复杂度: <span class="math inline">\(\Theta(s
+\log_3n)\)</span>(<span class="math inline">\(s\)</span>为测试次数)</p>
+<p>题目链接: <a
+target="_blank" rel="noopener" href="https://hihocoder.com/problemset/problem/1287">hihoCoder #1287 :
+数论一·Miller-Rabin质数测试</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">QuickMultiplication</span><span class="params">(<span class="keyword">register</span> IntegerType base, <span class="keyword">register</span> IntegerType times, <span class="type">const</span> IntegerType &amp;kMod)</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">register</span> IntegerType <span class="title">ret</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">	base %= kMod;</span><br><span class="line">	<span class="keyword">while</span> (times) &#123;</span><br><span class="line">		<span class="keyword">if</span> (times &amp; <span class="number">1</span>) ret = (ret + base) % kMod;</span><br><span class="line">		base = (base &lt;&lt; <span class="number">1</span>) % kMod,</span><br><span class="line">		times &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ret % kMod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">QuickPower</span><span class="params">(<span class="keyword">register</span> IntegerType base, <span class="keyword">register</span> IntegerType times, <span class="type">const</span> IntegerType &amp;kMod)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> IntegerType <span class="title">ret</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">	base %= kMod;</span><br><span class="line">	<span class="keyword">while</span> (times) &#123;</span><br><span class="line">		<span class="keyword">if</span> (times &amp; <span class="number">1</span>) ret = <span class="built_in">QuickMultiplication</span>(ret, base, kMod);</span><br><span class="line">		base = <span class="built_in">QuickMultiplication</span>(base, base, kMod),</span><br><span class="line">		times &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ret % kMod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">bool</span> <span class="title">MillerRabin</span><span class="params">(<span class="type">const</span> IntegerType &amp;n)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (n &lt;= <span class="number">2</span>) <span class="keyword">return</span> n == <span class="number">2</span>;</span><br><span class="line">	<span class="keyword">if</span> (!(n &amp; <span class="number">1</span>)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="function"><span class="keyword">register</span> <span class="type">int</span> <span class="title">times</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">	<span class="keyword">register</span> IntegerType a, x, y, <span class="built_in">u</span>(n - <span class="number">1</span>);</span><br><span class="line">	<span class="keyword">while</span> (!(u &amp; <span class="number">1</span>)) ++times, u &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">i</span>(<span class="number">0</span>); i &lt; <span class="number">10</span>; ++i) &#123;</span><br><span class="line">		a = <span class="built_in">rand</span>() % (n - <span class="number">1</span>) + <span class="number">1</span>,</span><br><span class="line">		x = <span class="built_in">QuickPower</span>(a, u, n);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">int</span> <span class="built_in">j</span>(<span class="number">0</span>); j &lt; times; ++j) &#123;</span><br><span class="line">			y = <span class="built_in">QuickMultiplication</span>(x, x, n);</span><br><span class="line">			<span class="keyword">if</span> (y == <span class="number">1</span> &amp;&amp; x != <span class="number">1</span> &amp;&amp; x != n - <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">			x = y;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (x != <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> T;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> num;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">	<span class="built_in">srand</span>(<span class="built_in">time</span>(<span class="literal">nullptr</span>));</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;T);</span><br><span class="line">	<span class="keyword">while</span> (T--) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;num);</span><br><span class="line">		<span class="built_in">puts</span>(<span class="built_in">MillerRabin</span>(num) ? <span class="string">&quot;Yes&quot;</span> : <span class="string">&quot;No&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="eulers-totient-function的线性筛选法">Euler's totient
+function的线性筛选法</h2>
+<p><del>下面几个性质我就不证了知道有用就行！</del></p>
+<p><del>其实是因为作为一个背板的蒟蒻OIer根本不会证</del></p>
+<ol type="1">
+<li><span class="math inline">\(\phi(p) = p - 1\)</span></li>
+<li>如果<span class="math inline">\(i \bmod p = 0\)</span>, 那么<span
+class="math inline">\(\phi(ip) = p\phi(i)\)</span></li>
+<li>若<span class="math inline">\(i \bmod p \ne 0\)</span>, 那么<span
+class="math inline">\(\phi(ip) = (p - 1)\phi(i)\)</span></li>
+</ol>
+<p>时间复杂度: 趋近于<span class="math inline">\(\Theta(n)\)</span></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">SieveOfPhi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  phi[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> IntegerType <span class="built_in">i</span>(<span class="number">2</span>); i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!iscomposite[i]) &#123;</span><br><span class="line">      prime.<span class="built_in">push_back</span>(i), </span><br><span class="line">      phi[i] = i - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> j : prime) &#123;</span><br><span class="line">      <span class="keyword">if</span> (i * j &gt; n) <span class="keyword">break</span>;</span><br><span class="line">      iscomposite[i * j] = <span class="literal">true</span>;</span><br><span class="line">      <span class="keyword">if</span> (!(i % j)) &#123;</span><br><span class="line">        phi[i * j] = phi[i] * j;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        phi[i * j] = phi[i] * (j - <span class="number">1</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="求一个数的phi函数值">求一个数的<span
+class="math inline">\(\phi\)</span>函数值</h2>
+<p>减去与它不互素的就行。</p>
+<p>时间复杂度: <span class="math inline">\(\Theta\left(\sqrt
+n\right)\)</span></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">Phi</span><span class="params">(<span class="keyword">register</span> IntegerType n)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">register</span> IntegerType <span class="title">ret</span><span class="params">(n)</span></span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">register</span> IntegerType <span class="built_in">i</span>(<span class="number">2</span>); i * i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!(n % i)) &#123;</span><br><span class="line">      ret -= ret / i;</span><br><span class="line">      <span class="keyword">while</span> (!(n % i)) n /= i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> n &gt; <span class="number">1</span> ? ret - ret / i : ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="组合数学">组合数学</h1>
+<h2 id="lucass-theorem">Lucas's theorem</h2>
+<p>Lucas's theorem是用来求<span class="math inline">\({n \choose m}
+\bmod p\)</span>的值。其中: <span
+class="math inline">\(n\)</span>和<span
+class="math inline">\(m\)</span>时非负整数, <span
+class="math inline">\(p\)</span>是素数。</p>
+<p>Lucas's theorem的结论:</p>
+
+
+1. $Lucas(n, m, p) = cm(n \bmod p, m \bmod p) \cdot Lucas\left(\left\lfloor \frac{n}{p} \right\rfloor, \left\lfloor \frac{m}{p} \right\rfloor, p\right)$; 
+   
+   $Lucas(x, 0, p) = 1$;
+
+   其中, $cm(a, b) = a!(b!(a - b)!)^{p - 2} \bmod p = \frac{a!(b!)^{p - 2}}{(a - b)!}$。
+2. 对于非负整数$m$和$n$以及素数$p$, 将$n$与$m$以$p$进制方式表达, 即
+   $$m=m_{k}p^{k}+m_{k-1}p^{k-1}+\cdots +m_{1}p+m_{0}$$
+   $$n=n_{k}p^{k}+n_{k-1}p^{k-1}+\cdots +n_{1}p+n_{0}$$
+   以下同余关系成立:
+   $${m\choose n}\equiv \prod _{i=0}^{k}{{m_{i}}\choose {n_{i}}}{\pmod {p}}$$
+
+
+<p>时间复杂度: <span class="math inline">\(\Theta(\log_pn)\)</span></p>
+<p>题目链接: <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3807">Luogu
+P3807 【模板】卢卡斯定理</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> a[<span class="number">100010</span>];</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">pow</span><span class="params">(<span class="keyword">register</span> IntegerType base, <span class="keyword">register</span> IntegerType times, <span class="type">const</span> IntegerType &amp;kMod)</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">register</span> IntegerType <span class="title">ans</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">	base %= kMod;</span><br><span class="line">	<span class="keyword">while</span> (times) &#123;</span><br><span class="line">		<span class="keyword">if</span> (times &amp; <span class="number">1</span>) ans = ans * base % kMod;</span><br><span class="line">		base = base * base % kMod,</span><br><span class="line">		times &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">C</span><span class="params">(<span class="type">const</span> IntegerType &amp;n, <span class="type">const</span> IntegerType &amp;m, <span class="type">const</span> IntegerType &amp;kMod)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> m &gt; n ? <span class="number">0</span> : a[n] * <span class="built_in">pow</span>(a[m], kMod - <span class="number">2</span>, kMod) % kMod * <span class="built_in">pow</span>(a[n - m], kMod - <span class="number">2</span>, kMod) % kMod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IntegerType <span class="title">Lucas</span><span class="params">(<span class="type">const</span> IntegerType &amp;n, <span class="type">const</span> IntegerType &amp;m, <span class="type">const</span> IntegerType &amp;kMod)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> m ? <span class="built_in">C</span>(n % kMod, m % kMod, kMod) * <span class="built_in">Lucas</span>(n / kMod, m / kMod, kMod) % kMod : <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> T;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> n, m, p;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;T);</span><br><span class="line">    <span class="keyword">while</span> (T--) &#123;</span><br><span class="line">			<span class="keyword">register</span> <span class="type">long</span> <span class="type">long</span> n, m;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">&quot;%lld %lld %lld&quot;</span>, &amp;n, &amp;m, &amp;p);</span><br><span class="line">        a[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">register</span> <span class="type">long</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>); i &lt;= p; ++i) &#123;</span><br><span class="line">					a[i] = a[i - <span class="number">1</span>] * i % p;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">Lucas</span>(n + m, n, p));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="矩阵">矩阵</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cassert&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EPS 1e-8</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">matrix</span> &#123;</span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  std::vector&lt;std::vector&lt;<span class="type">double</span>&gt; &gt; mat;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> swap_times;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">matrix</span>();<span class="comment">//初始化为空的构造函数</span></span><br><span class="line">  <span class="built_in">matrix</span>(<span class="type">const</span> matrix&amp;);<span class="comment">//初始化为另一个矩阵的构造函数</span></span><br><span class="line">  <span class="built_in">matrix</span>(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;);<span class="comment">//同初始化的构造函数</span></span><br><span class="line">  std::vector&lt;<span class="type">double</span>&gt;&amp; <span class="keyword">operator</span> [](<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;lines) &#123;<span class="comment">//下标运算符</span></span><br><span class="line">    <span class="keyword">return</span> mat[lines];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">assign</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;)</span></span>;<span class="comment">//初始化</span></span><br><span class="line">  <span class="keyword">friend</span> std::ostream&amp; <span class="keyword">operator</span> &lt;&lt;(std::ostream&amp;, <span class="type">const</span> matrix&amp;);<span class="comment">//输出流</span></span><br><span class="line">  matrix <span class="keyword">operator</span> +(<span class="type">const</span> matrix &amp;another) <span class="type">const</span> &#123;<span class="comment">//加法</span></span><br><span class="line">    <span class="built_in">assert</span>(<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() == another.mat.<span class="built_in">size</span>() &amp;&amp; <span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() ? <span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>() == another.mat[<span class="number">0</span>].<span class="built_in">size</span>() : <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() || !<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="built_in">matrix</span>();</span><br><span class="line">    <span class="function">matrix <span class="title">ret</span><span class="params">(<span class="keyword">this</span>-&gt;mat.size() - <span class="number">1</span>, <span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].size() - <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>), <span class="built_in">row</span>(<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>()); i &lt; row; ++i) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">j</span>(<span class="number">1</span>), <span class="built_in">column</span>(<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>()); j &lt; column; ++j) &#123;</span><br><span class="line">        ret[i][j] = <span class="keyword">this</span>-&gt;mat[i][j] + another.mat[i][j];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">  &#125;</span><br><span class="line">  matrix&amp; <span class="keyword">operator</span> +=(<span class="type">const</span> matrix &amp;another) &#123;</span><br><span class="line">    *<span class="keyword">this</span> = *<span class="keyword">this</span> + another;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  matrix <span class="keyword">operator</span> -(<span class="type">const</span> matrix &amp;another) <span class="type">const</span> &#123;<span class="comment">//减法</span></span><br><span class="line">    <span class="built_in">assert</span>(<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() == another.mat.<span class="built_in">size</span>() &amp;&amp; <span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() ? <span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>() == another.mat[<span class="number">0</span>].<span class="built_in">size</span>() : <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() || !<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="built_in">matrix</span>();</span><br><span class="line">    <span class="function">matrix <span class="title">ret</span><span class="params">(<span class="keyword">this</span>-&gt;mat.size() - <span class="number">1</span>, <span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].size() - <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>), <span class="built_in">row</span>(<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>()); i &lt; row; ++i) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">j</span>(<span class="number">1</span>), <span class="built_in">column</span>(<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>()); j &lt; column; ++j) &#123;</span><br><span class="line">        ret[i][j] = <span class="keyword">this</span>-&gt;mat[i][j] - another.mat[i][j];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">  &#125;</span><br><span class="line">  matrix&amp; <span class="keyword">operator</span> -=(<span class="type">const</span> matrix &amp;another) &#123;</span><br><span class="line">    *<span class="keyword">this</span> = *<span class="keyword">this</span> - another;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  matrix <span class="keyword">operator</span> *(<span class="type">const</span> <span class="type">double</span> &amp;number) <span class="type">const</span> &#123;<span class="comment">//数乘</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() || !<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="built_in">matrix</span>();</span><br><span class="line">    <span class="function">matrix <span class="title">ret</span><span class="params">(<span class="keyword">this</span>-&gt;mat.size() - <span class="number">1</span>, <span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].size() - <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>), <span class="built_in">row</span>(<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>()); i &lt; row; ++i) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">j</span>(<span class="number">1</span>), <span class="built_in">column</span>(<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>()); j &lt; column; ++j) &#123;</span><br><span class="line">        ret[i][j] = <span class="keyword">this</span>-&gt;mat[i][j] * number;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">friend</span> matrix <span class="keyword">operator</span> *(<span class="type">const</span> <span class="type">double</span>&amp;, <span class="type">const</span> matrix&amp;);<span class="comment">//数乘</span></span><br><span class="line">  matrix&amp; <span class="keyword">operator</span> *=(<span class="type">const</span> <span class="type">double</span> &amp;number) &#123;</span><br><span class="line">    *<span class="keyword">this</span> = *<span class="keyword">this</span> * number;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  matrix <span class="keyword">operator</span> ~() <span class="type">const</span> &#123;<span class="comment">//转置</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() || !<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="built_in">matrix</span>();</span><br><span class="line">    <span class="function">matrix <span class="title">ret</span><span class="params">(<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].size() - <span class="number">1</span>, <span class="keyword">this</span>-&gt;mat.size() - <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>), <span class="built_in">row</span>(<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>()); i &lt; row; ++i) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">j</span>(<span class="number">1</span>), <span class="built_in">column</span>(<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>()); j &lt; column; ++j) &#123;</span><br><span class="line">        ret[j][i] = <span class="keyword">this</span>-&gt;mat[i][j];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">  &#125;</span><br><span class="line">  matrix <span class="keyword">operator</span> *(<span class="type">const</span> matrix &amp;another) <span class="type">const</span> &#123;<span class="comment">//矩阵乘法</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() || !<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>() || !another.mat.<span class="built_in">size</span>() || !another.mat[<span class="number">0</span>].<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="built_in">matrix</span>();</span><br><span class="line">    <span class="built_in">assert</span>(<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>() == another.mat.<span class="built_in">size</span>());</span><br><span class="line">    <span class="function">matrix <span class="title">ret</span><span class="params">(<span class="keyword">this</span>-&gt;mat.size() - <span class="number">1</span>, another.mat[<span class="number">0</span>].size() - <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>), <span class="built_in">row</span>(<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>()); i &lt; row; ++i) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">j</span>(<span class="number">1</span>), <span class="built_in">column</span>(another.mat[<span class="number">0</span>].<span class="built_in">size</span>()); j &lt; column; ++j) &#123;</span><br><span class="line">        ret.mat[i][j] = <span class="number">0.00000000</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">k</span>(<span class="number">1</span>), <span class="built_in">tmp</span>(<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>()); k &lt; tmp; ++k) &#123;</span><br><span class="line">          ret.mat[i][j] += <span class="keyword">this</span>-&gt;mat[i][k] * another.mat[k][j];</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">  &#125;</span><br><span class="line">  matrix <span class="keyword">operator</span> *=(<span class="type">const</span> matrix &amp;another) &#123;</span><br><span class="line">    *<span class="keyword">this</span> = *<span class="keyword">this</span> * another;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  matrix <span class="keyword">operator</span> ^(<span class="type">unsigned</span> <span class="type">long</span> times) <span class="type">const</span> &#123;<span class="comment">//矩阵快速幂</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() || !<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="built_in">matrix</span>();</span><br><span class="line">    <span class="built_in">assert</span>(<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>() == <span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>());</span><br><span class="line">    <span class="function">matrix <span class="title">ret</span><span class="params">(<span class="keyword">this</span>-&gt;mat.size() - <span class="number">1</span>, <span class="keyword">this</span>-&gt;mat.size() - <span class="number">1</span>)</span>, <span class="title">base</span><span class="params">(*<span class="keyword">this</span>)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (times) &#123;</span><br><span class="line">      <span class="keyword">if</span> (times &amp; <span class="number">1</span>) ret = ret * base;</span><br><span class="line">      base  = base * base,</span><br><span class="line">      times &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">matrix <span class="title">swap_row</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;)</span></span>;<span class="comment">//交换两行</span></span><br><span class="line">  <span class="function">matrix <span class="title">swap_column</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;)</span></span>;<span class="comment">//交换两列</span></span><br><span class="line">  <span class="function">matrix <span class="title">eliminate</span><span class="params">()</span></span>;<span class="comment">//高斯消元</span></span><br><span class="line">  <span class="function"><span class="type">double</span> <span class="title">det</span><span class="params">()</span></span>;<span class="comment">//行列式</span></span><br><span class="line">  <span class="function">matrix <span class="title">cofactor</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;)</span></span>;<span class="comment">//余子式</span></span><br><span class="line">  <span class="function">matrix <span class="title">algebraic_cofactor</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;)</span></span>;<span class="comment">//代数余子式</span></span><br><span class="line">  <span class="function">matrix <span class="title">principal_minor</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span>&amp;)</span></span>;<span class="comment">//主子式</span></span><br><span class="line">&#125;;</span><br><span class="line">matrix::<span class="built_in">matrix</span>() &#123;</span><br><span class="line">  mat = std::vector&lt;std::vector&lt;<span class="type">double</span>&gt; &gt;();</span><br><span class="line">&#125;</span><br><span class="line">matrix::<span class="built_in">matrix</span>(<span class="type">const</span> matrix &amp;mat) &#123;</span><br><span class="line">  *<span class="keyword">this</span> = mat;</span><br><span class="line">&#125;</span><br><span class="line">matrix::<span class="built_in">matrix</span>(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;row, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;column) &#123;</span><br><span class="line">  mat.<span class="built_in">clear</span>(), mat.<span class="built_in">assign</span>(row + <span class="number">1</span>, std::<span class="built_in">vector</span>&lt;<span class="type">double</span>&gt;(column + <span class="number">1</span>, <span class="number">0.000000</span>));</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">0</span>), <span class="built_in">maximum</span>(std::<span class="built_in">min</span>(row, column)); i &lt;= maximum; mat[i][i] = <span class="number">1.000000</span>, ++i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">matrix::assign</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;row, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;column)</span> </span>&#123;</span><br><span class="line">  mat.<span class="built_in">clear</span>(), mat.<span class="built_in">assign</span>(row + <span class="number">1</span>, std::<span class="built_in">vector</span>&lt;<span class="type">double</span>&gt;(column + <span class="number">1</span>, <span class="number">0.000000</span>));</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">0</span>), <span class="built_in">maximum</span>(std::<span class="built_in">min</span>(row, column)); i &lt;= maximum; mat[i][i] = <span class="number">1.000000</span>, ++i);</span><br><span class="line">&#125;</span><br><span class="line">std::ostream&amp; <span class="keyword">operator</span> &lt;&lt;(std::ostream &amp;os, <span class="type">const</span> matrix &amp;mat) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>), <span class="built_in">row</span>(mat.mat.<span class="built_in">size</span>()); i &lt; row; ++i) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">j</span>(<span class="number">1</span>), <span class="built_in">column</span>(mat.mat[<span class="number">0</span>].<span class="built_in">size</span>()); j &lt; column; ++j) &#123;</span><br><span class="line">      os &lt;&lt; mat.mat[i][j] &lt;&lt; (j == column - <span class="number">1</span> ? <span class="string">&#x27;\n&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line">matrix <span class="keyword">operator</span> *(<span class="type">const</span> <span class="type">double</span> &amp;number, <span class="type">const</span> matrix &amp;mat) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!mat.mat.<span class="built_in">size</span>() || !mat.mat[<span class="number">0</span>].<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="built_in">matrix</span>();</span><br><span class="line">  <span class="function">matrix <span class="title">ret</span><span class="params">(mat.mat.size() - <span class="number">1</span>, mat.mat[<span class="number">0</span>].size() - <span class="number">1</span>)</span></span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>), <span class="built_in">row</span>(mat.mat.<span class="built_in">size</span>()); i &lt; row; ++i) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">j</span>(<span class="number">1</span>), <span class="built_in">column</span>(mat.mat[<span class="number">0</span>].<span class="built_in">size</span>()); j &lt; column; ++j) &#123;</span><br><span class="line">      ret[i][j] = mat.mat[i][j] * number;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">matrix <span class="title">matrix::swap_row</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;index1, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;index2)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">assert</span>(index1 &gt; <span class="number">0</span> &amp;&amp; index1 &lt; <span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>()),</span><br><span class="line">  <span class="built_in">assert</span>(index2 &gt; <span class="number">0</span> &amp;&amp; index2 &lt; <span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>());</span><br><span class="line">  <span class="function">matrix <span class="title">ret</span><span class="params">(*<span class="keyword">this</span>)</span></span>;</span><br><span class="line">  <span class="keyword">if</span> (index1 == index2) <span class="keyword">return</span> ret;</span><br><span class="line">  std::<span class="built_in">swap</span>(ret[index1], ret[index2]);</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">matrix <span class="title">matrix::swap_column</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;index1, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;index2)</span> </span>&#123;</span><br><span class="line">  <span class="function">matrix <span class="title">ret</span><span class="params">(*<span class="keyword">this</span>)</span></span>;</span><br><span class="line">  <span class="keyword">return</span> ~((~ret).<span class="built_in">swap_row</span>(index1, index2));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">matrix <span class="title">matrix::eliminate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  swap_times = <span class="number">0</span>;</span><br><span class="line">  <span class="function">matrix <span class="title">ret</span><span class="params">(*<span class="keyword">this</span>)</span></span>;</span><br><span class="line">  <span class="function"><span class="type">unsigned</span> <span class="type">long</span> <span class="title">h</span><span class="params">(<span class="number">1</span>)</span>, <span class="title">k</span><span class="params">(<span class="number">1</span>)</span>, <span class="title">m</span><span class="params">(ret.mat.size() - <span class="number">1</span>)</span>, <span class="title">n</span><span class="params">(ret.mat[<span class="number">0</span>].size() - <span class="number">1</span>)</span>, i_max</span>;</span><br><span class="line">  <span class="type">double</span> f;</span><br><span class="line">  <span class="keyword">while</span> (h &lt; m &amp;&amp; k &lt;= n) &#123;</span><br><span class="line">    i_max = h;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(h + <span class="number">1</span>); i &lt;= m; ++i) &#123;</span><br><span class="line">      i_max = <span class="built_in">fabs</span>(ret[i_max][k]) &gt; <span class="built_in">fabs</span>(ret[i][k]) ? i_max : i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">fabs</span>(ret[i_max][k]) &lt; EPS) ++k;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      ret.<span class="built_in">swap_row</span>(h, i_max), swap_times += h != i_max;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(h + <span class="number">1</span>); i &lt;= m; ++i) &#123;</span><br><span class="line">        f = ret[i][k] / ret[h][k];</span><br><span class="line">        ret[i][k] = <span class="number">0.00000000</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">j</span>(k + <span class="number">1</span>); j &lt;= n; ++j) &#123;</span><br><span class="line">          ret[i][j] -= ret[h][j] * f;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ++h, ++k;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">matrix::det</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="function">matrix <span class="title">tmp</span><span class="params">(<span class="keyword">this</span>-&gt;eliminate())</span></span>;</span><br><span class="line">  <span class="function"><span class="type">double</span> <span class="title">ret</span><span class="params">(<span class="number">1.00000000</span>)</span></span>;</span><br><span class="line">  <span class="keyword">if</span> (!tmp.mat.<span class="built_in">size</span>()) <span class="keyword">return</span> ret;</span><br><span class="line">  <span class="built_in">assert</span>(tmp.mat.<span class="built_in">size</span>() == tmp.mat[<span class="number">0</span>].<span class="built_in">size</span>());</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="built_in">i</span>(<span class="number">1</span>), <span class="built_in">lines</span>(tmp.mat.<span class="built_in">size</span>()); i &lt; lines; ++i) &#123;</span><br><span class="line">    ret *= tmp[i][i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ret * (swap_times &amp; <span class="number">1</span> ? <span class="number">-1.00000000</span> : <span class="number">1.00000000</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">matrix <span class="title">matrix::cofactor</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;row, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;column)</span> </span>&#123;</span><br><span class="line">  matrix ret;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() || !<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].<span class="built_in">size</span>()) <span class="keyword">return</span> ret;</span><br><span class="line">  ret.mat.<span class="built_in">assign</span>(<span class="keyword">this</span>-&gt;mat.<span class="built_in">size</span>() - <span class="number">1</span>, std::<span class="built_in">vector</span>&lt;<span class="type">double</span>&gt;(<span class="number">1</span>, <span class="number">0.00000000</span>));</span><br><span class="line">  <span class="function"><span class="type">unsigned</span> <span class="type">long</span> <span class="title">h</span><span class="params">(<span class="number">1</span>)</span>, <span class="title">m</span><span class="params">(<span class="keyword">this</span>-&gt;mat.size())</span>, <span class="title">n</span><span class="params">(<span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].size() - <span class="number">1</span>)</span></span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>); i &lt; m; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == row) <span class="keyword">continue</span>;</span><br><span class="line">    <span class="keyword">if</span> (column == <span class="number">1</span>) &#123;</span><br><span class="line">      ret.mat[h].<span class="built_in">insert</span>(ret.mat[h].<span class="built_in">end</span>(), <span class="keyword">this</span>-&gt;mat[i].<span class="built_in">begin</span>() + <span class="number">2</span>, <span class="keyword">this</span>-&gt;mat[i].<span class="built_in">end</span>());</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (column == n) &#123;</span><br><span class="line">      ret.mat[h].<span class="built_in">insert</span>(ret.mat[h].<span class="built_in">end</span>(), <span class="keyword">this</span>-&gt;mat[i].<span class="built_in">begin</span>() + <span class="number">1</span>, <span class="keyword">this</span>-&gt;mat[i].<span class="built_in">end</span>() - <span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      ret.mat[h].<span class="built_in">insert</span>(ret.mat[h].<span class="built_in">end</span>(), <span class="keyword">this</span>-&gt;mat[i].<span class="built_in">begin</span>() + <span class="number">1</span>, <span class="keyword">this</span>-&gt;mat[i].<span class="built_in">begin</span>() + column);</span><br><span class="line">      ret.mat[h].<span class="built_in">insert</span>(ret.mat[h].<span class="built_in">end</span>(), <span class="keyword">this</span>-&gt;mat[i].<span class="built_in">begin</span>() + column + <span class="number">1</span>, <span class="keyword">this</span>-&gt;mat[i].<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    ++h;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">matrix <span class="title">true_ret</span><span class="params">(<span class="keyword">this</span>-&gt;mat.size() - <span class="number">2</span>, <span class="keyword">this</span>-&gt;mat[<span class="number">0</span>].size() - <span class="number">2</span>)</span></span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>); i &lt; m - <span class="number">1</span>; ++i) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">j</span>(<span class="number">1</span>); j &lt; n; ++j) &#123;</span><br><span class="line">      true_ret[i][j] = ret[i][j];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> true_ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">matrix <span class="title">matrix::algebraic_cofactor</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;row, <span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;column)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>-&gt;<span class="built_in">cofactor</span>(row, column) * ((row + column) &amp; <span class="number">1</span> ? <span class="number">-1.00000000</span> : <span class="number">1.00000000</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">matrix <span class="title">matrix::principal_minor</span><span class="params">(<span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> &amp;lines)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>-&gt;<span class="built_in">cofactor</span>(lines, lines);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> EPS</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="kirchhoffs-theorem">Kirchhoff's theorem</h2>
+<p>这个定理可以用来求一个无向图<span
+class="math inline">\(G\)</span>的生成树个数。首先明确几个概念: 1. <span
+class="math inline">\(G\)</span>的度数矩阵<span
+class="math inline">\(D_G\)</span>是一个<span
+class="math inline">\(n×n\)</span>的矩阵, 并且满足: 当<span
+class="math inline">\(i\ne j\)</span>时, <span
+class="math inline">\(d_{ij} = 0\)</span>; 当<span
+class="math inline">\(i = j\)</span>时, <span
+class="math inline">\(d_{ij}\)</span>等于<span
+class="math inline">\(v_i\)</span>的度数。 2. <span
+class="math inline">\(G\)</span>的邻接矩阵<span
+class="math inline">\(A_G\)</span>也是一个<span
+class="math inline">\(n×n\)</span>的矩阵, 并且满足: 如果<span
+class="math inline">\(v_i\)</span>、<span
+class="math inline">\(v_j\)</span>之间有边直接相连, 则<span
+class="math inline">\(a_{ij} = 1\)</span>, 否则为<span
+class="math inline">\(0\)</span>。 定义<span
+class="math inline">\(G\)</span>的Laplacian matrix<span
+class="math inline">\(C_G\)</span>为<span class="math inline">\(C_G =
+D_G - A_G\)</span>, 则Kirchhoff's theorem可以描述为: &gt; <span
+class="math inline">\(G\)</span>的所有不同的生成树的个数等于其Laplacian
+matrix任何一个<span class="math inline">\(n -
+1\)</span>阶主子式的行列式的绝对值。</p>
+<p>时间复杂度: <span
+class="math inline">\(\Theta\left(n^3\right)\)</span></p>
+<p>题目链接: <a target="_blank" rel="noopener" href="https://www.spoj.com/problems/HIGH/">SPOJ 104 HIGH
+- Highways</a></p>
+<p>这里只给主函数代码, 其余部分在上面的矩阵类里。 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">matrix graph;</span><br><span class="line"><span class="type">int</span> T, n, m, u, v;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> <span class="type">const</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;T);</span><br><span class="line">  <span class="keyword">while</span> (T--) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">    graph.<span class="built_in">assign</span>(n, n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">long</span> <span class="built_in">i</span>(<span class="number">1</span>); i &lt;= n; ++i) graph[i][i] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (m--) &#123;</span><br><span class="line">      <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;u, &amp;v);</span><br><span class="line">      ++graph[u][u], ++graph[v][v];</span><br><span class="line">      graph[u][v] = graph[v][u] = <span class="number">-1.00000000</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%.0lf\n&quot;</span>, n == <span class="number">1</span> ? <span class="number">1.00000000</span> : <span class="built_in">fabs</span>(graph.<span class="built_in">principal_minor</span>(<span class="number">1</span>).<span class="built_in">det</span>()));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Combinatorics/" rel="tag"># Combinatorics</a>
+              <a href="/tags/Number-Theory/" rel="tag"># Number Theory</a>
+              <a href="/tags/Matrix/" rel="tag"># Matrix</a>
+              <a href="/tags/Euclidean-Algorithm/" rel="tag"># Euclidean Algorithm</a>
+              <a href="/tags/Extended-Euclidean-Algorithm/" rel="tag"># Extended Euclidean Algorithm</a>
+              <a href="/tags/Modular-Multiplicative-Inverse/" rel="tag"># Modular Multiplicative Inverse</a>
+              <a href="/tags/Chinese-Remainder-Theorem/" rel="tag"># Chinese Remainder Theorem</a>
+              <a href="/tags/Extended-Chinese-Remainder-Theorem/" rel="tag"># Extended Chinese Remainder Theorem</a>
+              <a href="/tags/Sieve-of-Eratosthenes/" rel="tag"># Sieve of Eratosthenes</a>
+              <a href="/tags/Miller-Rabin-Primality-Test/" rel="tag"># Miller-Rabin Primality Test</a>
+              <a href="/tags/Euler-s-Totient-Function/" rel="tag"># Euler's Totient Function</a>
+              <a href="/tags/Lucas-s-Theorem/" rel="tag"># Lucas's Theorem</a>
+              <a href="/tags/Kirchhoff-s-theorem/" rel="tag"># Kirchhoff's theorem</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/10/08/NOIp-2018-%E5%89%8D%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/" rel="prev" title="NOIp 2018 前的字符串板子总结">
+                  <i class="fa fa-angle-left"></i> NOIp 2018 前的字符串板子总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/10/11/NOIp-2018-%E5%89%8D%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9D%BF%E5%AD%90%E6%80%BB%E7%BB%93/" rel="next" title="NOIp 2018 前的数据结构板子总结">
+                  NOIp 2018 前的数据结构板子总结 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
