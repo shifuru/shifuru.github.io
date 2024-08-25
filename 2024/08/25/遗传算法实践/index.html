@@ -19,21 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="八皇后问题 回溯 P1219 [USACO1.5] 八皇后 Checker Challenge 由于很久没有写过代码了，决定先复习一下。 最简单毫无优化DFS法 1234567891011121314151617181920212223242526272829303132333435363738394041#include &lt;cstdio&gt;int n, table[20],">
+    <meta name="description" content="使用遗传算法简单实现了八皇后问题寻找一个解的程序；以及交叉的几种方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="遗传算法实践">
 <meta property="og:url" content="https://shifuru.github.io/2024/08/25/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5/index.html">
 <meta property="og:site_name" content="FORTH">
-<meta property="og:description" content="八皇后问题 回溯 P1219 [USACO1.5] 八皇后 Checker Challenge 由于很久没有写过代码了，决定先复习一下。 最简单毫无优化DFS法 1234567891011121314151617181920212223242526272829303132333435363738394041#include &lt;cstdio&gt;int n, table[20],">
+<meta property="og:description" content="使用遗传算法简单实现了八皇后问题寻找一个解的程序；以及交叉的几种方法">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://shifuru.github.io/2024/08/25/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5001.png">
-<meta property="og:image" content="https://shifuru.github.io/2024/08/25/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5002.png">
-<meta property="og:image" content="https://shifuru.github.io/2024/08/25/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5003.png">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5001.png">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5002.png">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5003.png">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5004.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5005.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5006.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5007.jpg">
 <meta property="article:published_time" content="2024-08-25T09:09:30.000Z">
-<meta property="article:modified_time" content="2024-08-25T09:09:30.792Z">
+<meta property="article:modified_time" content="2024-08-25T12:44:09.730Z">
 <meta property="article:author" content="Sifr">
+<meta property="article:tag" content="深度优先搜索">
+<meta property="article:tag" content="遗传算法">
+<meta property="article:tag" content="回溯">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://shifuru.github.io/2024/08/25/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5001.png">
+<meta name="twitter:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5001.png">
 
 
 <link rel="canonical" href="https://shifuru.github.io/2024/08/25/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%AE%9E%E8%B7%B5/">
@@ -116,7 +123,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">八皇后问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E6%BA%AF"><span class="nav-number">1.1.</span> <span class="nav-text">回溯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">遗传算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AA%E4%BD%93%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">个体的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.2.2.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E5%BC%82"><span class="nav-number">1.2.3.</span> <span class="nav-text">变异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E7%BB%84"><span class="nav-number">1.2.4.</span> <span class="nav-text">重组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9"><span class="nav-number">1.2.5.</span> <span class="nav-text">选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%96%E4%BB%A3%E6%9B%B4%E6%9B%BF"><span class="nav-number">1.2.6.</span> <span class="nav-text">世代更替</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="nav-number">1.2.7.</span> <span class="nav-text">测试结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E7%9A%84%E8%BF%9B%E5%8C%96%E7%AE%97%E6%B3%95%E8%A1%8C%E4%B8%BA"><span class="nav-number">2.</span> <span class="nav-text">典型的进化算法行为：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E5%8C%96%E7%AE%97%E6%B3%95%E7%9A%84%E8%83%8C%E6%99%AF"><span class="nav-number">3.</span> <span class="nav-text">进化算法的背景</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">八皇后问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E6%BA%AF"><span class="nav-number">1.1.</span> <span class="nav-text">回溯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">遗传算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AA%E4%BD%93%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">个体的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.2.2.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E5%BC%82"><span class="nav-number">1.2.3.</span> <span class="nav-text">变异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E7%BB%84"><span class="nav-number">1.2.4.</span> <span class="nav-text">重组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9"><span class="nav-number">1.2.5.</span> <span class="nav-text">选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%96%E4%BB%A3%E6%9B%B4%E6%9B%BF"><span class="nav-number">1.2.6.</span> <span class="nav-text">世代更替</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="nav-number">1.2.7.</span> <span class="nav-text">测试结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E7%9A%84%E8%BF%9B%E5%8C%96%E7%AE%97%E6%B3%95%E8%A1%8C%E4%B8%BA"><span class="nav-number">2.</span> <span class="nav-text">典型的进化算法行为：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E5%8C%96%E7%AE%97%E6%B3%95%E7%9A%84%E8%83%8C%E6%99%AF"><span class="nav-number">3.</span> <span class="nav-text">进化算法的背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E5%8C%96%E8%AE%A1%E7%AE%97%E5%92%8C%E5%85%A8%E5%B1%80%E4%BC%98%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">进化计算和全局优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E5%8C%96%E8%AE%A1%E7%AE%97%E5%92%8C%E9%82%BB%E5%9F%9F%E6%90%9C%E7%B4%A2"><span class="nav-number">5.</span> <span class="nav-text">进化计算和邻域搜索</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%A8%E7%A4%BA%E7%AA%81%E5%8F%98%E5%92%8C%E9%87%8D%E7%BB%84"><span class="nav-number">6.</span> <span class="nav-text">表示、突变和重组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA"><span class="nav-number">6.1.</span> <span class="nav-text">二进制表示</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -142,7 +149,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -188,7 +195,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="遗传算法实践 | FORTH">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="使用遗传算法简单实现了八皇后问题寻找一个解的程序；以及交叉的几种方法">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -202,13 +209,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2024-08-25 17:09:30" itemprop="dateCreated datePublished" datetime="2024-08-25T17:09:30+08:00">2024-08-25</time>
+      <time title="创建时间：2024-08-25 17:09:30 / 修改时间：20:44:09" itemprop="dateCreated datePublished" datetime="2024-08-25T17:09:30+08:00">2024-08-25</time>
     </span>
 
   
 </div>
 
+            <div class="post-description">使用遗传算法简单实现了八皇后问题寻找一个解的程序；以及交叉的几种方法</div>
         </div>
       </header>
 
@@ -237,11 +246,12 @@
 <p>根据课件上写的，方法为随机交换两个皇后的行。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Mutation</span><span class="params">(Individual &amp;x)</span> </span>&#123;</span><br><span class="line">  <span class="type">int</span> tmp[] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;;</span><br><span class="line">  std::<span class="built_in">random_shuffle</span>(tmp, tmp + <span class="number">8</span>);</span><br><span class="line"></span><br><span class="line">  std::<span class="built_in">swap</span>(x[tmp[<span class="number">0</span>]], x[tmp[<span class="number">1</span>]]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="重组">重组</h3>
-<p>首先随机选择基因断开的位置，然后按照如下方法： 1.
-保留<code>a1</code>段 2.
-<code>b2</code>段从头到尾，若有<code>a1</code>段没有的值，则加到<code>a1</code>段后面
-3.
-<code>b1</code>段从头到尾，若有<code>a1</code>段没有的值，则加到<code>a1</code>段后面</p>
+<p>首先随机选择基因断开的位置，然后按照如下方法：</p>
+<ol type="1">
+<li>保留<code>a1</code>段</li>
+<li><code>b2</code>段从头到尾，若有<code>a1</code>段没有的值，则加到<code>a1</code>段后面</li>
+<li><code>b1</code>段从头到尾，若有<code>a1</code>段没有的值，则加到<code>a1</code>段后面</li>
+</ol>
 <p>两个反过来再来一遍即可。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Individual <span class="title">OneSide</span><span class="params">(<span class="type">const</span> Individual &amp;a, <span class="type">const</span> Individual &amp;b, <span class="type">const</span> <span class="type">int</span> &amp;pos)</span> </span>&#123;</span><br><span class="line">  Individual ret = a;</span><br><span class="line">  <span class="function">std::set&lt;<span class="type">int</span>&gt; <span class="title">vis</span><span class="params">(ret.gene, ret.gene + pos)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = pos, cur = pos; cur &lt; table_size; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!vis.<span class="built_in">count</span>(b[i % table_size])) &#123;</span><br><span class="line">      ret[cur++] = b[i % table_size];</span><br><span class="line">      vis.<span class="built_in">insert</span>(b[i % table_size]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">std::pair&lt;Individual, Individual&gt; <span class="title">Recombine</span><span class="params">(<span class="type">const</span> Individual &amp;a,</span></span></span><br><span class="line"><span class="params"><span class="function">                                            <span class="type">const</span> Individual &amp;b)</span> </span>&#123;</span><br><span class="line">  <span class="type">int</span> pos = std::<span class="built_in">rand</span>() % <span class="number">7</span> + <span class="number">1</span>;</span><br><span class="line">  std::pair&lt;Individual, Individual&gt; ret;</span><br><span class="line"></span><br><span class="line">  ret.first = <span class="built_in">OneSide</span>(a, b, pos);</span><br><span class="line">  ret.second = <span class="built_in">OneSide</span>(b, a, pos);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="选择">选择</h3>
@@ -261,8 +271,7 @@
 <hr />
 <h1 id="典型的进化算法行为">典型的进化算法行为：</h1>
 <figure>
-<img src="./images/遗传算法实践001.png"
-alt="一维适应度优化阶段的情景" />
+<img src="/images/遗传算法实践001.png" alt="一维适应度优化阶段的情景" />
 <figcaption aria-hidden="true">一维适应度优化阶段的情景</figcaption>
 </figure>
 <ul>
@@ -270,25 +279,121 @@ alt="一维适应度优化阶段的情景" />
 <li>中期阶段：种群分布在山丘周围</li>
 <li>末期阶段：种群集中在山上</li>
 </ul>
-<p>长时间运行有益吗？ - 这取决于你有多想取得最后的进展 -
-多进行短时间运行可能会更好</p>
-<p>是否值得花费精力进行智能初始化？ -
-如果存在好的解决方案/方法，那可能很好 -
-需要小心，请参阅有关杂交的章节/讲座（讲了吗？？？）</p>
+<p>长时间运行有益吗？</p>
+<ul>
+<li>这取决于你有多想取得最后的进展</li>
+<li>多进行短时间运行可能会更好</li>
+</ul>
+<p>是否值得花费精力进行智能初始化？</p>
+<ul>
+<li>如果存在好的解决方案/方法，那可能很好</li>
+<li>需要小心，请参阅有关杂交的章节/讲座（讲了吗？？？）</li>
+</ul>
 <h1 id="进化算法的背景">进化算法的背景</h1>
-<p>对于大多数问题，针对特定问题的工具可以： -
-在大多数情况下比通用搜索算法表现更好 - 效用有限 -
-并非在所有情况下都表现良好</p>
-<p>目标是提供强大的工具能够提供： - 表现均匀良好 -
-解决一系列问题和情况</p>
-<p><img src="./images/遗传算法实践002.png" /></p>
+<p>对于大多数问题，针对特定问题的工具可以：</p>
+<ul>
+<li>在大多数情况下比通用搜索算法表现更好</li>
+<li>效用有限</li>
+<li>并非在所有情况下都表现良好</li>
+</ul>
+<p>目标是提供强大的工具能够提供：</p>
+<ul>
+<li>表现均匀良好</li>
+<li>解决一系列问题和情况</li>
+</ul>
+<p><img src="/images/遗传算法实践002.png" /></p>
 <p>90年代的趋势：向进化算法添加问题特定知识（特殊变异运算符、修复等）</p>
-<p>结果：EA表现曲线“变形”： - 更好地解决给定类型的问题 -
-与给定类型不同的问题更糟糕 - 增加的知识量是可变的</p>
+<p>结果：EA表现曲线“变形”：</p>
+<ul>
+<li>更好地解决给定类型的问题</li>
+<li>与给定类型不同的问题更糟糕</li>
+<li>增加的知识量是可变的</li>
+</ul>
 <p>最近的理论表明，寻找“万能”算法可能是徒劳的（怎么可能有…）</p>
-<p><img src="./images/遗传算法实践003.png" /></p>
+<p><img src="/images/遗传算法实践003.png" /></p>
 <hr />
 <p>好像上堂课就讲到这，那这篇就到这里为止吧。</p>
+<hr />
+<p>原来后面还讲了一点，添上添上</p>
+<h1 id="进化计算和全局优化">进化计算和全局优化</h1>
+<p>全局优化：从某个固定集合S中寻找最佳解决方案x*</p>
+<p>确定性方法</p>
+<blockquote>
+<p>我不在乎它是否有效，只要它能收敛就行</p>
+</blockquote>
+<ul>
+<li>例如盒子分解（分支定界等）</li>
+<li>保证找到x*，</li>
+<li>可能对运行时间有限制，通常是超多项式</li>
+</ul>
+<p>启发式方法（生成和测试）</p>
+<blockquote>
+<p>我不在乎它是否收敛，只要它有效就行</p>
+</blockquote>
+<ul>
+<li>决定下一步生成哪个<span class="math inline">\(x\in
+S\)</span>的规则</li>
+<li>不保证找到的最佳解决方案是全局最优的</li>
+<li>运行时间不受限制</li>
+</ul>
+<h1 id="进化计算和邻域搜索">进化计算和邻域搜索</h1>
+<p>许多启发式方法将邻域结构强加于集合S，这种启发式方法可以保证找到的最佳点是局部最优的，例如<a
+target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Hill_climbing">爬山算法</a>，通常很快就能找到好的解决方案。但是，问题往往表现出许多局部最优。</p>
+<p>进化算法的特点是：</p>
+<ul>
+<li>使用种群</li>
+<li>使用多个随机搜索运算符</li>
+<li>尤其是元数大于1的变异算子</li>
+<li>随机选择</li>
+</ul>
+<blockquote>
+<p>提问：进化算法中的邻域是什么？</p>
+</blockquote>
+<p>ChatGPT：与给定解在搜索空间中密切相关或相似的一组潜在解，基于对当前解进行微小修改，即使用突变、杂交或专门的局部搜索可以探索的解。（<del>我觉得很有道理</del>）</p>
+<h1 id="表示突变和重组">表示、突变和重组</h1>
+<p>最常见的基因组表示：</p>
+<ul>
+<li>二进制</li>
+<li>整数</li>
+<li>实值或浮点数</li>
+<li>排列</li>
+<li>树</li>
+</ul>
+<p>构建进化算法的第一阶段也是最困难的阶段：为问题选择正确的表示</p>
+<p>变异算子：突变和交叉，所需变异算子的类型取决于所选的表示形式</p>
+<h2 id="二进制表示">二进制表示</h2>
+<p>最早的表示方法之一，基因型由一串二进制数字组成</p>
+<p>变异：以概率<span
+class="math inline">\(p_m\)</span>独立改变每个基因，<span
+class="math inline">\(p_m\)</span>称为突变率，通常在<span
+class="math inline">\(\frac1{种群大小}\)</span>和<span
+class="math inline">\(\frac1{染色体长度}\)</span>之间。变异可引起可变效应（使用<a
+target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Gray_code">格雷码</a>）。</p>
+<figure>
+<img src="/images/遗传算法实践004.jpg" alt="Mutation" />
+<figcaption aria-hidden="true">Mutation</figcaption>
+</figure>
+<p>单点交叉：在两个父母身上随机选择一个点，在这个交叉点上将父母基因拆分，通过交换尾部来创造后代，交叉概率<span
+class="math inline">\(P_c\)</span>通常在<span
+class="math inline">\((0.6, 0.9)\)</span>范围内。</p>
+<figure>
+<img src="/images/遗传算法实践005.jpg" alt="1-point crossover" />
+<figcaption aria-hidden="true">1-point crossover</figcaption>
+</figure>
+<p>单点交叉的性能取决于变量在表示中出现的顺序，更有可能将彼此靠近的基因放在一起，永远无法将来自基因串两端的基因放在一起，这被称为位置偏差（Position
+Bias）</p>
+<p>n点交叉：选择n个随机交叉点，沿着这些点分割，粘合每个部件，在父母基因之间交替（仍然存在一些位置偏差）。</p>
+<figure>
+<img src="/images/遗传算法实践006.jpg" alt="n-point crossover" />
+<figcaption aria-hidden="true">n-point crossover</figcaption>
+</figure>
+<p>均匀交叉：第一个孩子的每个基因随机从某一个父母选取，第二个孩子从另一个父母的基因选取。</p>
+<figure>
+<img src="/images/遗传算法实践007.jpg" alt="uniform crossover" />
+<figcaption aria-hidden="true">uniform crossover</figcaption>
+</figure>
+<hr />
+<p>Hexo的Markdown渲染好怪…</p>
 
     </div>
 
@@ -297,6 +402,11 @@ alt="一维适应度优化阶段的情景" />
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/" rel="tag"># 深度优先搜索</a>
+              <a href="/tags/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/" rel="tag"># 遗传算法</a>
+              <a href="/tags/%E5%9B%9E%E6%BA%AF/" rel="tag"># 回溯</a>
+          </div>
 
         
 
@@ -375,7 +485,7 @@ alt="一维适应度优化阶段的情景" />
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
