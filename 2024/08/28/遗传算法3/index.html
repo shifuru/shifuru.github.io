@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="介绍了使用实值&#x2F;浮点数、树进行基因型表示的方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="遗传算法3">
+<meta property="og:url" content="https://shifuru.github.io/2024/08/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="介绍了使用实值&#x2F;浮点数、树进行基因型表示的方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953-001.jpeg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953-002.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953-003.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953-004.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953-005.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953-006.jpg">
+<meta property="article:published_time" content="2024-08-28T05:55:24.000Z">
+<meta property="article:modified_time" content="2024-08-28T05:55:24.206Z">
+<meta property="article:author" content="Sifr">
+<meta property="article:tag" content="遗传算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953-001.jpeg">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2024/08/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2024/08/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953/","path":"2024/08/28/遗传算法3/","title":"遗传算法3"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>遗传算法3 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%A8%E7%A4%BA%E7%AA%81%E5%8F%98%E5%92%8C%E9%87%8D%E7%BB%84"><span class="nav-number">1.</span> <span class="nav-text">表示、突变和重组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E8%A1%A8%E7%A4%BA"><span class="nav-number">1.1.</span> <span class="nav-text">整数表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E6%95%B0%E5%80%BC%E6%88%96%E6%B5%AE%E7%82%B9%E6%95%B0%E5%80%BC%E8%A1%A8%E7%A4%BA"><span class="nav-number">1.2.</span> <span class="nav-text">实数值或浮点数值表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E5%AE%9E%E6%95%B0%E5%80%BC%E6%98%A0%E5%B0%84%E5%88%B0%E4%BD%8D%E4%B8%B2%E4%B8%8A"><span class="nav-number">1.2.1.</span> <span class="nav-text">将实数值映射到位串上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E5%BC%82%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.2.</span> <span class="nav-text">变异操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9D%87%E5%8C%80%E5%8F%98%E5%BC%82"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">均匀变异</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E5%9D%87%E5%8C%80%E5%8F%98%E5%BC%82"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">非均匀变异</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E9%80%82%E5%BA%94%E5%8F%98%E5%BC%82"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">自适应变异</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.3.</span> <span class="nav-text">交叉操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E7%AE%97%E6%9C%AF%E4%BA%A4%E5%8F%89"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">单算术交叉</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%AE%97%E6%95%B0%E4%BA%A4%E5%8F%89"><span class="nav-number">1.2.4.</span> <span class="nav-text">简单算数交叉</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E7%AE%97%E6%9C%AF%E4%BA%A4%E5%8F%89"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">全算术交叉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E4%BA%A4%E5%8F%89"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">混合交叉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0%E4%B8%8D%E5%90%8C%E7%9A%84%E5%8F%AF%E8%83%BD%E5%90%8E%E4%BB%A3"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">概述不同的可能后代</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E4%BA%B2%E6%9C%AC%E9%87%8D%E7%BB%84"><span class="nav-number">1.2.5.</span> <span class="nav-text">多亲本重组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E4%BA%B2%E6%9C%AC%E9%87%8D%E7%BB%841%E5%9E%8B"><span class="nav-number">1.2.6.</span> <span class="nav-text">多亲本重组1型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E4%BA%B2%E6%9C%AC%E9%87%8D%E7%BB%842%E5%9E%8B"><span class="nav-number">1.2.7.</span> <span class="nav-text">多亲本重组2型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%88%97%E8%A1%A8%E7%A4%BA"><span class="nav-number">1.3.</span> <span class="nav-text">排列表示</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意に満ちた人間は絶滅すべき</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/08/28/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%953/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="遗传算法3 | FORTH">
+      <meta itemprop="description" content="介绍了使用实值/浮点数、树进行基因型表示的方法。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          遗传算法3
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-08-28 13:55:24" itemprop="dateCreated datePublished" datetime="2024-08-28T13:55:24+08:00">2024-08-28</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">介绍了使用实值/浮点数、树进行基因型表示的方法。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>接上一篇</p>
+<hr />
+<h1 id="表示突变和重组">表示、突变和重组</h1>
+<h2 id="整数表示">整数表示</h2>
+<p>如今，人们普遍认为直接使用数值变量（整数、浮点变量）进行编码更好。有些问题自然有整数变量，例如图像处理参数，其他颜色则从固定集合中取分类值，例如<span
+class="math inline">\({蓝色、绿色、黄色、粉色}\)</span>。</p>
+<p>重组与二进制表示相同。N点/均匀交叉算子仍然有效，位翻转突变可以扩展：“蔓延”，即更有可能变为近似值，以概率<span
+class="math inline">\(p\)</span>为每个基因添加一个小值（正值或负值）；随机重置（尤其是分类变量），以概率<span
+class="math inline">\(p_m\)</span>随机选择一个新值。</p>
+<h2 id="实数值或浮点数值表示">实数值或浮点数值表示</h2>
+<p>许多问题都是实值问题，例如连续参数优化<span
+class="math inline">\(f:\mathfrak{R}^n\rightarrow\mathfrak{R}\)</span>。</p>
+<figure>
+<img src="/images/遗传算法3-001.jpeg"
+alt="Ackley函数（常在进化计算中使用）" />
+<figcaption
+aria-hidden="true">Ackley函数（常在进化计算中使用）</figcaption>
+</figure>
+<p><span class="math display">\[f(x,y)=-20\exp \left[-0.2{\sqrt
+{0.5(x^{2}+y^{2})}}\,\right]{}-\exp \left[0.5\left(\cos 2\pi x+\cos 2\pi
+y\right)\right]+e+20\]</span></p>
+<h3 id="将实数值映射到位串上">将实数值映射到位串上</h3>
+<p><span
+class="math inline">\(z\in[x,y]\subseteq\mathfrak{R}\)</span>表示为<span
+class="math inline">\(\{a_1,\cdots,a_L\}\in\{0,1\}^L\)</span></p>
+<p><span class="math inline">\([x,
+y]\rightarrow\{0,1\}^L\)</span>必须是可逆的（每个基因型一个表现型）</p>
+<p><span class="math inline">\(\Gamma:\{0,1\}^L\rightarrow[x,
+y]\)</span>定义表示：</p>
+<p><span
+class="math display">\[\Gamma(a_1,\cdots,a_L)=x+\frac{y-x}{2^L-1}\cdot\left(\sum_{j=0}^{L-1}a_{L-j}\cdot2^j\right)\in[x,
+y]\]</span></p>
+<p>个人解释：第一项<span class="math inline">\(x\)</span>表示<span
+class="math inline">\([x, y]\)</span>的最小值<span
+class="math inline">\(x\)</span>，<span
+class="math inline">\(y-x\)</span>为区间长度。<span
+class="math inline">\(2^L-1\)</span>为区间划分数量，即将区间<span
+class="math inline">\([x, y]\)</span>划分为<span
+class="math inline">\(2^L\)</span>段，每一段可以使用整数序号表示，后面括号中的求和则是根据该序号的二进制表示查询其在<span
+class="math inline">\([x, y]\)</span>区间的位置。</p>
+<p>因此，这个表示仅能表示<span class="math inline">\([x,
+y]\)</span>中无限实数中的<span
+class="math inline">\(2^L\)</span>个。L为序号的最大二进制位数长度（染色体长度），决定解决方案的最大可能精度。精度越高，染色体越长，进化速度也越慢。</p>
+<h3 id="变异操作">变异操作</h3>
+<h4 id="均匀变异">均匀变异</h4>
+<p>浮点突变的一般方案：<span class="math inline">\(\bar x=\langle
+x_1,\cdots,x_L\rangle\rightarrow\bar x&#39;=\langle
+x_1&#39;,\cdots,x_L&#39;\rangle\)</span>，其中<span
+class="math inline">\(\bar x,\bar x&#39;\in[LB_i,UB_i]\)</span></p>
+<p>chatGPT解释：<span class="math inline">\(LB_i\)</span>(Lower
+Bound)，<span class="math inline">\(UB_i\)</span>(Upper
+Bound)分别为浮点数表示<span
+class="math inline">\(x_i\)</span>能取得的最小和最大值。在均匀变异的操作中，新的变量<span
+class="math inline">\(x_i&#39;\)</span>将会从范围<span
+class="math inline">\([LB_i,UB_i]\)</span>内均匀随机选择。</p>
+<p>类似于位翻转（二进制）或随机重置（整数）</p>
+<h4 id="非均匀变异">非均匀变异</h4>
+<p>提出了许多方法，例如随时间变化的范围等。大多数方案都是概率性的，但通常只会对值产生很小的改变。最常见的方法是将服从<span
+class="math inline">\(N(0,\sigma)\)</span>正态分布的随机偏差分别添加到每个变量中，即<span
+class="math inline">\(x_i&#39;=x_i+N(0,\sigma)\)</span>。<span
+class="math inline">\(\sigma\)</span>也是变异步长。</p>
+<h4 id="自适应变异">自适应变异</h4>
+<p>步长包含在基因组中，并且本身会经历变异和选择：<span
+class="math inline">\(\langle
+x_1,\cdots,x_n,\sigma\rangle\)</span>。变异步长不由用户设置，而是与解决方案共同进化。在进化搜索过程的不同阶段可能适用不同的变异策略。</p>
+<p>变异策略：</p>
+<ul>
+<li>首先变异<span class="math inline">\(\sigma\)</span></li>
+<li>净突变效应：<span class="math inline">\(\langle x,
+\sigma\rangle\rightarrow\langle x&#39;, \sigma&#39;\rangle\)</span></li>
+<li>顺序很重要：
+<ul>
+<li>首先<span
+class="math inline">\(\sigma\rightarrow\sigma&#39;\)</span></li>
+<li>然后<span
+class="math inline">\(x&#39;=x+N(0,\sigma&#39;)\)</span></li>
+</ul></li>
+<li>理由：新的<span class="math inline">\(\langle x&#39;,
+\sigma&#39;\rangle\)</span>会经历2次评估
+<ul>
+<li>首要原则：如果<span class="math inline">\(f(x’)\)</span>好，则<span
+class="math inline">\(x’\)</span>好</li>
+<li>次要原则：如果<span
+class="math inline">\(x&#39;\)</span>好，那么创造它的<span
+class="math inline">\(\sigma&#39;\)</span>好</li>
+</ul></li>
+<li>逆转突变顺序是行不通的</li>
+</ul>
+<h3 id="交叉操作">交叉操作</h3>
+<p>分散：</p>
+<ul>
+<li>后代<span
+class="math inline">\(z\)</span>中的每个等位基因值以相等的概率来自其父母<span
+class="math inline">\((x,y)\)</span>之一：<span
+class="math inline">\(z_i = x_i \text{ or } y_i\)</span></li>
+<li>可以使用n点交叉或均匀交叉</li>
+</ul>
+<p>折中：</p>
+<ul>
+<li>利用父母之间创造孩子的想法（因此又称为算术重组）</li>
+<li><span class="math inline">\(z_i=\alpha
+x_i+(1-\alpha)y_i\)</span>，其中<span
+class="math inline">\(0\leq\alpha\leq1\)</span></li>
+<li>其中参数<span class="math inline">\(\alpha\)</span>可以是
+<ul>
+<li>常数：均匀算术交叉</li>
+<li>变量（例如取决于人口年龄）</li>
+<li>每次随机挑选</li>
+</ul></li>
+</ul>
+<h4 id="单算术交叉">单算术交叉</h4>
+<ul>
+<li>父母<span class="math inline">\(\langle
+x_1,\cdots,x_n\rangle\)</span>和<span class="math inline">\(\langle
+y_1,\cdots,y_n\rangle\)</span></li>
+<li>随机选择一个基因<span class="math inline">\(k\)</span></li>
+<li>则<span class="math inline">\(\text{child}_1=\langle
+x_1,\cdots,x_{k_1},\alpha
+y_k+(1-\alpha)x_k,\cdots,x_n\rangle\)</span></li>
+<li>为<span
+class="math inline">\(\text{child}_2\)</span>做相反的操作，例如当<span
+class="math inline">\(\alpha=0.5\)</span>时</li>
+</ul>
+<p><img src="/images/遗传算法3-002.jpg" /></p>
+<h3 id="简单算数交叉">简单算数交叉</h3>
+<ul>
+<li>父母<span class="math inline">\(\langle
+x_1,\cdots,x_n\rangle\)</span>和<span class="math inline">\(\langle
+y_1,\cdots,y_n\rangle\)</span></li>
+<li>随机选择一个基因<span
+class="math inline">\(k\)</span>，它之后的基因进行混合</li>
+<li><span class="math inline">\(\text{child}_1=\langle
+x_1,\cdots,x_k,\alpha y_{k+1}+(1-\alpha)x_{k+1},\cdots,\alpha
+y_n+(1-\alpha)x_n\rangle\)</span></li>
+<li>为<span
+class="math inline">\(\text{child}_2\)</span>做相反的操作，例如当<span
+class="math inline">\(\alpha=0.5\)</span>时</li>
+</ul>
+<p><img src="/images/遗传算法3-003.jpg" /></p>
+<h4 id="全算术交叉">全算术交叉</h4>
+<ul>
+<li>最常用</li>
+<li>父母<span class="math inline">\(\langle
+x_1,\cdots,x_n\rangle\)</span>和<span class="math inline">\(\langle
+y_1,\cdots,y_n\rangle\)</span></li>
+<li><span class="math inline">\(\text{child}_1=\alpha\bar
+y+(1-\alpha)\bar x\)</span></li>
+<li>为<span
+class="math inline">\(\text{child}_2\)</span>做相反的操作，例如当<span
+class="math inline">\(\alpha=0.5\)</span>时</li>
+</ul>
+<p><img src="/images/遗传算法3-004.jpg" /></p>
+<h4 id="混合交叉">混合交叉</h4>
+<ul>
+<li>父母<span class="math inline">\(\langle
+x_1,\cdots,x_n\rangle\)</span>和<span class="math inline">\(\langle
+y_1,\cdots,y_n\rangle\)</span></li>
+<li>假设<span class="math inline">\(x_i\le y_i\)</span></li>
+<li><span class="math inline">\(d_i=y_i-x_i\)</span></li>
+<li>随机样本<span class="math inline">\(z_i=[x_i-\alpha d_i, x_i+\alpha
+d_i]\)</span></li>
+<li>原作者的最佳结果是<span
+class="math inline">\(\alpha=0.5\)</span></li>
+</ul>
+<h4 id="概述不同的可能后代">概述不同的可能后代</h4>
+<p><img src="/images/遗传算法3-005.jpg" /></p>
+<ul>
+<li>单算术：<span
+class="math inline">\(\{s_1,s_2,s_3,s_4\}\)</span></li>
+<li>简单算术&amp;全算数：内框（<span
+class="math inline">\(w\)</span>为<span
+class="math inline">\(\alpha=0.5\)</span>）</li>
+<li>混合：外框</li>
+</ul>
+<h3 id="多亲本重组">多亲本重组</h3>
+<p>遗传算法不受自然实际情况的限制，突变使用<span
+class="math inline">\(n=1\)</span>亲本，而“传统”交叉使用<span
+class="math inline">\(n=2\)</span>，因此扩展到<span
+class="math inline">\(n\gt2\)</span>
+是合理的。此法自20世纪60年代以来就已存在，至今仍然罕见，但研究表明有用。</p>
+<h3 id="多亲本重组1型">多亲本重组1型</h3>
+<ul>
+<li>想法：分割并重组父母</li>
+<li>例如：<span class="math inline">\(n\)</span>个父母的对角交叉
+<ul>
+<li>选择<span
+class="math inline">\(n-1\)</span>个交叉点（每个父母相同）</li>
+<li>沿着“对角线”将父母的部分组合成<span
+class="math inline">\(n\)</span>个孩子</li>
+</ul></li>
+</ul>
+<p><img src="/images/遗传算法3-006.jpg" /></p>
+<p>该操作包括了单点交叉</p>
+<h3 id="多亲本重组2型">多亲本重组2型</h3>
+<ul>
+<li>想法：等位基因（实值）的算术组合</li>
+<li>例如：<span class="math inline">\(n\)</span>个父母的算术交叉：
+<ul>
+<li>孩子的第<span
+class="math inline">\(i\)</span>个等位基因是所有父母第<span
+class="math inline">\(i\)</span>个等位基因的平均值</li>
+</ul></li>
+<li>在遗传算法中很奇特，长期以来在进化策略中被人们所知和使用</li>
+</ul>
+<h2 id="排列表示">排列表示</h2>
+<p>任务是（或可以通过）按特定顺序排列一些物体</p>
+<ul>
+<li>例子：生产调度：重要的是哪些元素被安排在其他元素之前（顺序）</li>
+<li>例子：旅行商问题（TSP）：重要的是哪些元素彼此相邻（邻接）</li>
+</ul>
+<p>这些问题通常表示为一种排列：如果有n个变量，则表示为n个整数的列表，每个整数恰好出现一次</p>
+<hr />
+<p>先整到这里吧，后面的一部分之后再考虑补不补</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/" rel="tag"># 遗传算法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/08/25/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%952/" rel="prev" title="遗传算法2">
+                  <i class="fa fa-angle-left"></i> 遗传算法2
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
