@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89015.jpg">
 <meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89016.png">
 <meta property="article:published_time" content="2024-08-29T08:58:44.000Z">
-<meta property="article:modified_time" content="2024-08-29T08:58:44.175Z">
+<meta property="article:modified_time" content="2024-08-29T10:49:49.218Z">
 <meta property="article:author" content="Sifr">
 <meta property="article:tag" content="机器视觉">
 <meta name="twitter:card" content="summary">
@@ -207,8 +207,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2024-08-29 16:58:44" itemprop="dateCreated datePublished" datetime="2024-08-29T16:58:44+08:00">2024-08-29</time>
+      <time title="创建时间：2024-08-29 16:58:44 / 修改时间：18:49:49" itemprop="dateCreated datePublished" datetime="2024-08-29T16:58:44+08:00">2024-08-29</time>
     </span>
 
   
@@ -229,9 +230,9 @@ class="math inline">\(g=T(f)\)</span>将输入图像灰度级映射到输出灰�
 <p>对数变换：<span class="math inline">\(g=c\log(1+f)\)</span></p>
 <p>分段线性变换：对比度拉伸：</p>
 <p><span
-class="math display">\[\begin{aligned}g&amp;=T(f)\\\\&amp;=\begin{cases}\alpha
-f&amp;,0\leq f\lt a\\\\\beta(f-a)+T(a)&amp;,a\leq f\lt
-b\\\\\gamma(f-b)+T(b)&amp;,b\leq f\lt
+class="math display">\[\begin{aligned}g&amp;=T(f)\\&amp;=\begin{cases}\alpha
+f&amp;,0\leq f\lt a\\\beta(f-a)+T(a)&amp;,a\leq f\lt
+b\\\gamma(f-b)+T(b)&amp;,b\leq f\lt
 L\end{cases}\end{aligned}\]</span></p>
 <p><img src="/images/机器视觉010.jpg" /></p>
 <h1 id="直方图均衡化">直方图均衡化</h1>
@@ -278,7 +279,7 @@ class="math inline">\(g=T(f)=\int_0^fp_f(t)\text dt\)</span></p>
 <h1 id="图像平滑">图像平滑</h1>
 <p>空间和频率域中的线性图像滤波的基本形式可以表示为</p>
 <p><span
-class="math display">\[\begin{aligned}G(u,v)&amp;=F(u,v)H(u,v)\\\\g(x,y)&amp;=f(x,y)*h(x,y)\\\\&amp;=\sum_{j=-\infty}^{+\infty}\sum_{i=-\infty}^{+\infty}h(i,j)f(x-i,y-j)\\\\&amp;=\sum_{j=-3}^3\sum_{i=-3}^3h(i,j)f(x-i,y-j)\
+class="math display">\[\begin{aligned}G(u,v)&amp;=F(u,v)H(u,v)\\g(x,y)&amp;=f(x,y)*h(x,y)\\&amp;=\sum_{j=-\infty}^{+\infty}\sum_{i=-\infty}^{+\infty}h(i,j)f(x-i,y-j)\\&amp;=\sum_{j=-3}^3\sum_{i=-3}^3h(i,j)f(x-i,y-j)\
 ,\text{if}\ h(x,y)=0\ \text{for}\ -3\lt
 x,y\lt3\end{aligned}\]</span></p>
 <p>在每个点<span
@@ -289,8 +290,8 @@ class="math inline">\((x,y)\)</span>为中心的滤波器掩模所跨越的区�
 LPF）是图像处理领域中的一种基础技术，旨在让图像中的低频信号通过，同时削弱或抑制高频信号。换句话说，低通滤波器专注于保留图像的大体轮廓和色彩，而减弱或去除其中的噪声和细节。</p>
 <p>理想低通滤波：</p>
 <p><span
-class="math display">\[\begin{aligned}D(u,v)&amp;=\sqrt{u^2+v^2}\\\\H(u,v)&amp;=\begin{cases}1&amp;,D(u,v)\leq
-D_0\\\\0,&amp;,D(u,v)\gt D_0\end{cases}\end{aligned}\]</span></p>
+class="math display">\[\begin{aligned}D(u,v)&amp;=\sqrt{u^2+v^2}\\H(u,v)&amp;=\begin{cases}1&amp;,D(u,v)\leq
+D_0\\0,&amp;,D(u,v)\gt D_0\end{cases}\end{aligned}\]</span></p>
 <p><img src="/images/机器视觉012.jpg" /></p>
 <p>高斯低通滤波（GLPF）：</p>
 <p><span class="math display">\[G(u,v)=\frac1{2\pi\sigma^2}\text
@@ -301,8 +302,8 @@ e^{-\frac{u^2+v^2}{2D_0}}\]</span></p>
 <p><span class="math display">\[H_{hp}(u,v)=1-H_{lr}(u,v)\]</span></p>
 <p>理想高通滤波：</p>
 <p><span
-class="math display">\[\begin{aligned}D(u,v)&amp;=\sqrt{u^2+v^2}\\\\H(u,v)&amp;=\begin{cases}0&amp;,D(u,v)\leq
-D_0\\\\1,&amp;,D(u,v)\gt D_0\end{cases}\end{aligned}\]</span></p>
+class="math display">\[\begin{aligned}D(u,v)&amp;=\sqrt{u^2+v^2}\\H(u,v)&amp;=\begin{cases}0&amp;,D(u,v)\leq
+D_0\\1,&amp;,D(u,v)\gt D_0\end{cases}\end{aligned}\]</span></p>
 <p>高斯高通滤波（GHPF）：</p>
 <p><span class="math display">\[G(u,v)=1-\text
 e^{-\frac{u^2+v^2}{2D_0}}\]</span></p>
@@ -319,7 +320,7 @@ class="math inline">\(A\geq1\)</span></p>
 <h2 id="线性滤波器的问题">线性滤波器的问题</h2>
 <p>任何线性滤波器的输出都是输入像素的加权平均值</p>
 <p><span class="math display">\[\begin{aligned}\hat
-f(x,y)&amp;=h(x,y)*f(x,y)\\\\&amp;=\sum_{i=-a}^a\sum_{j=-b}^bh(i,j)f(x-i,y-j)\\\\&amp;=\sum_{(s,t)\in
+f(x,y)&amp;=h(x,y)*f(x,y)\\&amp;=\sum_{i=-a}^a\sum_{j=-b}^bh(i,j)f(x-i,y-j)\\&amp;=\sum_{(s,t)\in
 S_{xy}}\omega(s,t)f(s,t)\end{aligned}\]</span></p>
 <p>图像模糊，清晰度细节丢失，难以平滑强噪点</p>
 <h2 id="顺序统计滤波器">顺序统计滤波器</h2>
