@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="讲解基于信号处理的图像二维卷积和傅里叶变换，以及图像采样。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LSI系统与变换">
+<meta property="og:url" content="https://shifuru.github.io/2024/08/29/LSI%E7%B3%BB%E7%BB%9F%E4%B8%8E%E5%8F%98%E6%8D%A2/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="讲解基于信号处理的图像二维卷积和傅里叶变换，以及图像采样。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89007.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89008.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89009.jpg">
+<meta property="article:published_time" content="2024-08-29T05:31:56.000Z">
+<meta property="article:modified_time" content="2024-08-29T05:57:43.348Z">
+<meta property="article:author" content="Sifr">
+<meta property="article:tag" content="机器视觉">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89007.jpg">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2024/08/29/LSI%E7%B3%BB%E7%BB%9F%E4%B8%8E%E5%8F%98%E6%8D%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2024/08/29/LSI%E7%B3%BB%E7%BB%9F%E4%B8%8E%E5%8F%98%E6%8D%A2/","path":"2024/08/29/LSI系统与变换/","title":"LSI系统与变换"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LSI系统与变换 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%88%86%E8%A7%A3%E5%92%8C%E7%BA%BF%E6%80%A7%E7%A7%BB%E4%BD%8D%E4%B8%8D%E5%8F%98%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.</span> <span class="nav-text">图像分解和线性移位不变图像处理系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E5%8D%B7%E7%A7%AF%E5%8F%8A%E5%85%B6%E6%80%A7%E8%B4%A8"><span class="nav-number">2.</span> <span class="nav-text">二维卷积及其性质</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%85%B6%E6%80%A7%E8%B4%A8"><span class="nav-number">3.</span> <span class="nav-text">二维傅里叶变换及其性质</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E9%87%87%E6%A0%B7"><span class="nav-number">4.</span> <span class="nav-text">图像采样</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%87%E6%A0%B7%E5%AE%9A%E7%90%86"><span class="nav-number">4.1.</span> <span class="nav-text">采样定理</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意に満ちた人間は絶滅すべき</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/08/29/LSI%E7%B3%BB%E7%BB%9F%E4%B8%8E%E5%8F%98%E6%8D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LSI系统与变换 | FORTH">
+      <meta itemprop="description" content="讲解基于信号处理的图像二维卷积和傅里叶变换，以及图像采样。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LSI系统与变换
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-08-29 13:31:56 / 修改时间：13:57:43" itemprop="dateCreated datePublished" datetime="2024-08-29T13:31:56+08:00">2024-08-29</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">讲解基于信号处理的图像二维卷积和傅里叶变换，以及图像采样。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1
+id="图像分解和线性移位不变图像处理系统">图像分解和线性移位不变图像处理系统</h1>
+<p>数字图像可以用具有两个整数参数的二维函数表示，例如<span
+class="math inline">\(f(x, y)\)</span>，其中<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(y\)</span>是整数。</p>
+<p>基本元素图像是脉冲</p>
+<p><span class="math display">\[\delta(x, y) =
+\begin{cases}1,&amp;x=y=0\\\\0,&amp;\text{Otherwise}\end{cases}\]</span></p>
+<p>转移并缩放脉冲</p>
+<p><span class="math display">\[f(x, y) = c\delta(x-i, y-j) =
+\begin{cases}c,&amp;x=i,y=j\\\\0,&amp;\text{Otherwise}\end{cases}\]</span></p>
+<p>它描述任意某个像素，且其他像素灰度值为零。任何图像<span
+class="math inline">\(f(x,y)\)</span>都可以用多个移位和缩放脉冲的总和来表示。</p>
+<p><span
+class="math display">\[f(x,y)=\sum_{j=-\infty}^\infty\sum_{i=-\infty}^\infty
+f(i,j)\delta(x-i,y-j)\]</span></p>
+<p>或</p>
+<p><span class="math display">\[f(x,y)=\sum_{j=-n}^n\sum_{i=-m}^m
+f(i,j)\delta(x-i,y-j)\]</span></p>
+<p>例如，以<span class="math inline">\((0,0)\)</span>为中心，大小为<span
+class="math inline">\(11\times11\)</span>的常数灰度级<span
+class="math inline">\(215\)</span>正方形为：<span
+class="math inline">\(f(x,y)=\sum_{j=-5}^5\sum_{i=-5}^5215\delta(x-i,y-i)\)</span></p>
+<h1 id="二维卷积及其性质">二维卷积及其性质</h1>
+<p>一个处理系统将任意输入图像<span
+class="math inline">\(f(x,y)\)</span>变换为唯一的输出图像<span
+class="math inline">\(g(x,y)\)</span>。这个过程可以表示为：</p>
+<p><span
+class="math display">\[g(x,y)=T\{f(x,y)\}=T\left\{\sum_{j=-\infty}^\infty\sum_{i=-\infty}^\infty
+f(i,j)\delta(x-i,y-j)\right\}\]</span></p>
+<p>其中<span
+class="math inline">\(\delta(x-i,y-j)\)</span>是二维的单位冲激函数，用于对输入图像进行采样。</p>
+<p>如果处理系统是线性的，那么</p>
+<p><span
+class="math display">\[g(x,y)=T\{f(x,y)\}=\sum_{j=-\infty}^\infty\sum_{i=-\infty}^\infty
+T\left\{f(i,j)\delta(x-i,y-j)\right\}\]</span></p>
+<p>如果我们定义对输入冲激图像<span
+class="math inline">\(\delta(x,y)\)</span>的输出图像为系统的脉冲响应<span
+class="math inline">\(h(x,y)\triangleq
+T\{\delta(x,y)\}\)</span>，那么对于平移不变系统，有：</p>
+<p><span
+class="math display">\[T\{\delta(x-i,y-j)\}=h(x-i,y-j)\]</span></p>
+<p>因此，给定输入图像<span
+class="math inline">\(f(x,y)\)</span>，线性平移不变 （Linear and
+Shift-Invariant，LSI）图像处理系统<span
+class="math inline">\(T\)</span>通过以下方式生成输出图像<span
+class="math inline">\(g(x,y)\)</span></p>
+<p><span
+class="math display">\[\begin{aligned}g(x,y)&amp;=T\{f(x,y)\}=\sum_{j=-\infty}^\infty\sum_{i=-\infty}^\infty
+f(i,j)h(x-i,y-j)\\\\&amp;\triangleq
+f(x,y)*h(x,y)=\sum_{j=-\infty}^\infty\sum_{i=-\infty}^\infty
+f(i,j)h(x-i,y-j)\end{aligned}\]</span></p>
+<p>（就是二维的卷积运算）</p>
+<p>LSI系统完全由其脉冲响应<span
+class="math inline">\(h(x,y)\)</span>来表征，对于任何LSI图像处理系统，输出图像等于输入图像与系统的脉冲响应卷积。</p>
+<ul>
+<li>交换律：<span
+class="math inline">\(f(x,y)*h(x,y)=h(x,y)*f(x,y)\)</span></li>
+<li>结合律：<span
+class="math inline">\(f(x,y)*(h_1(x,y)*h_2(x,y))=(f(x,y)*h_1(x,y))*h_2(x,y)\)</span></li>
+<li>分配律：<span
+class="math inline">\(f(x,y)*(h_1(x,y)+h_2(x,y))=f(x,y)*h_1(x,y)+f(x,y)*h_2(x,y)\)</span></li>
+</ul>
+<p>图像处理系统的脉冲响应<span
+class="math inline">\(h(x,y)\)</span>是当一个脉冲图像输入到系统时，系统输出的图像。因此，脉冲响应<span
+class="math inline">\(h(x,y)\)</span>也是一个图像，通常称为滤波器或滤波器掩模或滤波器系数或滤波器参数的空间表示。虽然脉冲响应<span
+class="math inline">\(h(x,y)\)</span>基本上是一幅图像，但为了加快图像处理速度，与大小为<span
+class="math inline">\(256\times256\)</span>的正常图像相比，它通常是一幅小尺寸的图像，例如<span
+class="math inline">\(3\times3\)</span>、<span
+class="math inline">\(5\times5\)</span>、…、<span
+class="math inline">\(11\times11\)</span>。</p>
+<p><span
+class="math display">\[g(x,y)=f(x,y)*h(x,y)=\sum_{j=-\infty}^\infty\sum_{i=-\infty}^\infty
+h(i,j)f(x-i,y-j)=\sum_{j=-3}^3\sum_{i=-3}^3
+h(i,j)f(x-i,y-j)\]</span></p>
+<p>其中<span class="math inline">\(h(x,y)\neq0\)</span>仅当<span
+class="math inline">\(-3\lt x,y\lt3\)</span></p>
+<p>（其实就是卷积核）</p>
+<h1 id="二维傅里叶变换及其性质">二维傅里叶变换及其性质</h1>
+<p><a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1pW411J7s8/">形象展示傅里叶变换</a></p>
+<p>设<span class="math inline">\(f(x)\)</span>为单变量<span
+class="math inline">\(x\)</span>的连续函数，<span
+class="math inline">\(F(u)\)</span>为其傅里叶变换，则</p>
+<p><span
+class="math display">\[F(u)=\mathfrak{F}\{f(x)\}=\int_{-\infty}^{+\infty}f(x)\text{e}^{-2\pi\text{i}ux}\text{d}x\]</span></p>
+<p><span
+class="math display">\[f(x)=\mathfrak{F}^{-1}\{F(u)\}=\int_{-\infty}^{+\infty}F(u)\text{e}^{2\pi\text{i}ux}\text{d}u\]</span></p>
+<p>其中，<span class="math inline">\(u\)</span>为频率变量，<span
+class="math inline">\(\text{i}\)</span>为复数单位（课件用的<span
+class="math inline">\(\text{j}\)</span>），<span
+class="math inline">\(\text{i}=\sqrt{-1}\)</span></p>
+<p>二维傅里叶变换和逆傅里叶变换由下式给出</p>
+<p><span
+class="math display">\[F(u,v)=\mathfrak{F}\{f(x,y)\}=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x,y)\text{e}^{-2\pi\text{i}(ux+vy)}\text{d}x\text{d}y\]</span></p>
+<p><span
+class="math display">\[f(x,y)=\mathfrak{F}^{-1}\{f(x,y)\}=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}F(u,v)\text{e}^{2\pi\text{i}(ux+vy)}\text{d}u\text{d}v\]</span></p>
+<p>其中<span class="math inline">\(u\)</span>和<span
+class="math inline">\(v\)</span>是两个频率变量</p>
+<p>大小为<span class="math inline">\(m\times
+n\)</span>的二维离散函数（或图像）<span
+class="math inline">\(f(x,y)\)</span>的离散傅里叶变换（DFT）定义为：</p>
+<p><span
+class="math display">\[F(u,v)=\sum_{x=0}^{m-1}\sum_{y=0}^{n-1}f(x,y)\text{e}^{-2\pi\text{i}(\frac
+umx+\frac vny)}\]</span></p>
+<p><span
+class="math display">\[f(x,y)=\frac1{mn}\sum_{u=0}^{m-1}\sum_{v=0}^{n-1}F(u,v)\text{e}^{2\pi\text{i}(\frac
+umx+\frac vny)}\]</span></p>
+<p>DFT的性质：</p>
+<ul>
+<li>周期性：<span
+class="math inline">\(F(u,v)=F(u+m,v)=F(u,v+n)=F(u+m,v+n)\)</span></li>
+<li>实像<span class="math inline">\(f(x,y)\)</span>的共轭对称性：<span
+class="math inline">\(F(u,v)=F^*(-u,-v)\)</span>，<span
+class="math inline">\(\lvert F(u,v)\rvert=\lvert
+F(-u,-v)\rvert\)</span></li>
+<li>线性和缩放：<span class="math inline">\(\mathfrak{F}\{\alpha
+f_1(x,y)+\beta f_2(x,y)+\cdots\}=\mathfrak{F}\{\alpha
+f_1(x,y)\}+\mathfrak{F}\{\beta f_2(x,y)\}+\cdots\)</span>，<span
+class="math inline">\(\mathfrak{F}\{f(\alpha x,\beta
+y)\}=\frac1{\lvert\alpha\beta\rvert}F(\frac u\alpha,\frac
+v\beta)\)</span></li>
+<li><a
+target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Convolution_theorem">卷积定理</a>：函数卷积的傅里叶变换是函数傅里叶变换的乘积</li>
+</ul>
+<p>平移：</p>
+<p><span class="math display">\[f(x-x_0,y-y_0)\Leftrightarrow
+F(u,v)\text{e}^{-2\pi\text{i}\left(\frac umx_0+\frac
+vny_0\right)}\]</span></p>
+<p><span class="math display">\[F(u-u_0,v-v_0)\Leftrightarrow
+f(x,y)\text{e}^{-2\pi\text{i}\left(\frac{u_0}mx+\frac{v_0}ny\right)}\]</span></p>
+<p>旋转：</p>
+<p><span
+class="math display">\[\begin{cases}x=r\cos\theta\\\\y=r\sin\theta\\\\u=\omega\cos\theta\\\\v=\omega\sin\theta\end{cases}\]</span></p>
+<p><span class="math display">\[f(r,\theta+\theta_0)\Leftrightarrow
+F(\omega,\theta+\theta_0)\]</span></p>
+<p>旋转不变变换：</p>
+<p><span
+class="math display">\[g(u,v)=\frac1\pi\int_0^{2\pi}\int_0^1f(r,\theta)\text{e}^{-\text{i}(2\pi
+ur^2+v\theta)}\text{d}r\text{d}\theta\]</span></p>
+<figure>
+<img src="/images/机器视觉007.jpg" alt="DFT性质" />
+<figcaption aria-hidden="true">DFT性质</figcaption>
+</figure>
+<figure>
+<img src="/images/机器视觉008.jpg" alt="一些基本FT对" />
+<figcaption aria-hidden="true">一些基本FT对</figcaption>
+</figure>
+<h1 id="图像采样">图像采样</h1>
+<p>数字图像<span
+class="math inline">\(f_d(m,n)\)</span>是通过对连续类比图像<span
+class="math inline">\(f_c(x,y)\)</span>进行采样和量化而得到的。其中，采样将连续变量<span
+class="math inline">\(x\)</span>，<span
+class="math inline">\(y\)</span>转换为整数<span
+class="math inline">\(m\)</span>，<span
+class="math inline">\(n\)</span>，量化将连续变量<span
+class="math inline">\(f_c\)</span>转换为有限数字集<span
+class="math inline">\(f_d\)</span>。由于量化对图像处理的影响小于采样，因此我们将更多地关注采样过程和理论。</p>
+<p>给定一个连续类比图像<span
+class="math inline">\(f_c(x,y)\)</span>，通过以下数学公式可以很容易地得到其离散图像<span
+class="math inline">\(f_d(m,n)\)</span></p>
+<p><span class="math inline">\(f_d(m,n)=f_c(m\Delta x,n\Delta
+y)\)</span></p>
+<p>如果二维函数<span
+class="math inline">\(f_c(x,y)\)</span>的傅里叶变换<span
+class="math inline">\(F_c(u,v)\)</span>在有界空间频率支持之外为零，则该函数是带限函数。比如</p>
+<p><span class="math display">\[F_c(u,v)=0\ (\lvert u\rvert\gt
+U_0,\lvert v\rvert\gt V_0)\]</span></p>
+<p>其中<span class="math inline">\(2U_0\)</span>和<span
+class="math inline">\(2V_0\)</span>被称为2D函数的<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(y\)</span>带宽。</p>
+<p>实际上，真实世界的图像可以很好地通过带限信号来近似。</p>
+<p>定义一个2D采样函数</p>
+<p><span
+class="math display">\[s(x,y)=\sum_{m=-\infty}^{+\infty}\sum_{n=-\infty}^{+\infty}\delta(x-m\Delta
+x,y-n\Delta y)\]</span></p>
+<p>它的傅里叶变换如下</p>
+<p><span class="math display">\[S(u,v)=\frac1{\Delta x\Delta
+y}\sum_{m=-\infty}^{+\infty}\sum_{n=-\infty}^{+\infty}\delta\left(u-\frac
+m{\Delta x},v-\frac n{\Delta y}\right)\]</span></p>
+<p>将连续图像<span
+class="math inline">\(f_c(x,y)\)</span>与采样图像<span
+class="math inline">\(s(x,y)\)</span>相乘，得到</p>
+<p><span
+class="math display">\[f_d(x,y)=f_c(x,y)s(x,y)=\sum_{m=-\infty}^{+\infty}\sum_{n=-\infty}^{+\infty}f_c(m\Delta
+x,n\Delta y)\delta(x-m\Delta x,y-n\Delta y)\]</span></p>
+<p>采样图像<span
+class="math inline">\(f_d(x,y)\)</span>在连续域的傅里叶变换为：</p>
+<p><span
+class="math display">\[\begin{aligned}F_d(u,v)&amp;=F_c(u,v)*S(u,v)\\\\&amp;=\frac1{\Delta
+x\Delta
+y}\sum_{m=-\infty}^{+\infty}\sum_{n=-\infty}^{+\infty}F_c(u,v)*\delta(u-\frac
+m{\Delta x},v-\frac n{\Delta y})\\\\&amp;=\frac1{\Delta x\Delta
+y}\sum_{m=-\infty}^{+\infty}\sum_{n=-\infty}^{+\infty}F_c(u-\frac
+m{\Delta x},v-\frac n{\Delta y})\\\\&amp;=\frac1{\Delta x\Delta
+y}\sum_{m=-\infty}^{+\infty}\sum_{n=-\infty}^{+\infty}F_c(u-mf_{xs},v-nf_{ys})\end{aligned}\]</span></p>
+<p>它是<span
+class="math inline">\(F_c(u,v)\)</span>的周期性复制，位于间距为<span
+class="math inline">\(\left(\frac1{\Delta x},\frac1{\Delta
+y}\right)\)</span>的矩形网格上。</p>
+<p>采样图像<span
+class="math inline">\(f_d(x,y)\)</span>的频谱由连续<span
+class="math inline">\(f_c(x,y)\)</span>图像的频谱组成，该图像在间距为<span
+class="math inline">\(\left(\frac1{\Delta x},\frac1{\Delta
+y}\right)\)</span>的矩形网格中在频率平面上无限重复。</p>
+<p>如果<span class="math inline">\(x\)</span>、<span
+class="math inline">\(y\)</span>采样频率大于带宽，或者采样间隔小于带宽的倒数，即<span
+class="math inline">\(f_{xs}=\frac1{\Delta x}\geq2U_0\)</span>且<span
+class="math inline">\(f_{ys}=\frac1{\Delta
+y}\geq2V_0\)</span>，那么可以使用具有以下频率响应的低通滤波器从<span
+class="math inline">\(F_d(u,v)\)</span>中恢复<span
+class="math inline">\(F_c(u,v)\)</span></p>
+<p><span class="math display">\[H(u,v)=\begin{cases}\Delta x\Delta
+y&amp;,(u,v)\in\mathfrak
+R\\\\0&amp;,\text{Otherwise}\end{cases}\]</span></p>
+<p><img src="/images/机器视觉009.jpg" /></p>
+<p>也就是</p>
+<p><span
+class="math display">\[\begin{aligned}F_c(u,v)&amp;=F_d(u,v)H(u,v)\\\\f_c(x,y)&amp;=f_d(x,y)*h(x,y)\\\\&amp;=h(x,y)*\sum_{m=-\infty}^{+\infty}\sum_{n=-\infty}^{+\infty}f_c(m\Delta
+x,n\Delta y)\delta(x-m\Delta x,y-n\Delta
+y)\\\\&amp;=\sum_{m=-\infty}^{+\infty}\sum_{n=-\infty}^{+\infty}f_c(m\Delta
+x,n\Delta y)h(x,y)*\delta(x-m\Delta x,y-n\Delta
+y)\\\\&amp;=\sum_{m=-\infty}^{+\infty}\sum_{n=-\infty}^{+\infty}f_c(m\Delta
+x,n\Delta y)h(x-m\Delta x,y-n\Delta
+y)\\\\&amp;=\sum_{m=-\infty}^{+\infty}\sum_{n=-\infty}^{+\infty}f_c(m,n)h(x-m\Delta
+x,y-n\Delta y)\end{aligned}\]</span></p>
+<p>因此，可以从离散图像<span
+class="math inline">\(f_d(m,n)\)</span>中恢复连续图像<span
+class="math inline">\(f_c(x,y)\)</span>的所有信息。</p>
+<h2 id="采样定理">采样定理</h2>
+<p>如果采样率<span class="math inline">\((f_{xs},f_{ys})\)</span><span
+class="math inline">\(大于奈奎斯特频率，则可以根据采样值\)</span>f_c(mx,ny)=
+f_d(m,n)<span
+class="math inline">\(无误地恢复出带宽为\)</span>(2U_0,2V_0)<span
+class="math inline">\(的带限图像\)</span>f_c(x,y)<span
+class="math inline">\(，该矩形网格间距为\)</span>(x,y)$。</p>
+<p>所需采样率的下限，即带宽，称为奈奎斯特速率或奈奎斯特频率。它们的倒数称为奈奎斯特间隔。</p>
+<p>低于奈奎斯特频率的采样将导致<span
+class="math inline">\(F_c(u,v)\)</span>的周期性复制重叠，从而产生失真的频谱<span
+class="math inline">\(F_d(u,v)\)</span>，其中$
+F_c(u,v)$不可挽回地丢失，这种现象称为混叠。</p>
+<p>通过在采样之前对图像<span
+class="math inline">\(f_c(x,y)\)</span>进行低通滤波以使其带宽小于采样频率，可以避免或减少混叠。</p>
+<hr />
+<p>终于整理好了，后面一堆看不懂，真是一坨大的。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/" rel="tag"># 机器视觉</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/08/28/%E5%9B%BE%E5%83%8F%E5%9F%BA%E7%A1%80%E4%B8%8E%E4%BA%BA%E7%B1%BB%E6%84%9F%E7%9F%A5/" rel="prev" title="图像基础与人类感知">
+                  <i class="fa fa-angle-left"></i> 图像基础与人类感知
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/08/29/%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/" rel="next" title="图像增强">
+                  图像增强 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

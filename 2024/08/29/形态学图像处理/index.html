@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="讲解了图像的形态学操作，包含膨胀、腐蚀和开闭运算，以及这些运算的一些实际应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="形态学图像处理">
+<meta property="og:url" content="https://shifuru.github.io/2024/08/29/%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="讲解了图像的形态学操作，包含膨胀、腐蚀和开闭运算，以及这些运算的一些实际应用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89017.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89018.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89019.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89020.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89021.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89022.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89023.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89024.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89025.jpg">
+<meta property="article:published_time" content="2024-08-29T10:15:25.000Z">
+<meta property="article:modified_time" content="2024-08-29T10:15:25.343Z">
+<meta property="article:author" content="Sifr">
+<meta property="article:tag" content="机器视觉">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89017.jpg">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2024/08/29/%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2024/08/29/%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/","path":"2024/08/29/形态学图像处理/","title":"形态学图像处理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>形态学图像处理 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%AA%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">绪论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E8%AE%BA%E4%B8%8E%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">集合论与逻辑运算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BD%A2%E6%80%81%E5%AD%A6%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">形态学操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%86%A8%E8%83%80%E5%92%8C%E8%85%90%E8%9A%80"><span class="nav-number">3.1.</span> <span class="nav-text">膨胀和腐蚀</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%86%A8%E8%83%80"><span class="nav-number">3.1.1.</span> <span class="nav-text">膨胀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%85%90%E8%9A%80"><span class="nav-number">3.1.2.</span> <span class="nav-text">腐蚀</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E9%97%AD%E8%BF%90%E7%AE%97"><span class="nav-number">3.2.</span> <span class="nav-text">开闭运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E8%BF%90%E7%AE%97"><span class="nav-number">3.2.1.</span> <span class="nav-text">开运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AD%E8%BF%90%E7%AE%97"><span class="nav-number">3.2.2.</span> <span class="nav-text">闭运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%92%8C%E9%97%AD%E8%BF%90%E7%AE%97"><span class="nav-number">3.2.3.</span> <span class="nav-text">开和闭运算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BD%A2%E6%80%81%E5%AD%A6%E7%AE%97%E6%B3%95%E5%8F%8A%E5%BA%94%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">形态学算法及应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E6%8F%90%E5%8F%96"><span class="nav-number">4.1.</span> <span class="nav-text">边界提取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BA%E5%9F%9F%E5%A1%AB%E5%85%85"><span class="nav-number">4.2.</span> <span class="nav-text">区域填充</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8F%96%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F"><span class="nav-number">4.3.</span> <span class="nav-text">提取连通分量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%BB%E5%99%AA"><span class="nav-number">4.4.</span> <span class="nav-text">去噪</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意に満ちた人間は絶滅すべき</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/08/29/%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="形态学图像处理 | FORTH">
+      <meta itemprop="description" content="讲解了图像的形态学操作，包含膨胀、腐蚀和开闭运算，以及这些运算的一些实际应用。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          形态学图像处理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-08-29 18:15:25" itemprop="dateCreated datePublished" datetime="2024-08-29T18:15:25+08:00">2024-08-29</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">讲解了图像的形态学操作，包含膨胀、腐蚀和开闭运算，以及这些运算的一些实际应用。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>看图感觉又是依托大的，但是经典机器视觉最后一章了，忍忍罢。</p>
+<hr />
+<h1 id="绪论">绪论</h1>
+<p><img src="/images/机器视觉017.jpg" /></p>
+<p>对于上图，图像的灰度值并不重要，因为只有两个不同的灰度值。但是，区域形状和物体的边界很重要。</p>
+<p>这样的二值图像可以用对象像素集来表示</p>
+<p><span class="math display">\[A=\{a|a=(x,y),f(x,y)=1\}\]</span></p>
+<p>形态学研究形式和结构，数学形态学是一种提取图像成分的工具，其用途如下：</p>
+<ul>
+<li>区域形状的表示和描述（例如边界）</li>
+<li>预处理或后处理（过滤、细化等）</li>
+</ul>
+<p>形态学操作基于集合论和逻辑运算，是图像分析的有力工具。它们通常对二值图像进行操作，因此经常用于分割任务或边缘检测任务。</p>
+<h1 id="集合论与逻辑运算">集合论与逻辑运算</h1>
+<p>二维整数集表示为<span class="math inline">\(\mathbf
+Z^2\)</span>，此空间中的一个元素有两个组成部分<span
+class="math inline">\(a=(a_1,a_2)\)</span>。对于图像表示，<span
+class="math inline">\(a=(a_1,a_2)\)</span>是像素的<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(y\)</span>坐标。</p>
+<p>令<span class="math inline">\(A\)</span>为<span
+class="math inline">\(\mathbf Z^2\)</span>中的一个子集。若<span
+class="math inline">\(a=(a_1,a_2)\)</span>为<span
+class="math inline">\(A\)</span>中的一个元素，则我们表示</p>
+<p><span class="math display">\[a\in A\]</span></p>
+<p>否则</p>
+<p><span class="math display">\[a\notin A\]</span></p>
+<p><span class="math inline">\(\emptyset\)</span>表示空集。</p>
+<p>如果集合<span class="math inline">\(A\)</span>是<span
+class="math inline">\(B\)</span>的子集，我们表示</p>
+<p><span class="math display">\[A\subseteq B\]</span></p>
+<p>集合运算：</p>
+<ul>
+<li>并集：<span class="math inline">\(C=A\cup B\)</span></li>
+<li>交集：<span class="math inline">\(C=A\cap B\)</span></li>
+<li>不相交的集：<span class="math inline">\(A\cap
+B=\emptyset\)</span></li>
+<li>补集：<span class="math inline">\(A^\text C=\{w|w\notin
+A,w\in\mathbf Z^2\}\)</span></li>
+<li>集合减法：<span class="math inline">\(A-B={w|w\in A,w\notin B}=A\cap
+B^\text C\)</span></li>
+<li>集合平移：<span class="math inline">\((A)_z=\{c|c=a+z,a\in A\}\
+,z=(z_1,z_2)\)</span></li>
+<li>集合反射（关于原点对称）：<span class="math inline">\(\hat
+B=\{w|w=-b,b\in B\}\)</span></li>
+</ul>
+<h1 id="形态学操作">形态学操作</h1>
+<p>形态学操作最主要的是膨胀和腐蚀，可以通过结合腐蚀和膨胀来设计更复杂的形态学算子，例如开运算和闭运算。开运算通常会使图像的轮廓变得平滑，并消除凸起；闭运算使轮廓的各个部分变得平滑，但通常会融合断裂、孔洞和间隙。</p>
+<h2 id="膨胀和腐蚀">膨胀和腐蚀</h2>
+<h3 id="膨胀">膨胀</h3>
+<p>用<span class="math inline">\(B\)</span>使<span
+class="math inline">\(A\)</span>膨胀，记为<span
+class="math inline">\(A\oplus B\)</span>，定义为：</p>
+<p><span class="math display">\[A\oplus
+B=\left\{\begin{array}{c|r}z&amp;\left[\left(\hat B\right)_z\cap
+A\right]\neq\emptyset\end{array} \right\}\]</span></p>
+<p>解释： 获取<span
+class="math inline">\(B\)</span>绕其原点的反射，然后将该反射平移<span
+class="math inline">\(z\)</span>。<span
+class="math inline">\(A\)</span>被<span
+class="math inline">\(B\)</span>膨胀后，就是所有使得平移后的<span
+class="math inline">\(B\)</span>和<span
+class="math inline">\(A\)</span>至少有一个非零元素重叠的<span
+class="math inline">\(z\)</span>位移的集合。</p>
+<p><span class="math inline">\(B\)</span>在膨胀中被称为结构元素。</p>
+<p>进一步解释： 集合<span
+class="math inline">\(B\)</span>可以看作是一个卷积掩码。“翻转”<span
+class="math inline">\(B\)</span>然后依次移动它，使其滑过集合<span
+class="math inline">\(A\)</span>的基本过程类似于卷积。</p>
+<p><img src="/images/机器视觉018.jpg" /></p>
+<h3 id="腐蚀">腐蚀</h3>
+<p>用<span class="math inline">\(B\)</span>使<span
+class="math inline">\(A\)</span>腐蚀，记为<span
+class="math inline">\(A\ominus B\)</span>，定义为：</p>
+<p><span class="math display">\[A\ominus
+B=\left\{\begin{array}{c|r}z&amp;\left[(B)_z\cap A\right]\subseteq
+A\end{array} \right\}\]</span></p>
+<p><span class="math inline">\(A\)</span>被<span
+class="math inline">\(B\)</span>侵蚀是所有点<span
+class="math inline">\(z\)</span>的集合，使得<span
+class="math inline">\(B\)</span>经过<span
+class="math inline">\(z\)</span>平移后包含在<span
+class="math inline">\(A\)</span>中。</p>
+<p>膨胀和腐蚀在集合补集和反射方面互为对偶。也就是说，</p>
+<p><span class="math display">\[(A\ominus B)^\text C=A^\text C\oplus\hat
+B\]</span></p>
+<h2 id="开闭运算">开闭运算</h2>
+<h3 id="开运算">开运算</h3>
+<p>复合运算是指连续执行两个或多个形态学运算。一个常见的例子是开运算，即先腐蚀，然后膨胀：</p>
+<p><span class="math display">\[A\circ B=(A\ominus B)\oplus
+B\]</span></p>
+<p>通过对所有大小适合<span class="math inline">\(A\)</span>的<span
+class="math inline">\(B\)</span>平移进行并集，可以得到<span
+class="math inline">\(A\)</span>以<span
+class="math inline">\(B\)</span>的开。这可以表示为如下拟合处理：</p>
+<p><span class="math display">\[A\circ B=\bigcup\{(B)_z|(B)_z\subseteq
+A\}\]</span></p>
+<figure>
+<img src="/images/机器视觉019.jpg"
+alt="左图B的圆心围成的三角形为腐蚀，B覆盖的区域为开" />
+<figcaption
+aria-hidden="true">左图B的圆心围成的三角形为腐蚀，B覆盖的区域为开</figcaption>
+</figure>
+<p>向外指向的角会变圆，而向内指向的角保持不变。</p>
+<p>开运算通常用于清除图像中的噪声，同时保留原始物体的大小。如果噪声很大，则必须注意操作不会扭曲物体的形状大小。开运算往往会使物体上尖锐的半岛形状突起变得平坦。查看开运算效果的一个有用方法是通过将这些差异投影到原始图像上来寻找原始图像和开运算后的图像之间的差异。</p>
+<h3 id="闭运算">闭运算</h3>
+<p>闭运算是开运算的互补运算，定义为先膨胀，然后腐蚀：</p>
+<p><span class="math display">\[A\bullet B=(A\oplus B)\ominus
+B\]</span></p>
+<p>开运算和闭运算互为对偶，即：</p>
+<p><span class="math display">\[(A\bullet B)^\text C=A^\text C\circ\hat
+B\]</span></p>
+<p><img src="/images/机器视觉020.jpg" /></p>
+<p>向内指向的角会变圆，而向外指向的角保持不变。</p>
+<p>闭运算的经典应用是填补区域中的空洞，同时保留原始对象的大小。膨胀会填补空洞，而腐蚀会恢复原始区域大小。除了填补洞之外，闭运算还会填充区域边缘的“隔间”。</p>
+<h3 id="开和闭运算">开和闭运算</h3>
+<p><img src="/images/机器视觉021.jpg" /></p>
+<p>开运算满足以下性质：</p>
+<ul>
+<li><span class="math inline">\(A\circ B\subseteq A\)</span></li>
+<li>若<span class="math inline">\(C\subseteq D\)</span>，则<span
+class="math inline">\(C\circ B\subseteq D\circ B\)</span></li>
+<li><span class="math inline">\((A\circ B)\circ B=A\circ B\)</span></li>
+</ul>
+<p>类似地，闭运算满足以下性质：</p>
+<ul>
+<li><span class="math inline">\(A\subseteq A\bullet B\)</span></li>
+<li>若<span class="math inline">\(C\subseteq D\)</span>，则<span
+class="math inline">\(C\bullet B\subseteq D\bullet B\)</span></li>
+<li><span class="math inline">\((A\bullet B)\bullet B=A\bullet
+B\)</span></li>
+</ul>
+<h1 id="形态学算法及应用">形态学算法及应用</h1>
+<h2 id="边界提取">边界提取</h2>
+<p>集合<span class="math inline">\(A\)</span>的边界用<span
+class="math inline">\(\beta(A)\)</span>表示，可以通过以下方式获得：</p>
+<p><span class="math display">\[\beta(A)=A-(A\ominus B)\]</span></p>
+<p><img src="/images/机器视觉022.jpg" /></p>
+<h2 id="区域填充">区域填充</h2>
+<p><span class="math display">\[X_k=(X_{k-1}\oplus B)\cap A^\text
+C\]</span></p>
+<p><span class="math display">\[A^F=X_k\cup A\]</span></p>
+<p>从边界内的点<span
+class="math inline">\(X_0\)</span>开始，通过上述过程填充边界内的整个区域。</p>
+<p><img src="/images/机器视觉023.jpg" /></p>
+<h2 id="提取连通分量">提取连通分量</h2>
+<p><span class="math display">\[X_k=(X_{k-1}\oplus B)\cap A\]</span></p>
+<p><img src="/images/机器视觉024.jpg" /></p>
+<h2 id="去噪">去噪</h2>
+<p><span class="math display">\[(A\circ B)\bullet B\]</span></p>
+<p>或</p>
+<p><span class="math display">\[(A\bullet B)\circ B\]</span></p>
+<p>可用于消除噪声及其对物体的影响。</p>
+<p>使用<span
+class="math inline">\(B\)</span>开运算去除物体区域外的噪声像素，使用<span
+class="math inline">\(B\)</span>闭运算去除物体区域内的噪声像素。</p>
+<p><img src="/images/机器视觉025.jpg" /></p>
+<hr />
+<p>终于啃完了，还是比较简单，重点是不抽象了，实际运用都能想象出来，希望后面简单些吧（</p>
+<p>好饿，该吃饭了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/" rel="tag"># 机器视觉</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/08/29/%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/" rel="prev" title="图像增强">
+                  <i class="fa fa-angle-left"></i> 图像增强
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
