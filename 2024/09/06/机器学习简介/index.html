@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="纯简（大噓）介机器学习，很细。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习简介">
+<meta property="og:url" content="https://shifuru.github.io/2024/09/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="纯简（大噓）介机器学习，很细。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0001.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0002.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0003.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0004.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0005.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0006.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0007.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0008.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0009.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0010.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0011.jpg">
+<meta property="article:published_time" content="2024-09-06T08:08:54.000Z">
+<meta property="article:modified_time" content="2024-09-06T08:08:54.133Z">
+<meta property="article:author" content="Sifr">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0001.jpg">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2024/09/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2024/09/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/","path":"2024/09/06/机器学习简介/","title":"机器学习简介"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>机器学习简介 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%BA%E7%B1%BB%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">什么是人类学习？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%BA%E7%B1%BB%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">人类学习的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E4%B8%93%E5%AE%B6%E6%8C%87%E5%AF%BC%E4%B8%8B%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.1.</span> <span class="nav-text">在专家指导下学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E4%B8%93%E5%AE%B6%E7%9F%A5%E8%AF%86%E7%9A%84%E6%8C%87%E5%AF%BC%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.2.</span> <span class="nav-text">在专家知识的指导下进行学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AD%A6"><span class="nav-number">2.3.</span> <span class="nav-text">自学</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.</span> <span class="nav-text">什么是机器学习？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.1.</span> <span class="nav-text">机器如何学习？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1abstraction"><span class="nav-number">3.1.1.</span> <span class="nav-text">抽象（Abstraction）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%9B%E5%8C%96generalization"><span class="nav-number">3.1.2.</span> <span class="nav-text">泛化（Generalization）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">机器学习的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="nav-number">4.1.</span> <span class="nav-text">监督学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">4.1.1.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E5%BD%92"><span class="nav-number">4.1.2.</span> <span class="nav-text">回归</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="nav-number">4.2.</span> <span class="nav-text">无监督学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-number">4.3.</span> <span class="nav-text">强化学习</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">机器学习的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%B6%E8%A1%8C%E5%92%8C%E9%87%91%E8%9E%8D"><span class="nav-number">5.1.</span> <span class="nav-text">银行和金融</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%9D%E9%99%A9"><span class="nav-number">5.2.</span> <span class="nav-text">保险</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BB%E7%96%97%E4%BF%9D%E5%81%A5"><span class="nav-number">5.3.</span> <span class="nav-text">医疗保健</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%A2%86%E5%9F%9F%E6%9C%80%E5%85%88%E8%BF%9B%E7%9A%84%E8%AF%AD%E8%A8%80%E5%B7%A5%E5%85%B7"><span class="nav-number">6.</span> <span class="nav-text">机器学习领域最先进的语言&#x2F;工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#python"><span class="nav-number">6.1.</span> <span class="nav-text">Python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#r"><span class="nav-number">6.2.</span> <span class="nav-text">R</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matlab"><span class="nav-number">6.3.</span> <span class="nav-text">MATLAB</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">机器学习中的问题</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意に満ちた人間は絶滅すべき</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/09/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="机器学习简介 | FORTH">
+      <meta itemprop="description" content="纯简（大噓）介机器学习，很细。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习简介
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-09-06 16:08:54" itemprop="dateCreated datePublished" datetime="2024-09-06T16:08:54+08:00">2024-09-06</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">纯简（大噓）介机器学习，很细。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><ul>
+<li>人工智能是一个广义术语，指的是使机器能够模仿人类行为的技术。</li>
+<li>机器学习是人工智能技术的一个子集，它使机器能够从经验中学习。
+<ul>
+<li>数据驱动</li>
+<li>统计算法</li>
+</ul></li>
+</ul>
+<p><img src="/images/机器学习001.jpg" /></p>
+<ul>
+<li>神经网络是机器学习的一个子领域</li>
+<li>深度学习是神经网络的一个子领域</li>
+</ul>
+<p><img src="/images/机器学习002.jpg" /></p>
+<hr />
+<p>机器学习是一个快速发展的领域。这引发了一个问题：机器学习能比人类学得更好吗？要找到答案，第一步是从人类的角度理解什么是学习。然后，才能更清楚地了解机器学习是什么。最后，我们需要知道机器学习是否已经超越或有可能在生活的各个方面超越人类学习。</p>
+<h1 id="什么是人类学习">什么是人类学习？</h1>
+<p>在认知科学中，学习通常是指通过观察获得知识的过程。为什么我们需要学习？在我们的日常生活中，我们需要进行多项活动。这可能是一项简单的任务，如走在街上或做作业。也可能是一些复杂的任务，如决定火箭发射的角度，以便它能有一个特定的轨迹。为了以正确的方式完成一项任务，我们需要对与该任务相关的一两件事有先验知识。此外，随着我​​们不断学习更多，换句话说，获取更多知识，完成任务的效率就会不断提高。例如，知识越多，做作业的能力就越强。同样，过去火箭发射的知识有助于采取正确的预防措施，使火箭发射更加成功。因此，通过更多的学习，可以更有效地完成任务。</p>
+<h1 id="人类学习的类型">人类学习的类型</h1>
+<p>直觉地思考，人类的学习有以下三种方式：</p>
+<ol type="1">
+<li>某个领域专家直接教我们，或</li>
+<li>我们根据过去从专家那里学到的东西间接地建立自己的概念，或</li>
+<li>我们自己做，可能经过多次尝试，有些失败了。</li>
+</ol>
+<p>我们可以称第一种学习属于直接在专家指导下的学习。</p>
+<p>第二种学习属于在专家知识指导下的学习。第三种是自学。</p>
+<p>接下来，让我们用现实生活中的例子深入研究每一种类型，并尝试理解它们的含义。</p>
+<h2 id="在专家指导下学习">在专家指导下学习</h2>
+<p>婴儿可能会从父母那里直接学习某些特征和性格。他称自己的手为“手”，因为这是他从父母那里得到的知识。天空是“蓝色”的，因为这是父母教给他的。我们说婴儿从父母那里“学习”东西。</p>
+<p>生命的下一个阶段是宝宝开始上学。在学校里，他从基本熟悉字母和数字开始。然后，宝宝学习如何用字母组成单词，用数字组成数字。慢慢地，更复杂的学习以句子、段落、复杂的数学、科学等形式发生。宝宝可以从已经掌握这些领域知识的老师那里学习所有这些知识。</p>
+<p>然后开始高等教育，学习更复杂、更实用的技能。工程专业的学生掌握土木工程、计算机科学、电气、机械等学科的技能。医学专业的学生学习解剖学、生理学、药理学等。各领域有一些专家，一般是教师，他们拥有深入的学科知识，帮助学生学习这些技能。</p>
+<p>然后，这个人开始在某个领域从事专业工作。尽管他可能已经在相关领域进行了足够的理论学习，但他仍然需要更多地学习将所学知识应用于实践。专业导师帮助该领域的新手在职学习。</p>
+<p>在人类生活的各个阶段，都有引导式学习的元素。这种学习是由某人传授的，纯粹是因为他/她已经凭借自己在该领域的经验积累了知识。因此，引导式学习是从拥有足够知识的人那里获得知识的过程，而这些知识都是由于过去的经验而获得的。</p>
+<h2 id="在专家知识的指导下进行学习">在专家知识的指导下进行学习</h2>
+<p>学习的一个重要部分是教师或导师在某个时间点以其他形式/背景传授的知识。例如，</p>
+<ol type="1">
+<li>即使父母没有专门教过他，婴儿也能将所有相同颜色的物体归为一类。他之所以能做到这一点，是因为父母在某个时候告诉过他哪种颜色是蓝色、哪种是红色、哪种是绿色等。</li>
+<li>一个成年的孩子可以从一组单词中选择一个奇怪的单词，因为它是一个动词，而其他单词都是名词。他之所以能做到这一点，是因为他有能力将这些单词标记为动词或名词，这是他的英语老师很久以前教过的。</li>
+<li>在专业角色中，一个人能够根据老板很久以前提供的偏好知识来确定应该向哪些客户开展营销活动。</li>
+</ol>
+<p>在所有这些情况下，都不存在直接的学习。而是一些过去在不同背景下共享的知识，这些知识被用来做决策。</p>
+<h2 id="自学">自学</h2>
+<p>在许多情况下，人类只能靠自己学习。一个典型的例子是婴儿学习穿越障碍。他撞上障碍物并摔倒多次，直到他学会只要有障碍，他就需要越过它。</p>
+<p>他在小时候学骑自行车或成年后学开车时也面临同样的挑战。并非所有的事情都是别人教的。很多事情只需要从过去的错误中学习。我们倾向于根据自己的经验，列出应该做的事情和不应该做的事情的清单。</p>
+<h1 id="什么是机器学习">什么是机器学习？</h1>
+<p>在回答“什么是机器学习？”这个问题之前，还有更基本的问题：</p>
+<ul>
+<li>机器真的会学习吗？</li>
+<li>如果会，它们是如何学习的？</li>
+</ul>
+<p>形式化机器学习的定义非常重要。这本身将解决第一个问题，即机器是否真的会学习。定义机器学习有多种方式。但可能最相关、最简洁和最普遍接受的方式是卡内基梅隆大学计算机科学学院机器学习系教授Tom
+M. Mitchell提出的方式。Tom M：</p>
+<blockquote>
+<p>如果一个计算机程序在某类任务T和性能指标P中的表现随着经验E的提高而提高，那么我们就说这个计算机程序从经验E中学习了。</p>
+</blockquote>
+<p>这本质上意味着，如果机器能够通过执行某项任务来积累经验，并在将来执行类似任务时提高其性能，那么就可以认为机器在学习。</p>
+<p>当我们谈论过去的经验时，它指的是与任务相关的过去数据。这些数据是从某个来源输入到机器的。</p>
+<p>在学习下跳棋的背景下，E代表玩游戏的经验，T代表下跳棋的任务，P是通过玩家获胜游戏的百分比来表示的绩效指标。</p>
+<p>相同的映射可以应用于任何其他机器学习问题，例如图像分类问题。</p>
+<p>在图像分类的背景下，E表示具有标签或指定类别的图像的过去数据（例如，图像是属于“猫”类、“狗”类还是“大象”类等），T
+是将类别分配给新的未标记图像的任务，P是通过正确分类的图像百分比来表示的性能指标。</p>
+<h2 id="机器如何学习">机器如何学习？</h2>
+<p>机器学习的基本过程可以分为三个部分。</p>
+<ol type="1">
+<li>输入数据：过去的数据或信息被用作未来决策的基础</li>
+<li>抽象：输入数据通过底层算法以更广泛的方式表示</li>
+<li>泛化：抽象的表示被泛化以形成决策框架</li>
+</ol>
+<p><img src="/images/机器学习003.jpg" /></p>
+<p>让我们从人类学习过程的角度来看待事物，并尝试更清楚地理解机器学习过程。考虑从课堂和书籍中学习以及准备考试的典型过程的情况。许多学生倾向于尝试记住尽可能多的东西。当学习范围不是那么广泛时，这可能很有效。然而，随着范围越来越广，考试中的问题越来越复杂，记忆的策略就不再有效了。</p>
+<p>我们看到，人类学习的案例是，仅仅通过出色的记忆力和完美的回忆，学生只能在一定阶段内取得好成绩。除此之外，还需要采用更好的学习策略：</p>
+<ol type="1">
+<li>能够处理大量的主题内容以及记忆相关问题</li>
+<li>能够回答没有学到直接答案的问题</li>
+</ol>
+<p>一个好的选择是在浩瀚的知识​​库中找出关键点或想法。例如，广阔的知识库可能包括所有活着的动物及其特征，例如它们是生活在陆地还是水中，它们是否产卵，它们是否有鳞片或毛皮或没有毛皮等。对于任何学生来说，记住所有活着的动物的特征都是一项艰巨的任务。最好是画出一个关于所有活着的动物所属的基本群体的概念，以及定义每个基本群体的特征：</p>
+<ol type="1">
+<li>无脊椎动物：没有脊椎和骨骼，如蠕虫、昆虫等。</li>
+<li>脊椎动物
+<ol type="1">
+<li>鱼类：始终生活在水中并产卵</li>
+<li>两栖动物：半水生，即可能生活在水中或陆地中；皮肤光滑；产卵</li>
+<li>爬行动物：半水生，如两栖动物；皮肤有鳞；产卵；冷血动物</li>
+<li>鸟类：可以飞；产卵；温血动物</li>
+<li>哺乳动物：有毛发或皮毛；用乳汁喂养幼崽；温血动物</li>
+</ol></li>
+</ol>
+<p>转向机器学习范式，可以从数据输入中获得大量知识。然而，不是全部使用，而是从输入数据中绘制概念图。这只不过是机器执行的知识抽象。最后，从输入数据中抽象出的映射可以用于得出关键结论。</p>
+<p>例如，</p>
+<ol type="1">
+<li>如果给定一个动物的群体，就可以自动理解其特征。</li>
+<li>相反，如果给定一种未知动物的特征，就可以对其所属的动物群体得出明确的结论。这是机器学习背景下的泛化。</li>
+</ol>
+<h3 id="抽象abstraction">抽象（Abstraction）</h3>
+<p>在机器学习过程中，知识以输入数据的形式输入。然而，数据不能以原始形状和形式使用。正如我们在上面的例子中看到的，抽象有助于根据输入数据得出概念图。这个图，或者机器学习范式中的模型，是原始数据的总结性知识表示。该模型可以是以下任何一种形式：</p>
+<ol type="1">
+<li>计算块，如if/else规则</li>
+<li>数学方程式</li>
+<li>特定数据结构，如树或图</li>
+<li>类似观察的逻辑分组</li>
+</ol>
+<p>针对特定学习问题选择模型是一项人类任务，它基于多个方面，其中一些方面如下所列：</p>
+<ol type="1">
+<li>要解决的问题类型：问题是否与预测或预报、趋势分析、理解不同部分或对象组等有关。</li>
+<li>输入数据的性质：输入数据的详尽程度、数据是否在许多字段中没有值、数据类型等。</li>
+<li>问题领域：问题是否处于数据输入率高且需要立即推理的关键领域，例如银行领域的欺诈检测问题。</li>
+</ol>
+<p>一旦选择了模型，下一个任务就是根据输入数据拟合模型。让我们通过一个例子来理解这一点。</p>
+<p>如果模型由数学方程表示，例如<span
+class="math inline">\(y=c_1+c_2x\)</span>，则根据输入数据，我们必须找出<span
+class="math inline">\(c_1\)</span>和<span
+class="math inline">\(c_2\)</span>的值。否则，方程（或模型）就毫无用处。因此，在这种情况下，拟合模型意味着找到方程或模型的未知系数或常数的值。</p>
+<p>根据输入数据拟合模型的过程称为训练或学习。此外，最终确定模型所依据的输入数据称为训练数据。</p>
+<h3 id="泛化generalization">泛化（Generalization）</h3>
+<p>机器学习过程的第一部分是抽象，即以模型的形式从输入数据中抽象出知识。然而，这个抽象过程，或者说训练模型，只是机器学习的一部分。另一个关键部分是将抽象的知识调整为可用于未来决策的形式。这是作为泛化的一部分实现的。</p>
+<p>该模型是基于一组有限的数据进行训练的，这些数据可能具有一组有限的特征。但是，当我们想应用该模型对一组未知数据（通常称为测试数据）进行决策时，我们可能会遇到两个问题：</p>
+<ol type="1">
+<li>训练后的模型与训练数据过于吻合，因此可能无法反映实际趋势。</li>
+<li>测试数据具有训练数据显然未知的某些特征。</li>
+</ol>
+<p>因此，我们存在无法做出正确决策的风险——这显然是因为某些假设在现实中可能并不正确。但就像机器一样，在无法进行精确的理性决策的情况下，人类在基于直觉做出决策时也会犯同样的错误。</p>
+<h1 id="机器学习的类型">机器学习的类型</h1>
+<p>机器学习可分为三大类：</p>
+<ol type="1">
+<li>监督学习 -
+也称为预测学习。机器根据类似物体的先前类别相关信息预测未知物体的类别。</li>
+<li>无监督学习 -
+也称为描述学习。机器通过将类似物体归为一组来发现未知物体中的模式。</li>
+<li>强化学习 - 机器学习自行行动以实现既定目标。</li>
+</ol>
+<p><img src="/images/机器学习004.jpg" /></p>
+<h2 id="监督学习">监督学习</h2>
+<p>监督学习的主要动机是从过去的信息中学习。那么，机器需要什么样的过去信息来进行监督学习呢？它是有关机器必须执行的任务的信息。在机器学习的定义中，这些过去的信息就是经验。让我们试着用一个例子来理解它。</p>
+<p>假设一台机器正在获取不同物体的图像作为输入，任务是根据物体的形状或颜色来区分图像。如果是按形状，则需要将圆形物体的图像与三角形物体的图像分开，等等。如果需要根据颜色进行区分，则需要将蓝色物体的图像与绿色物体的图像分开。</p>
+<p>但是机器如何知道什么是圆形或三角形？同样，机器如何根据物体的颜色是蓝色还是绿色来区分物体的图像？机器很像一个小孩，在开始执行任务之前，父母或成人需要指导他有关形状和颜色的基本信息。机器需要向其提供基本信息。这种基本输入或机器学习范式中的经验以训练数据的形式提供。<strong>训练数据</strong>是有关特定任务的过去信息。在图像分离问题中，训练数据将包含有关多幅图像的不同方面或特征的过去数据，以及有关图像是圆形还是三角形、蓝色还是绿色的标记。该标记称为<strong>标签</strong>，在监督学习的情况下，我们说训练数据是带标签的。</p>
+<figure>
+<img src="/images/机器学习005.jpg" alt="监督学习" />
+<figcaption aria-hidden="true">监督学习</figcaption>
+</figure>
+<p>监督学习的一些例子是：</p>
+<ul>
+<li>预测游戏结果</li>
+<li>预测肿瘤是恶性还是良性</li>
+<li>预测房地产、股票等的价格</li>
+<li>对文本进行分类，例如将一组电子邮件分类为垃圾邮件或非垃圾邮件</li>
+</ul>
+<p>现在，让我们考虑上述两个例子，比如“预测肿瘤是恶性还是良性”和“预测房地产价格”。</p>
+<p>这两个问题的本质是否相同？答案是否定的。</p>
+<p>虽然它们都是预测问题，但在一种情况下，我们试图预测未知数据属于哪个类别或类，而在另一种情况下，我们试图预测真实值而不是类。</p>
+<p>当我们尝试预测分类变量时，该问题称为<strong>分类</strong>问题。而当我们尝试预测实值变量时，该问题属于<strong>回归</strong>类别。</p>
+<p>让我们尝试更详细地了解监督学习的这两个领域，即分类和回归。</p>
+<h3 id="分类">分类</h3>
+<p>让我们讨论一下如何根据形状分离物体的图像。</p>
+<p>如果图像是圆形物体，则将其归入一个类别，而如果图像是三角形物体，则将其归入另一个类别。机器应该将未知类别的图像（在机器学习中也称为测试数据）归入哪个类别，取决于它从过去的数据（我们称之为训练数据）中获得的信息。</p>
+<p>由于训练数据为每个图像定义了一个标签或类别，因此机器必须将新图像或测试数据映射到与其相似的一组图像，并为测试数据分配相同的标签或类别。</p>
+<p>因此，我们观察到整个问题围绕着根据训练数据赋予的标签或类别或类别信息为测试数据分配标签或类别或类别。由于目标是分配类别标签，因此这种类型的问题称为分类问题。下图描述了分类的典型过程。</p>
+<p>总之，分类是一种监督学习，其中根据训练数据提供的信息预测测试数据的目标变量（分类变量）。目标分类变量称为<strong>类</strong>。</p>
+<p><img src="/images/机器学习006.jpg" /></p>
+<p>一些典型的分类问题包括：</p>
+<ul>
+<li>图像分类</li>
+<li>疾病预测</li>
+<li>比赛胜负预测</li>
+<li>地震、洪水等自然灾害预测</li>
+<li>手写识别</li>
+</ul>
+<h3 id="回归">回归</h3>
+<p>在回归中，目标是预测数值（实值）变量，如房地产或股票价格、温度、考试成绩、销售收入等。底层预测变量和目标变量本质上是连续的。</p>
+<p>对于线性回归，使用最小二乘法的统计概念，在预测变量和目标变量之间建立直线关系。</p>
+<p>在简单线性回归的情况下，只有一个预测变量，而在多元线性回归的情况下，模型中可以包含多个预测变量。</p>
+<p>让我们以销售经理的年度预算工作为例。他们必须根据前几年的销售数据和投入的投资情况，对下一年的销售进行预测。显然，与过去相关的数据以及要预测的数据本质上都是连续的。在基本方法中，可以应用一个简单的线性回归模型，以投资作为预测变量，以销售收入作为目标变量。</p>
+<p>下图显示了一个典型的简单回归模型，其中回归线是根据目标变量（即萼片长度）的值相对于预测变量（即花瓣长度）的不同值拟合的。</p>
+<p><img src="/images/机器学习007.jpg" /></p>
+<p>回归的典型应用包括： - 零售业需求预测 - 管理人员销售预测 -
+房地产价格预测 - 经济学增长预测 - 教育学招生人数预测</p>
+<h2 id="无监督学习">无监督学习</h2>
+<p>与监督学习不同，无监督学习没有标记的训练数据可供学习，也无法进行预测。无监督学习的目标是将数据集作为输入，并尝试在数据元素或记录中找到自然分组或<strong>模式</strong>。因此，无监督学习通常被称为<strong>描述性学习</strong>，无监督学习的过程被称为<strong>模式发现</strong>或<strong>知识发现</strong>。</p>
+<p>无监督学习的一个关键应用是客户细分。聚类是无监督学习的主要类型。它旨在将相似的对象分组或组织在一起。因此，属于同一簇的对象彼此非常相似，而属于不同簇的对象则非常不同。因此，聚类的目标是发现未标记数据的内在分组并形成簇，如下图所示。</p>
+<figure>
+<img src="/images/机器学习008.jpg" alt="聚类" />
+<figcaption aria-hidden="true">聚类</figcaption>
+</figure>
+<p>不同的相似性度量可用于聚类。最常用的相似性度量之一是距离。如果两个数据点之间的距离较小，则它们被视为同一簇的一部分。同样，如果数据点之间的距离较大，则这些项目通常不属于同一簇。这也称为基于距离的聚类。</p>
+<p>除了对数据进行聚类并从中获取汇总视图之外，无监督学习的另一种变体是<strong>关联分析</strong>。作为关联分析的一部分，可以识别数据元素之间的关联。让我们尝试在如下所示的市场篮子分析背景下理解关联分析。从杂货店过去的交易数据中可以观察到，大多数购买了商品A的顾客也购买了商品B和商品C，或者至少购买了其中一种。这意味着“购买商品A”事件与“购买商品B”或“购买商品C”事件之间存在很强的关联。</p>
+<p>识别这些类型的关联是关联分析的目标。关联分析的应用包括购物篮分析和推荐等。</p>
+<figure>
+<img src="/images/机器学习009.jpg" alt="关联分析" />
+<figcaption aria-hidden="true">关联分析</figcaption>
+</figure>
+<figure>
+<img src="/images/机器学习010.jpg" alt="无监督学习的过程" />
+<figcaption aria-hidden="true">无监督学习的过程</figcaption>
+</figure>
+<h2 id="强化学习">强化学习</h2>
+<p>我们看到过婴儿在没有任何先验知识的情况下学会走路。我们常常想知道他们到底是怎么做到的。他们走路的方式相对简单。</p>
+<p>首先，他们会注意到周围有人在走动，例如父母或周围的任何人。他们明白，每迈出一步，必须用一条腿。在走路时，有时他们会摔倒，撞到障碍物，而其他时候，他们能够顺利行走，避开颠簸的障碍物。当他们能够克服障碍行走时，他们的父母会欣喜若狂，并大声鼓掌或可能是巧克力来赞赏婴儿。当他们在绕过障碍物时摔倒时，显然他们的父母不会鼓掌或送巧克力。慢慢地，婴儿会从错误中吸取教训，能够轻松地走路。</p>
+<p>同样，机器也经常学习自主完成任务。让我们试着以孩子学走路为例来理解。试图实现的动作是走路，孩子是代理，孩子试图走路的有障碍的地方是环境。它试图提高执行任务的表现。当子任务成功完成时，会给予奖励。当子任务执行不正确时，显然不会给予奖励。这种情况会一直持续到他能够完成整个任务为止。这个学习过程称为<strong>强化学习</strong>。下图显示了强化学习的高级过程。</p>
+<figure>
+<img src="/images/机器学习011.jpg" alt="强化学习的过程" />
+<figcaption aria-hidden="true">强化学习的过程</figcaption>
+</figure>
+<p>强化学习的一个当代例子是自动驾驶汽车。它需要处理的关键信息是不同路段的速度和限速、交通状况、道路状况、天气状况等。需要处理的任务包括启动/停止、加速/减速、左转/右转等。</p>
+<p>关于强化学习的更多细节不在本课程的讨论范围之内，如果有兴趣，请自行在网上搜索阅读相关资料。</p>
+<h1 id="机器学习的应用">机器学习的应用</h1>
+<p>只要有大量的过去数据，就可以使用机器学习从数据中获取见解。尽管机器学习在每个业务领域都以多种形式采用，但我们在下面介绍了三个主要领域，只是为了让您了解可以使用机器学习执行哪些类型的操作。</p>
+<h2 id="银行和金融">银行和金融</h2>
+<p>在银行业，欺诈交易（尤其是与信用卡相关的交易）极为普遍。由于交易量和速度极高，全球几乎所有领先银行都实施了高性能机器学习解决方案。这些模型实时运行，即在发生欺诈交易时立即发现并阻止。这有助于避免解决纠纷时的许多操作麻烦。</p>
+<p>一家银行的客户经常会收到其他竞争银行提供的丰厚优惠。这些银行向客户提供更高的银行利息、更低的贷款处理费、零余额储蓄账户、无透支罚款等优惠，目的是让客户转向竞争银行。此外，有时客户会因为银行服务质量差而失去动力，转而选择竞争银行。机器学习有助于防止或至少减少客户流失。描述性学习和预测性学习都可用于减少客户流失。</p>
+<p>使用描述性学习，可以发现客户流失率最高的特定问题区域，即特定银行、特定区域或特定类型的产品（如汽车贷款）。显然，这些都是问题区域，需要进一步调查以找到并解决根本原因。使用预测性学习，可以识别可能很快离开银行的脆弱客户群。可以采取适当的措施确保客户留下来。</p>
+<h2 id="保险">保险</h2>
+<p>保险行业极其依赖数据。因此，机器学习在保险行业中得到广泛应用。保险行业使用机器学习的两个主要领域是新客户入职期间的风险预测和索赔管理。</p>
+<p>在客户入职期间，需要根据过去的信息预测新客户的风险状况。根据预测的风险量，为潜在客户生成报价。当客户索赔需要解决时，会考虑与历史索赔相关的过去信息以及理赔员记录，以预测索赔是否存在欺诈的可能性。除了与特定客户相关的过去信息外，还会考虑与类似客户（即属于同一地理位置、年龄组、种族等的客户）相关的信息来制定模型。</p>
+<h2 id="医疗保健">医疗保健</h2>
+<p>可穿戴设备数据是应用机器学习的丰富来源，可实时预测人的健康状况。如果学习模型预测到某些健康问题，则会立即提醒该人采取预防措施。如果出现某些极端问题，则可以向该人附近的医生或医疗保健提供者发出警报。</p>
+<p>假设一位老人在他家附近的公园晨练。突然，在行走过程中，他的血压突然升高到一定限度以上，可穿戴设备会跟踪这一情况。可穿戴设备的数据被发送到远程服务器，机器学习算法会不断分析流数据。它还记录了老人和同龄人的历史。该模型预测，如果不立即采取行动，将会导致死亡。可以向老人发出警报，要求他立即停止行走并休息。此外，还可以提醒医生和医疗保健提供者随时待命。</p>
+<p>机器学习和计算机视觉在医学成像疾病诊断中也发挥着至关重要的作用。</p>
+<h1 id="机器学习领域最先进的语言工具">机器学习领域最先进的语言/工具</h1>
+<p>与不同机器学习任务相关的算法是众所周知的，可以使用任何语言/平台实现。它可以使用Java平台或C/C++语言实现。然而，有些语言和工具是专门为实现机器学习而开发的。下面列出了其中使用最广泛的几种。</p>
+<h2 id="python">Python</h2>
+<p>Python是最流行的开源编程语言之一，被机器学习社区广泛采用。</p>
+<p>Python拥有非常强大的库，用于高级数学功能、算法和数学工具以及数值绘图。基于这些库，有一个名为scikit-learn的机器学习库，其中嵌入了各种分类、回归和聚类算法。</p>
+<h2 id="r">R</h2>
+<p>R是一种用于统计计算和数据分析的语言。它是一种开源语言，在学术界和业界非常流行，尤其是在统计学家和数据挖掘人员中。</p>
+<p>R是一种非常简单的编程语言，拥有大量可用于机器学习不同阶段的库。</p>
+<h2 id="matlab">MATLAB</h2>
+<p>MATLAB（矩阵实验室）是一款获得许可的商业软件，为广泛的数值计算提供强大的支持。MATLAB在工业界和学术界拥有庞大的用户群。MATLAB由MathWorks开发。作为专有软件，MATLAB的开发更加专业，测试严格，文档齐全。</p>
+<p>MATLAB还广泛支持统计函数，并内置了大量机器学习算法。它还能够通过集群和云上的并行处理来扩展大型数据集。</p>
+<h1 id="机器学习中的问题">机器学习中的问题</h1>
+<p>机器学习是一个相对较新且仍在发展的领域。此外，各国对机器学习工具和技术的研究水平和使用方式也存在很大差异。不同国家的法律法规、文化背景、人们的情感成熟度也大不相同。所有这些因素使得机器学习的使用以及机器学习使用中出现的问题都大不相同。</p>
+<p>机器学习引发的最大担忧和问题与隐私及其侵犯有关。学习的主要重点是分析过去和当前的数据，并从数据中得出见解。这种见解可能与人有关，而揭示的事实可能足够私密，可以保密。此外，不同的人在分享信息方面有不同的偏好。虽然有些人可能愿意公开分享一定程度的信息，但有些人可能不想与所有朋友分享，而只限于家人。有些人在Facebook等社交平台上与所有人分享，而另一些人则不会，或者即使分享，也只限于朋友。当使用这些信息实施机器学习算法时，人们可能会无意中感到不安。例如，如果有一种学习算法可以进行基于偏好的客户细分，并且分析的输出用于发送有针对性的营销活动，那么它将伤害人们的情感，实际上弊大于利。</p>
+<p>即使没有侵犯隐私，基于机器学习采取的行动也可能产生不利影响。让我们以竞选活动前进行的知识发现练习为例。如果某个特定地区显示出种族多数或某个人口因素的偏差，而竞选宣传中传达的信息考虑到了这一点，那么它实际上可能会让选民感到不安并导致不利结果。</p>
+<p>因此，在应用机器学习之前，一个非常关键的考虑是，在使用机器学习的任何结果之前，应该进行适当的人为判断。只有这样，做出的决定才会有益，也不会产生任何不利影响。</p>
+<hr />
+<p>全 文 翻 译</p>
+<p>依托大的，还好我这堂早八翘了睡觉，跟我毕业论文有的一拼。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" rel="tag"># 人工智能</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/09/05/%E5%90%AF%E5%8F%91%E5%BC%8F%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%8D%9A%E5%BC%88/" rel="prev" title="启发式搜索与博弈">
+                  <i class="fa fa-angle-left"></i> 启发式搜索与博弈
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
