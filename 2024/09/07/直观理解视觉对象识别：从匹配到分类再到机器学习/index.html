@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="以及其复杂的语言讲解了k-近邻算法的原理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="直观理解视觉对象识别：从匹配到分类再到机器学习">
+<meta property="og:url" content="https://shifuru.github.io/2024/09/07/%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E8%A7%86%E8%A7%89%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB%EF%BC%9A%E4%BB%8E%E5%8C%B9%E9%85%8D%E5%88%B0%E5%88%86%E7%B1%BB%E5%86%8D%E5%88%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="以及其复杂的语言讲解了k-近邻算法的原理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89026.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89027.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89028.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89029.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89030.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89031.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89032.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89033.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89034.jpg">
+<meta property="article:published_time" content="2024-09-07T08:01:03.000Z">
+<meta property="article:modified_time" content="2024-09-07T08:01:03.347Z">
+<meta property="article:author" content="Sifr">
+<meta property="article:tag" content="机器视觉">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="Euclidean距离">
+<meta property="article:tag" content="Mahalanobis距离">
+<meta property="article:tag" content="k-近邻算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89026.jpg">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2024/09/07/%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E8%A7%86%E8%A7%89%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB%EF%BC%9A%E4%BB%8E%E5%8C%B9%E9%85%8D%E5%88%B0%E5%88%86%E7%B1%BB%E5%86%8D%E5%88%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2024/09/07/%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E8%A7%86%E8%A7%89%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB%EF%BC%9A%E4%BB%8E%E5%8C%B9%E9%85%8D%E5%88%B0%E5%88%86%E7%B1%BB%E5%86%8D%E5%88%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/","path":"2024/09/07/直观理解视觉对象识别：从匹配到分类再到机器学习/","title":"直观理解视觉对象识别：从匹配到分类再到机器学习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>直观理解视觉对象识别：从匹配到分类再到机器学习 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D%E8%B7%9D%E7%A6%BB%E5%92%8C%E7%9B%B8%E4%BC%BC%E5%BA%A6"><span class="nav-number">1.</span> <span class="nav-text">模板匹配、距离和相似度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8E%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D%E5%88%B0%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">从模板匹配到分类</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意に満ちた人間は絶滅すべき</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">71</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/09/07/%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E8%A7%86%E8%A7%89%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB%EF%BC%9A%E4%BB%8E%E5%8C%B9%E9%85%8D%E5%88%B0%E5%88%86%E7%B1%BB%E5%86%8D%E5%88%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="直观理解视觉对象识别：从匹配到分类再到机器学习 | FORTH">
+      <meta itemprop="description" content="以及其复杂的语言讲解了k-近邻算法的原理。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          直观理解视觉对象识别：从匹配到分类再到机器学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-09-07 16:01:03" itemprop="dateCreated datePublished" datetime="2024-09-07T16:01:03+08:00">2024-09-07</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">以及其复杂的语言讲解了k-近邻算法的原理。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>直观尼玛，能不能留在国内祸害国内学生</p>
+<hr />
+<h1 id="模板匹配距离和相似度">模板匹配、距离和相似度</h1>
+<blockquote>
+<p>模板匹配指的是通过模板图像与测试图像之间的比较，找到测试图像上与模板图像相似的部分，这是通过计算模板图像与测试图像中目标的相似度来实现的，可以快速地在测试图像中定位出预定义的目标。匹配的主要思路是使用一个目标原型，根据它创建一个模板，在测试图像中搜索与该模板图像最相似的目标，并寻找与该模板的均值或方差最接近的区域。
+--CSDN</p>
+</blockquote>
+<p>系统如何识别查询对象<span class="math inline">\(F\)</span>？</p>
+<p>系统在其图库/数据库中有<span
+class="math inline">\(c\)</span>个不同的对象<span
+class="math inline">\(G_j,j=1,2,\cdots,c\)</span>。</p>
+<p>给定一个未知的查询对象<span
+class="math inline">\(F\)</span>，系统需要识别/辨别它是否来自与图库对象<span
+class="math inline">\(G_j\)</span>相同的源，<span
+class="math inline">\(j=1,2,\cdots,c\)</span>。</p>
+<p><span class="math display">\[G_k=\argmin_j\left\lVert
+F-G_j\right\rVert\]</span></p>
+<p>被称为模板匹配，它将未知查询对象与每个已知图库对象或模板对象进行比较，以找到匹配的图库对象。</p>
+<p>这需要计算两个对象之间的距离或相似度</p>
+<p><span class="math display">\[d_j=\left\lVert F-G_j\right\rVert,\quad
+\text{for}\ j=1,2,\cdots,c\]</span></p>
+<p>灰度图像所表示的视觉对象由不同<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(y\)</span>位置的不同亮度指定。因此，灰度图像是<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(y\)</span>的函数<span
+class="math inline">\(f(x,y)\)</span>，可以用矩阵表示。</p>
+<p>两个大小为<span class="math inline">\(p\times q\)</span>的图像<span
+class="math inline">\(f(x,y)\)</span>和<span
+class="math inline">\(g(x,y)\)</span>表示的两个视觉对象<span
+class="math inline">\(F\)</span>和<span
+class="math inline">\(G\)</span>之间的Euclidean距离定义为（注意，为了符号简单起见，省略了平方根。）</p>
+<p><span class="math display">\[d=\lVert
+F-G\rVert=\sum_{y=1}^q\sum_{x=1}^p\left[f(x,y)-g(x,y)\right]^2\]</span></p>
+<p>为了方便起见，我们将<span class="math inline">\(p\)</span>乘<span
+class="math inline">\(q\)</span>矩阵<span
+class="math inline">\(F\)</span>和<span
+class="math inline">\(G\)</span>转换为<span
+class="math inline">\(n\)</span>维列向量<span
+class="math inline">\(\mathbf f\)</span>和<span
+class="math inline">\(\mathbf g\)</span>，<span
+class="math inline">\(n=pq\)</span>。例如，<span
+class="math inline">\(p=q=3\)</span>，则<span
+class="math inline">\(n=3\times3=9\)</span>：</p>
+<p><img src="/images/机器视觉026.jpg" /></p>
+<p>然后，我们可以方便地将（平方）欧几里得距离表示为：</p>
+<p><span class="math display">\[d=\lVert F-G\rVert=\lVert\mathbf
+f-\mathbf g\rVert^2=(\mathbf f-\mathbf g)^\intercal(\mathbf f-\mathbf
+g)\]</span></p>
+<p>这就是方便的向量差、转置和乘法。</p>
+<p>然而，两幅图像之间的欧几里得距离真的能体现两个视觉对象的相似性吗？</p>
+<p>计算以下两幅图像的欧几里得距离：</p>
+<p><img src="/images/机器视觉027.jpg" /></p>
+<p>我们有</p>
+<p><span class="math display">\[\begin{aligned}\mathbf
+f&amp;=\left[\begin{array}{ccccccccc}1&amp;1&amp;1&amp;1&amp;0&amp;1&amp;0&amp;0&amp;0\end{array}\right]^\intercal\\\mathbf
+g&amp;=\left[\begin{array}{ccccccccc}100&amp;100&amp;100&amp;100&amp;10&amp;100&amp;10&amp;10&amp;10\end{array}\right]^\intercal\end{aligned}\]</span></p>
+<p>虽然两幅图像显示的是相同的三角形图案，但欧几里得距离却很大，只是亮度和对比度不同。如何解决这个问题？</p>
+<p>我们将图像标准化为零均值和单位方差。</p>
+<p>由<span class="math inline">\(\mathbf
+f=\left[\begin{array}{ccccccccc}1&amp;1&amp;1&amp;1&amp;0&amp;1&amp;0&amp;0&amp;0\end{array}\right]^\intercal\)</span>，可以得到平均值<span
+class="math inline">\(m_\mathbf
+f=\frac59\)</span>。因此我们有集中向量</p>
+<p><span class="math display">\[\begin{aligned}\mathbf f_c&amp;=\mathbf
+f-m_\mathbf
+f\\&amp;=\left[\begin{array}{ccccccccc}1-\frac59&amp;1-\frac59&amp;1-\frac59&amp;1-\frac59&amp;0-\frac59&amp;1-\frac59&amp;0-\frac59&amp;0-\frac59&amp;0-\frac59\end{array}\right]^\intercal\\&amp;=\left[\begin{array}{ccccccccc}\frac49&amp;\frac49&amp;\frac49&amp;\frac49&amp;-\frac59&amp;\frac49&amp;-\frac59&amp;-\frac59&amp;-\frac59\end{array}\right]^\intercal\end{aligned}\]</span></p>
+<p>图像的标准差或矢量的长度是</p>
+<p><span class="math display">\[\lVert\mathbf
+f_c\rVert=\sqrt{\frac19\mathbf f_c^\intercal\mathbf
+f_c}=\sqrt{\frac19\left(\left(\frac49\right)^2+\left(\frac49\right)^2+\cdots\right)}=\frac{\sqrt{20}}9\]</span></p>
+<p>我们将图像归一化为零均值和单位方差/长度</p>
+<p><span class="math display">\[\mathbf f_n=\frac{\mathbf
+f_c}{\lVert\mathbf
+f_c\rVert}=\frac1{\sqrt{20}}\left[\begin{array}{ccccccccc}4&amp;4&amp;4&amp;4&amp;-5&amp;4&amp;-5&amp;-5&amp;-5\end{array}\right]^\intercal\]</span></p>
+<p>注意<span class="math inline">\(\mathbf
+f_n\)</span>具有零均值和单位方差。</p>
+<p>对<span class="math inline">\(\mathbf
+g\)</span>重复相同的过程，计算可得</p>
+<p><span class="math display">\[\mathbf
+g_n=\frac1{\sqrt{20}}\left[\begin{array}{ccccccccc}4&amp;4&amp;4&amp;4&amp;-5&amp;4&amp;-5&amp;-5&amp;-5\end{array}\right]^\intercal=\mathbf
+f_n\]</span></p>
+<p>这样，归一化图像的欧几里得距离</p>
+<p><span class="math display">\[d_n=(\mathbf f_n-\mathbf
+g_n)^\intercal(\mathbf f_n-\mathbf g_n)=0\]</span></p>
+<p>尝试另一个图像，<span class="math inline">\(\mathbf
+h=\left[\begin{array}{ccccccccc}1&amp;2&amp;3&amp;4&amp;2&amp;1&amp;2&amp;3&amp;4\end{array}\right]^\intercal\)</span>，可以得到<span
+class="math inline">\(d_n=(\mathbf f_n-\mathbf h_n)^\intercal(\mathbf
+f_n-\mathbf h_n)\gg0\)</span></p>
+<p>因此，<span
+class="math inline">\(d_n\)</span>可以用作模板匹配的距离</p>
+<p>我们定义相关系数：</p>
+<p><span class="math display">\[\gamma=\mathbf f_n^\intercal\mathbf
+g_n=\frac{(\mathbf f-m_\mathbf f)^\intercal(\mathbf g-m_\mathbf
+g)}{\lVert\mathbf f_c\rVert\lVert\mathbf g_c\rVert}\]</span></p>
+<p>则对于这两幅图像<span class="math inline">\(F\)</span>和<span
+class="math inline">\(G\)</span>，我们有<span
+class="math inline">\(\gamma=1\)</span>。</p>
+<p><span class="math inline">\(F\)</span>或<span
+class="math inline">\(G\)</span>与<span
+class="math inline">\(H\)</span>的相关系数将产生<span
+class="math inline">\(\gamma\lt1\)</span>。事实上，对于所有图像，<span
+class="math inline">\(−1\le\gamma\le1\)</span>。</p>
+<p>因此，<span
+class="math inline">\(\gamma\)</span>可以用作模板匹配的相似度</p>
+<h1 id="从模板匹配到分类">从模板匹配到分类</h1>
+<p>我们用一个包含所有像素灰度值的<span
+class="math inline">\(n\)</span>维列向量来表示图像对象，一个向量元素对应一个像素，从<span
+class="math inline">\(p\)</span>乘<span
+class="math inline">\(q\)</span>矩阵到<span
+class="math inline">\(n\)</span>维向量，<span
+class="math inline">\(n=pq\)</span>。</p>
+<p><span class="math inline">\(n\)</span>维向量是<span
+class="math inline">\(n\)</span>维空间中的一个点。为了形象化地展示这个过程，取<span
+class="math inline">\(n=c=2\)</span>并使用距离，如图所示。</p>
+<p><img src="/images/机器视觉028.jpg" /></p>
+<p>然而，一个物体有很多变体，仅用一张图片来表示一个物体是不够的。每个对象应该由多幅图像来表示。因此，每个对象被称为一个类，每个图像被称为该类的一个样本。</p>
+<p>因此，将未知查询对象识别/认定为<span
+class="math inline">\(c\)</span>个已知图库对象之一就转化为将其归类到<span
+class="math inline">\(c\)</span>个类之一。</p>
+<p><img src="/images/机器视觉029.jpg" /></p>
+<p>如何将未知查询对象归类为<span
+class="math inline">\(c\)</span>个已知类之一？</p>
+<p>（老师讲的一坨，可以去看视频：<a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Fv4y1G7rB/">【小萌五分钟】机器学习
+| K近邻算法 KNN</a>）</p>
+<p>第一最近邻（NN）分类器：</p>
+<blockquote>
+<p>用<span class="math inline">\(D^n=\{\mathbf x_1,\cdots,\mathbf
+x_2\}\)</span>表示一组带标签的<strong>原型</strong>或训练样本</p>
+<p>让<span class="math inline">\(\mathbf x^*\)</span>成为最接近<span
+class="math inline">\(\mathbf x\)</span>的原型</p>
+<p>然后，用于对<span class="math inline">\(\mathbf
+x\)</span>进行分类的最近邻（NN）规则是为其分配与<span
+class="math inline">\(\mathbf x^*\)</span>相关的标签</p>
+<p>更正式地说，如果我们有一组带标签的训练样本<span
+class="math inline">\(\{(\mathbf x_1,\theta_1),\cdots,(\mathbf
+x_n,\theta_n)\}\)</span>，其中每个<span
+class="math inline">\(\theta_i\)</span>都是标签<span
+class="math inline">\(\omega_1,\cdots,\omega_c\)</span>之一，那么NN决策规则就是</p>
+<p><span
+class="math display">\[\alpha_{\text{nn}}=\theta_k:k=\argmin_i\lVert\mathbf
+x-\mathbf x_i\rVert\]</span></p>
+<p>NN规则的推广</p>
+<p><span
+class="math inline">\(k_n\)</span>最近邻规则（k-NN）：给定一组训练样本<span
+class="math inline">\(\{\mathbf x_1,\cdots,\mathbf
+x_n\}\)</span>和一个测试点<span class="math inline">\(\mathbf
+x\)</span>，找到最接近<span class="math inline">\(\mathbf x,\mathbf
+x_1^*,\cdots,\mathbf x_k^*\)</span>的<span
+class="math inline">\(k\)</span>个训练点。收集与<span
+class="math inline">\(\theta_1^*,\cdots,\theta_k^*\)</span>相关的标签，并将<span
+class="math inline">\(\mathbf x\)</span>归类为在<span
+class="math inline">\(\theta_1^*,\cdots,\theta_k^*\)</span>中具有最多代表的类。</p>
+<p>换句话说，分类是通过在<span class="math inline">\(\mathbf
+x\)</span>的<span
+class="math inline">\(k\)</span>个最近邻中进行多数投票来执行的</p>
+</blockquote>
+<p><img src="/images/机器视觉030.jpg" /></p>
+<p>然而，有些类别可能有数千或数百万个样本。将查询样本与每个训练样本进行比较非常繁琐。NN分类器也会过度拟合训练数据或泛化能力较差。如何解决这些问题？</p>
+<p>一种解决方案是最小距离分类器，它比较查询样本与每个类均值向量<span
+class="math inline">\(\mathbf\mu_j\)</span>的距离。</p>
+<p>给定<span class="math inline">\(c\)</span>类的<span
+class="math inline">\(q\)</span>个<span
+class="math inline">\(n\)</span>维训练样本<span
+class="math inline">\(\mathbf x_1,\mathbf x_2,\cdots,\mathbf
+x_q\)</span></p>
+<p><span class="math inline">\(\omega_j\)</span>类的训练样本数量为<span
+class="math inline">\(q_j,\ j=1,2,\cdots,c\)</span>。<span
+class="math inline">\(\omega_j\)</span>类的均值向量计算如下</p>
+<p><span class="math display">\[\mu_j=\frac1{q_j}\sum_{\mathbf
+x_i\in\omega_j}\mathbf x_i\]</span></p>
+<p>在接收到查询样本<span class="math inline">\(\mathbf
+x\)</span>之前，机器会从训练数据中计算一些参数。这就是机器学习。</p>
+<p>最小Euclidean距离分类器对未知查询样本<span
+class="math inline">\(\mathbf x\)</span>进行分类：</p>
+<p><span class="math display">\[\omega_k=\argmin_j(\mathbf
+x-\mu_j)^\intercal(\mathbf x-\mu_j)\]</span></p>
+<p>然而，仅仅使用类别均值向量来表示一个类别并不复杂。通过一维示例可视化该问题：</p>
+<p><img src="/images/机器视觉031.jpg" /></p>
+<p><span class="math inline">\(\mathbf
+x\)</span>是否应该被归类为第2类（红色）？很可能是错的！问题是什么？</p>
+<p>（下面开始讲Mahalanobis距离，讲得仍然是一坨，请看博客：<a
+target="_blank" rel="noopener" href="https://blog.csdn.net/fu_jian_ping/article/details/111877248">Mahalanobis（马哈拉诺比斯）距离</a>）</p>
+<p>以一维数据为例，除了类均值之外，我们还应该考虑类标准差或方差。</p>
+<p>一种解决方案是通过类标准差对欧几里得距离进行归一化，或者通过类方差对平方欧几里得距离进行归一化。</p>
+<p><img src="/images/机器视觉032.jpg" /></p>
+<p>然而，对于多维数据，除了数据向量每个元素的均值和方差之外，我们还有数据向量不同元素之间的协方差。</p>
+<p>给定<span class="math inline">\(c\)</span>类的<span
+class="math inline">\(q\)</span>个<span
+class="math inline">\(n\)</span>维训练样本<span
+class="math inline">\(\mathbf x_1,\mathbf x_2,\cdots,\mathbf
+x_q\)</span></p>
+<p><span class="math inline">\(\omega_j\)</span>类的训练样本数量为<span
+class="math inline">\(q_j,\ j=1,2,\cdots,c\)</span>。<span
+class="math inline">\(w_j\)</span>类的均值向量和协方差矩阵计算如下</p>
+<p><span class="math display">\[\mu_j=\frac1{q_j}\sum_{\mathbf
+x_i\in\omega_j}\mathbf x_i\]</span></p>
+<p><span
+class="math display">\[\begin{aligned}\Sigma_j&amp;=\frac1{q_j}\sum_{\mathbf
+x_i\in\omega_j}(\mathbf x_i-\mu_j)(\mathbf
+x_i-\mu_j)^\intercal\\&amp;=\frac1{q_j}\sum_{\mathbf
+x_i\in\omega_j}\mathbf x_i\mathbf
+x_i^\intercal-\mu_j\mu_j^\intercal\end{aligned}\]</span></p>
+<p>为了使距离通过数据变化进行归一化，Euclidean距离的平方：</p>
+<p><span class="math display">\[d_{\text{Eu}j}=\lVert\mathbf
+x-\mu_j\rVert^2=(\mathbf x-\mu_j)^\intercal(\mathbf
+x-\mu_j)\]</span></p>
+<p>由协方差矩阵的逆加权</p>
+<p><span class="math display">\[d_{\text{Ma}j}=(\mathbf
+x-\mu_j)^\intercal\Sigma_j^{-1}(\mathbf x-\mu_j)\]</span></p>
+<p>称为（平方）马哈拉诺比斯（Mahalanobis）距离。</p>
+<p>如果每个类的数据都遵循正态分布，则最小马哈拉诺比斯距离分类器是最佳分类器。</p>
+<p>该图显示了二维情况下“红色”类和“蓝色”类的数据变化或分布。</p>
+<p><img src="/images/机器视觉033.jpg" /></p>
+<p>数据变化或分布的形状和大小由协方差矩阵决定。</p>
+<p>协方差矩阵所形成的椭圆上的所有点到椭圆中心的距离都相同。它与正态分布的轮廓一致</p>
+<p><img src="/images/机器视觉034.jpg" /></p>
+<p>如果我们将集中训练样本表示为</p>
+<p><span class="math display">\[\tilde{\mathbf x}_i=\mathbf
+x_i-\mu_j\]</span></p>
+<p>并将某一类的训练样本的所有列向量放入一个矩阵中：</p>
+<p><span class="math display">\[\mathbf
+X_j=\left[\begin{array}{cccccc}\tilde{\mathbf x}_1&amp;\tilde{\mathbf
+x}_2&amp;\cdots&amp;\tilde{\mathbf x}_i&amp;\cdots&amp;\tilde{\mathbf
+x}_{q_j}\end{array}\right]\]</span></p>
+<p>那么我们可以这样表达：</p>
+<p><span class="math display">\[\Sigma_j=\frac1{q_j}\sum_{\mathbf
+x_i\in\omega_j}(\mathbf x_i-\mu_j)(\mathbf
+x_i-\mu_j)^\intercal=\frac1{q_j}\mathbf X_j\mathbf
+X_j^\intercal\]</span></p>
+<p>对于某些分类问题，我们可能有大量的类别，但每个类别的训练样本数量很少。由单个类别的少量训练样本计算出的协方差矩阵非常不可靠。因此，我们对所有类别的协方差矩阵进行平均，称为池化类别协方差矩阵，也称为类内散度矩阵。</p>
+<p><span class="math display">\[\Sigma^{\mathrm
+w}=\frac1q\sum_{j=1}^cq_j\Sigma_j\]</span></p>
+<p>我们已经看到，协方差矩阵代表了数据变化或分布的丰富信息。</p>
+<p>除了</p>
+<p><span class="math display">\[\Sigma_j=\frac1{q_j}\mathbf X_j\mathbf
+X_j^\intercal\]</span></p>
+<p><span class="math display">\[\Sigma^{\mathrm
+w}=\frac1q\sum_{j=1}^cq_j\Sigma_j=\mathbf S^{\mathrm w}\]</span></p>
+<p>我们定义更多的协方差矩阵为</p>
+<p><span class="math display">\[\mathbf
+S^b=\frac1q\sum_{j=1}^cq_j(\mu_j-\mu)(\mu_j-\mu)^\intercal\]</span></p>
+<p><span class="math display">\[\mathbf S^t=\frac1q\sum_{i=1}^c(\mathbf
+x_i-\mu)(\mathbf
+x_i-\mu)^\intercal=\frac1q\mathbf{XX}^\intercal\]</span></p>
+<p><span class="math inline">\(\mathbf X\)</span>是集中于<span
+class="math inline">\(\mu=\frac1q\sum_{i=1}^q\mathbf
+x_i\)</span>的所有样本的数据矩阵。</p>
+<p>这些协方差矩阵具有以下关系：</p>
+<p><span class="math display">\[\mathbf S^t=\mathbf S^{\mathrm
+w}+\mathbf S^b=\frac1q\sum_{j=1}^cq_j\Sigma_j+S^b\]</span></p>
+<p><span class="math inline">\(\mathbf
+S^t\)</span>称为数据总散度矩阵，<span class="math inline">\(\mathbf
+S^{\mathrm w}\)</span>称为类内散度矩阵，<span
+class="math inline">\(\mathbf S^b\)</span>称为类间散度矩阵。</p>
+<hr />
+<p>WRNM</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/" rel="tag"># 机器视觉</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+              <a href="/tags/Euclidean%E8%B7%9D%E7%A6%BB/" rel="tag"># Euclidean距离</a>
+              <a href="/tags/Mahalanobis%E8%B7%9D%E7%A6%BB/" rel="tag"># Mahalanobis距离</a>
+              <a href="/tags/k-%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/" rel="tag"># k-近邻算法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/09/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/" rel="prev" title="机器学习简介">
+                  <i class="fa fa-angle-left"></i> 机器学习简介
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
