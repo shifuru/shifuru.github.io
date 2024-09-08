@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="讲解了数据挖掘重要算法Apriori算法和FP-Growth算法等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据挖掘简介与关联分析">
+<meta property="og:url" content="https://shifuru.github.io/2024/09/08/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%80%E4%BB%8B%E4%B8%8E%E5%85%B3%E8%81%94%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="讲解了数据挖掘重要算法Apriori算法和FP-Growth算法等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98001.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98002.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98003.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98004.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98005.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98006.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98007.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98008.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98009.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98010.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98011.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98012.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98013.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98014.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98015.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98016.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98017.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98018.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98019.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98020.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98021.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98022.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98023.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98024.jpg">
+<meta property="article:published_time" content="2024-09-08T09:04:30.000Z">
+<meta property="article:modified_time" content="2024-09-08T09:04:30.361Z">
+<meta property="article:author" content="Sifr">
+<meta property="article:tag" content="数据挖掘">
+<meta property="article:tag" content="Apriori算法">
+<meta property="article:tag" content="FP-Growth算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shifuru.github.io/images/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98001.jpg">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2024/09/08/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%80%E4%BB%8B%E4%B8%8E%E5%85%B3%E8%81%94%E5%88%86%E6%9E%90/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2024/09/08/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%80%E4%BB%8B%E4%B8%8E%E5%85%B3%E8%81%94%E5%88%86%E6%9E%90/","path":"2024/09/08/数据挖掘简介与关联分析/","title":"数据挖掘简介与关联分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>数据挖掘简介与关联分析 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">数据挖掘简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE"><span class="nav-number">1.1.</span> <span class="nav-text">什么是数据？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%9F%A9%E9%98%B5"><span class="nav-number">1.1.1.</span> <span class="nav-text">数据矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E6%95%B0%E6%8D%AEtransaction-data"><span class="nav-number">1.1.2.</span> <span class="nav-text">事务数据（transaction data）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%BD%A2%E6%95%B0%E6%8D%AE%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%BA%8F%E5%88%97%E6%95%B0%E6%8D%AE"><span class="nav-number">1.1.3.</span> <span class="nav-text">图形数据、基因组序列数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%9F%A5%E8%AF%86"><span class="nav-number">1.1.4.</span> <span class="nav-text">数据、信息、知识</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98"><span class="nav-number">1.2.</span> <span class="nav-text">什么是数据挖掘？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%9A%84%E7%B1%BB%E5%9E%8B%E5%85%B3%E9%94%AE%E5%8A%9F%E8%83%BD"><span class="nav-number">1.2.1.</span> <span class="nav-text">数据挖掘的类型&#x3D;关键功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%96%E6%8E%98%E5%93%AA%E4%BA%9B%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">1.2.2.</span> <span class="nav-text">挖掘哪些类型的数据？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E5%BA%94%E7%94%A8"><span class="nav-number">1.2.3.</span> <span class="nav-text">数据挖掘应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%85%B8%E5%9E%8B%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.4.</span> <span class="nav-text">架构：典型的数据挖掘系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E4%B8%AD%E7%9A%84%E4%B8%BB%E8%A6%81%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.5.</span> <span class="nav-text">数据挖掘中的主要问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">关联分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E8%A7%84%E5%88%99%E6%8C%96%E6%8E%98"><span class="nav-number">2.1.</span> <span class="nav-text">关联规则挖掘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">2.1.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E5%BA%A6%E4%B8%8E%E7%BD%AE%E4%BF%A1%E5%BA%A6"><span class="nav-number">2.1.2.</span> <span class="nav-text">支持度与置信度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E8%A7%84%E5%88%99%E6%8C%96%E6%8E%98association-rule-miningarm"><span class="nav-number">2.1.3.</span> <span class="nav-text">关联规则挖掘（Association
+Rule Mining，ARM）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#arm%E4%B8%AD%E7%9A%84%E4%B8%A4%E4%B8%AA%E4%BB%BB%E5%8A%A1"><span class="nav-number">2.1.4.</span> <span class="nav-text">ARM中的两个任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%91%E7%B9%81%E9%A1%B9%E9%9B%86%E7%94%9F%E6%88%90"><span class="nav-number">2.2.</span> <span class="nav-text">频繁项集生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apriori%E7%AE%97%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">Apriori算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apriori%E5%8E%9F%E7%90%86"><span class="nav-number">2.3.1.</span> <span class="nav-text">Apriori原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apriori%E7%AE%97%E6%B3%95-1"><span class="nav-number">2.3.2.</span> <span class="nav-text">Apriori算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apriori%E7%9A%84%E5%8E%9F%E5%88%99"><span class="nav-number">2.3.3.</span> <span class="nav-text">Apriori的原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%80%99%E9%80%89"><span class="nav-number">2.3.4.</span> <span class="nav-text">如何生成候选？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apriori%E7%AE%97%E6%B3%95---%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.3.5.</span> <span class="nav-text">Apriori算法 - 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fp-tree%E5%92%8Cfp-growth"><span class="nav-number">2.4.</span> <span class="nav-text">FP-Tree和FP-Growth</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fp-growth%E7%AE%97%E6%B3%95"><span class="nav-number">2.4.1.</span> <span class="nav-text">FP-Growth算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fp-growth%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">2.4.2.</span> <span class="nav-text">FP-Growth的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fp-growth%E7%BB%93%E8%AE%BA"><span class="nav-number">2.4.3.</span> <span class="nav-text">FP-Growth结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0"><span class="nav-number">2.4.4.</span> <span class="nav-text">练习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#section"><span class="nav-number">2.4.4.1.</span> <span class="nav-text">\(1)\)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#section-1"><span class="nav-number">2.4.4.2.</span> <span class="nav-text">\(2)\)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E8%A7%84%E5%88%99%E8%AF%84%E4%BC%B0"><span class="nav-number">2.5.</span> <span class="nav-text">关联规则评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E8%A7%84%E5%88%99%E7%94%9F%E6%88%90"><span class="nav-number">2.5.1.</span> <span class="nav-text">关联规则生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E8%A7%84%E5%88%99%E7%94%9F%E6%88%90---%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.5.2.</span> <span class="nav-text">关联规则生成 - 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%BD%AE%E4%BF%A1%E5%BA%A6%E7%9A%84%E5%89%AA%E6%9E%9D"><span class="nav-number">2.5.3.</span> <span class="nav-text">基于置信度的剪枝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E8%A7%84%E5%88%99%E8%AF%84%E4%BC%B0-1"><span class="nav-number">2.5.4.</span> <span class="nav-text">关联规则评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E5%8D%87%E5%BA%A6"><span class="nav-number">2.5.5.</span> <span class="nav-text">提升度</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意に満ちた人間は絶滅すべき</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/09/08/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%80%E4%BB%8B%E4%B8%8E%E5%85%B3%E8%81%94%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="数据挖掘简介与关联分析 | FORTH">
+      <meta itemprop="description" content="讲解了数据挖掘重要算法Apriori算法和FP-Growth算法等。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据挖掘简介与关联分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-09-08 17:04:30" itemprop="dateCreated datePublished" datetime="2024-09-08T17:04:30+08:00">2024-09-08</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">讲解了数据挖掘重要算法Apriori算法和FP-Growth算法等。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="数据挖掘简介">数据挖掘简介</h1>
+<h2 id="什么是数据">什么是数据？</h2>
+<p>数据：数据对象及其属性的集合</p>
+<p>属性是对象的属性或特征。例如：人的眼睛颜色、温度等。属性也称为变量、字段、特性或特征</p>
+<p>属性的集合描述一个对象，对象也称为记录、点、案例、样本、实体或实例</p>
+<h3 id="数据矩阵">数据矩阵</h3>
+<p>如果数据对象具有相同的一组固定的数字属性，则可以将数据对象视为多维空间中的点，其中每个维度代表一个不同的属性</p>
+<p>此类数据集可以用一个<span class="math inline">\(m\times
+n\)</span>矩阵表示，其中有<span
+class="math inline">\(m\)</span>行，每个对象一行，<span
+class="math inline">\(n\)</span>列，每个属性一列</p>
+<p><img src="/images/数据挖掘001.jpg" /></p>
+<h3 id="事务数据transaction-data">事务数据（transaction data）</h3>
+<p>一种特殊类型的记录数据，其中</p>
+<ul>
+<li>每条记录（事务）涉及一组项目。</li>
+<li>例如，考虑一家杂货店。客户在一次购物过程中购买的一组产品构成交易，而购买的单个产品则是项目。</li>
+</ul>
+<p><img src="/images/数据挖掘002.jpg" /></p>
+<h3 id="图形数据基因组序列数据">图形数据、基因组序列数据</h3>
+<p><img src="/images/数据挖掘003.jpg" /></p>
+<h3 id="数据信息知识">数据、信息、知识</h3>
+<ul>
+<li><strong>数据</strong>：任何可被计算机处理的事实（单词）、数字或文本。</li>
+<li><strong>信息</strong>：所有这些数据之间的模式、关联或关系可以提供信息。</li>
+<li><strong>知识</strong>：信息可以转化为有关历史模式和未来趋势的知识。</li>
+</ul>
+<p><img src="/images/数据挖掘004.jpg" /></p>
+<h2 id="什么是数据挖掘">什么是数据挖掘？</h2>
+<p>从数据中发现知识：从海量数据中提取有趣的（非平凡的、隐含的、以前未知的和潜在有用的）模式或知识。</p>
+<figure>
+<img src="/images/数据挖掘005.jpg" alt="商业智能中的数据挖掘" />
+<figcaption aria-hidden="true">商业智能中的数据挖掘</figcaption>
+</figure>
+<figure>
+<img src="/images/数据挖掘006.jpg"
+alt="KDD流程：来自ML和统计学的典型观点" />
+<figcaption
+aria-hidden="true">KDD流程：来自ML和统计学的典型观点</figcaption>
+</figure>
+<ul>
+<li>数据挖掘是数据库中知识发现 (KDD) 的关键步骤</li>
+<li>数据预处理通常是整个知识发现过程中最费力和最耗时的步骤</li>
+<li>后处理可确保仅保留有效且有用的结果并进一步利用</li>
+</ul>
+<figure>
+<img src="/images/数据挖掘007.jpg" alt="数据挖掘任务" />
+<figcaption aria-hidden="true">数据挖掘任务</figcaption>
+</figure>
+<h3 id="数据挖掘的类型关键功能">数据挖掘的类型=关键功能</h3>
+<ul>
+<li>概括（Generalization）
+<ul>
+<li>特征化和判别</li>
+<li>多维概念描述与判别</li>
+<li>概括、总结和对比数据特征</li>
+</ul></li>
+<li>关联（相关性和因果关系）分析（Association analysis）</li>
+<li>分类和预测（Classification and Prediction）
+<ul>
+<li>构建模型（函数）来描述和区分类别或概念，以便进行未来预测</li>
+<li>演示：决策树、分类规则、神经网络</li>
+<li>预测一些未知或缺失的数值</li>
+</ul></li>
+<li>聚类分析（Cluster analysis）
+<ul>
+<li>类别标签未知：将数据分组以形成新类别，例如，将房屋聚类以查找分布模式</li>
+<li>最大化类内相似性并最小化类间相似性</li>
+</ul></li>
+<li>异常值分析（Outlier analysys）
+<ul>
+<li>处理不符合数据一般行为的数据对象</li>
+<li>在欺诈检测、罕见事件分析中很有用</li>
+</ul></li>
+</ul>
+<h3 id="挖掘哪些类型的数据">挖掘哪些类型的数据？</h3>
+<ul>
+<li>关系数据库</li>
+<li>数据仓库</li>
+<li>事务数据库</li>
+<li>高级数据库和信息存储库
+<ul>
+<li>对象关系数据库</li>
+<li>空间和时间数据</li>
+<li>时间序列数据</li>
+<li>流数据</li>
+<li>多媒体数据库</li>
+<li>异构和遗留数据库</li>
+<li>文本数据库和WWW</li>
+<li>社交媒体</li>
+<li>云数据</li>
+<li>…</li>
+</ul></li>
+</ul>
+<h3 id="数据挖掘应用">数据挖掘应用</h3>
+<ul>
+<li>市场或业务数据分析和决策支持
+<ul>
+<li>市场分析和管理
+<ul>
+<li>目标营销、客户关系管理 (CRM)、市场篮子分析、交叉销售、市场细分</li>
+</ul></li>
+<li>风险分析和管理
+<ul>
+<li>预测、客户保留、改进承保、质量控制、竞争分析</li>
+</ul></li>
+<li>欺诈检测和异常模式（异常值）检测</li>
+</ul></li>
+<li>其他应用
+<ul>
+<li>文本挖掘（新闻组、电子邮件、文档）和Web挖掘</li>
+<li>医疗和DNA/生物数据分析</li>
+<li>社交媒体和多媒体数据分析</li>
+<li>教育数据分析</li>
+<li>医疗保健</li>
+<li>…</li>
+</ul></li>
+</ul>
+<h3 id="架构典型的数据挖掘系统">架构：典型的数据挖掘系统</h3>
+<p><img src="/images/数据挖掘008.jpg" /></p>
+<h3 id="数据挖掘中的主要问题">数据挖掘中的主要问题</h3>
+<ul>
+<li>挖掘方法
+<ul>
+<li>从各种数据类型（例如，生物、网络）中挖掘不同类型的知识</li>
+<li>性能：效率、有效性和可扩展性</li>
+<li>模式评估：兴趣度问题</li>
+<li>背景知识的整合</li>
+<li>处理噪声和不完整数据</li>
+<li>并行、分布式和增量挖掘方法</li>
+<li>将发现的知识与现有知识集成：知识融合</li>
+</ul></li>
+<li>用户交互
+<ul>
+<li>数据挖掘查询语言和临时挖掘</li>
+<li>数据挖掘结果的表达和可视化</li>
+<li>多层次抽象知识的交互式挖掘</li>
+</ul></li>
+<li>应用和社会影响
+<ul>
+<li>领域特定数据挖掘和隐形数据挖掘</li>
+<li>保护数据安全、完整性和隐私</li>
+</ul></li>
+</ul>
+<p>1998年，美国连锁超市沃尔玛 (Wal-Mart) 知道，购买芭比娃娃 (每 20
+秒售出一个) 的顾客有 60%
+的可能性会购买三种糖果中的一种。沃尔玛能用这样的信息做什么？沃尔玛的首席采购官李·斯科特
+(Lee Scott)
+说：“我一点头绪都没有。”你能做些什么来帮助沃尔玛增加业务？</p>
+<h1 id="关联分析">关联分析</h1>
+<p>动机：发现数据中有趣或有用的模式、规律和趋势。例如：</p>
+<ul>
+<li>哪些产品经常一起购买？</li>
+<li>购买PC后会购买哪些产品？</li>
+<li>哪些DNA对这种新型药物敏感？</li>
+<li>如何自动对网络文档进行分类？</li>
+<li>哪些博主和论坛用户可能具有反社会倾向？</li>
+</ul>
+<h2 id="关联规则挖掘">关联规则挖掘</h2>
+<p>关联规则挖掘：搜索数据集中项目之间的关系。</p>
+<ul>
+<li>在信息存储库中查找项目集或对象集之间的频繁模式、关联、相关性或因果结构。</li>
+<li>频繁模式：数据库中频繁出现的模式（项目集、序列等）。</li>
+</ul>
+<p>规则形式：<span class="math inline">\(X\rightarrow Y\)</span></p>
+<h3 id="基本概念">基本概念</h3>
+<p><del>怎么又是集合论</del></p>
+<p>令<span
+class="math inline">\(I=\{i_1,i_2,\cdots,i_d\}\)</span>为数据集中的<span
+class="math inline">\(d\)</span>个<strong>项目</strong>集，并且令<span
+class="math inline">\(T=\{t_1,t_2,\cdots,t_N\}\)</span>为市场篮子数据中的<span
+class="math inline">\(N\)</span>笔<strong>事务</strong>（交易）集合，其中<span
+class="math inline">\(N=\lvert T\rvert\)</span>。每个<span
+class="math inline">\(t_j\)</span>都是<span
+class="math inline">\(I\)</span>的一个子集，包含从<span
+class="math inline">\(I\)</span>中选择的一个或多个项目。</p>
+<p>零个或多个项目的集合称为<strong>项目集</strong>。</p>
+<p>如果一个项目集包含<span
+class="math inline">\(k\)</span>个项目，则称为<span
+class="math inline">\(k\)</span>项目集，例如：<span
+class="math inline">\(\{\text{bread},\text{coke},\text{milk}\}\)</span>是一个<span
+class="math inline">\(3\)</span>项目集。</p>
+<p>空集（null，或空（empty））是不包含任何项目的项目集。</p>
+<p>项目集<span class="math inline">\(Y\)</span>是项目集<span
+class="math inline">\(X\)</span>的<strong>超集</strong>（superset），或者等效地，如果<span
+class="math inline">\(X\)</span>的所有项目也是<span
+class="math inline">\(Y\)</span>的项目，则项目集<span
+class="math inline">\(X\)</span>是项目集<span
+class="math inline">\(Y\)</span>的<strong>子集</strong>。</p>
+<p><img src="/images/数据挖掘009.jpg" /></p>
+<p>如果<span class="math inline">\(X\)</span>是<span
+class="math inline">\(t_j\)</span>的子集，即<span
+class="math inline">\(X\subset t_j\)</span>，则称事务<span
+class="math inline">\(t_j\)</span>包含项目集<span
+class="math inline">\(X\)</span>。例如，<span
+class="math inline">\(X=\{\text{diaper},\text{milk}\}\)</span>和<span
+class="math inline">\(X\subset t_4\)</span>。</p>
+<p>项目集的<strong>支持计数</strong>（support count）<span
+class="math inline">\(\sigma(X)\)</span>是指包含项目集<span
+class="math inline">\(X\)</span>的<strong>事务的数量</strong>。</p>
+<p><strong>支持度</strong>：<span
+class="math inline">\(\frac{\sigma(X)}{\lvert T\rvert}\)</span></p>
+<p>关联规则是<span class="math inline">\(X\rightarrow
+Y\)</span>形式的含义，其中<span class="math inline">\(X\subset
+I,Y\subset I\)</span>，且<span class="math inline">\(X\cap
+Y=\emptyset\)</span>。例如<span
+class="math inline">\(\{\text{diaper},\text{milk}\}\rightarrow\{\text{beer}\}\)</span></p>
+<p>关联规则的<strong>强度</strong>可以通过其<em>支持度</em>（support）和<em>置信度</em>（confidence）来衡量。</p>
+<ul>
+<li>支持度指定规则在给定数据集中的适用频率。</li>
+<li>置信度指定<span class="math inline">\(Y\)</span>中的项目在包含<span
+class="math inline">\(X\)</span>的交易中出现的频率。</li>
+</ul>
+<h3 id="支持度与置信度">支持度与置信度</h3>
+<p>事务数据集<span class="math inline">\(T\)</span>中关联规则<span
+class="math inline">\(X\rightarrow
+Y\)</span>的支持度和置信度的正式定义：</p>
+<p><span
+class="math display">\[\begin{aligned}\text{support}(X)&amp;=\frac{\sigma(X)}{\lvert
+T\rvert}=P(X)\\\text{supoort}(X\rightarrow Y)&amp;=\frac{\sigma(X\cup
+Y)}{\lvert T\rvert}=P(X\cup Y)\\\text{confidence}(X\rightarrow
+Y)&amp;=\frac{\sigma(X\cup Y)}{\sigma(X)}=\frac{P(X\cup
+Y)}{P(X)}=P(Y\vert X)\end{aligned}\]</span></p>
+<h3
+id="关联规则挖掘association-rule-miningarm">关联规则挖掘（Association
+Rule Mining，ARM）</h3>
+<p>关联规则挖掘：给定一组事务<span
+class="math inline">\(T\)</span>，找到所有具有<span
+class="math inline">\(\text{support}\ge\text{minsup}\)</span>和<span
+class="math inline">\(\text{confidence}\ge\text{minconf}\)</span>的规则（<span
+class="math inline">\(X\rightarrow Y\)</span>），其中<span
+class="math inline">\(\text{minsup}\)</span>和<span
+class="math inline">\(\text{minconf}\)</span>是相应的支持度和置信度阈值。</p>
+<p>一种暴力方法是计算每条可能规则的支持度和置信度。然而，这种方法的计算成本很高，因为对于包含<span
+class="math inline">\(d\)</span>个项目的数据集，总共有<span
+class="math inline">\(3^d-2^{d+1}+1\)</span>条可能的规则。例如，当<span
+class="math inline">\(d=6\)</span>时，有<span
+class="math inline">\(602\)</span>种可能的规则</p>
+<h3 id="arm中的两个任务">ARM中的两个任务</h3>
+<p>为了降低关联规则挖掘的计算复杂度，我们可以将问题分为两个子任务：</p>
+<ul>
+<li><strong>频繁项集生成</strong>：找出所有满足<span
+class="math inline">\(\text{minsup}\)</span>阈值的项集，这些项集称为频繁项集。</li>
+<li><strong>规则生成</strong>：从频繁项集中提取所有高置信度的规则，这些规则称为强规则。</li>
+</ul>
+<p>频繁项集生成的计算要求通常比规则生成的计算要求更高。</p>
+<h2 id="频繁项集生成">频繁项集生成</h2>
+<p>格结构（Lattice Structure，<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/404772390">1. 格
+Lattice</a>）可用于枚举所有可能的项目集</p>
+<p><img src="/images/数据挖掘010.jpg" /></p>
+<p>包含<span
+class="math inline">\(k\)</span>个项目的数据集最多可以有<span
+class="math inline">\(2^k-1\)</span>个可能的项目集。（组合数学：<span
+class="math inline">\(\sum_{i=0}^n{n\choose i}=2^n\)</span>）</p>
+<p>查找频繁项集的一种强力方法是确定格结构中每个候选项集的支持计数。</p>
+<p><img src="/images/数据挖掘011.jpg" /></p>
+<p>这种方法需要<span class="math inline">\(\mathrm
+O(NMw)\)</span>次比较，其中<span
+class="math inline">\(N\)</span>是事务数，<span
+class="math inline">\(M=2^k-1\)</span>是候选项集数，<span
+class="math inline">\(w\)</span>是最大事务宽度。</p>
+<h2 id="apriori算法">Apriori算法</h2>
+<h3 id="apriori原理">Apriori原理</h3>
+<p>为了降低频繁项集生成的计算复杂度，我们可以</p>
+<ol type="1">
+<li>减少候选项目集的数量（<span
+class="math inline">\(M\)</span>）。</li>
+<li>减少比较次数</li>
+</ol>
+<p><strong>Apriori原理</strong>：如果一个项集是频繁的，那么它的所有子集也必须是频繁的。</p>
+<p>可以使用Apriori原理来消除一些候选项集，而无需知道它们的支持度。可以通过使用更高级的数据结构来存储候选项集或压缩数据集来减少比较的次数。</p>
+<figure>
+<img src="/images/数据挖掘012.jpg"
+alt="如果\{c,d,e\}是频繁项集，则其所有子集也必须是频繁的" />
+<figcaption aria-hidden="true">如果<span
+class="math inline">\(\{c,d,e\}\)</span>是频繁项集，则其所有子集也必须是频繁的</figcaption>
+</figure>
+<p>Apriori基于支持度<span
+class="math inline">\(\sigma\)</span>的剪枝：</p>
+<figure>
+<img src="/images/数据挖掘013.jpg"
+alt="如果\{A,B\}是不频繁项集，那么它的所有超集都是不频繁的。此策略可用于减少候选项集的数量。" />
+<figcaption aria-hidden="true">如果<span
+class="math inline">\(\{A,B\}\)</span>是不频繁项集，那么它的所有超集都是不频繁的。此策略可用于减少候选项集的数量。</figcaption>
+</figure>
+<h3 id="apriori算法-1">Apriori算法</h3>
+<ol type="1">
+<li>令<span class="math inline">\(k=1\)</span></li>
+<li>生成所有长度为<span class="math inline">\(1\)</span>的频繁项集</li>
+<li>重复以下步骤，直到不再识别出新的频繁项集：
+<ol type="1">
+<li>从频繁<span class="math inline">\(k\)</span>项集生成候选<span
+class="math inline">\((k+1)\)</span>项集</li>
+<li>修剪包含不频繁的<span
+class="math inline">\(k\)</span>项集的候选<span
+class="math inline">\((k+1)\)</span>项集</li>
+<li>通过扫描数据集，计算各个候选项集的支持度</li>
+<li>消除所有不频繁的候选项集</li>
+</ol></li>
+</ol>
+<h3 id="apriori的原则">Apriori的原则</h3>
+<ul>
+<li>Apriori算法使用基于支持度的剪枝来控制候选项集的指数增长。</li>
+<li>仅当前<span
+class="math inline">\(k-1\)</span>个项目相同时，它才会通过合并一对频繁<span
+class="math inline">\(k\)</span>项集来生成候选<span
+class="math inline">\((k+1)\)</span>项集。</li>
+<li>当生成每个候选<span
+class="math inline">\((k+1)\)</span>项集时，会使用额外的候选剪枝步骤来确保候选的剩余<span
+class="math inline">\(k\)</span>个子集是频繁的。否则，保证候选是不频繁的。</li>
+</ul>
+<h3 id="如何生成候选">如何生成候选？</h3>
+<p>假设<span class="math inline">\(L_k\)</span>中的项目按顺序列出</p>
+<ul>
+<li>自连接<span class="math inline">\(L_k\)</span></li>
+<li>插入到<span class="math inline">\(C_{k+1}\)</span></li>
+<li>从<span class="math inline">\(L_{kp}\)</span>和<span
+class="math inline">\(L_{kq}\)</span>中选择<span
+class="math inline">\(\text{p.item}_1,\text{p.item}_2,\cdots,\text{p.item}_k,\text{q.item}_k\)</span></li>
+<li>其中<span
+class="math inline">\(\text{p.item}_1=\text{q.item}_1,\cdots,\text{p.item}_{k-1}=\text{q.item}_{k-1},\text{p.item}_k\lt\text{q.item}_k\)</span></li>
+</ul>
+<h3 id="apriori算法---示例">Apriori算法 - 示例</h3>
+<p>示例：通过合并频繁<span
+class="math inline">\(2\)</span>项集对来生成和修剪候选<span
+class="math inline">\(3\)</span>项集。</p>
+<p><img src="/images/数据挖掘014.jpg" /></p>
+<p>不需要将<span
+class="math inline">\(\{\text{beer},\text{diaper}\}\)</span>与<span
+class="math inline">\(\{\text{bread},\text{milk}\}\)</span>合并，因为它们的第一个项目不同。</p>
+<p>如果<span
+class="math inline">\(\{\text{bread},\text{diaper},\text{milk}\}\)</span>是可行的候选，那么可以通过合并<span
+class="math inline">\(\{\text{bread},\text{diaper}\}\)</span>和<span
+class="math inline">\(\{\text{bread},\text{milk}\}\)</span>来获得，但如果<span
+class="math inline">\(\{\text{bread},\text{milk}\}\)</span>不是频繁的<span
+class="math inline">\(2\)</span>项集？</p>
+<p><img src="/images/数据挖掘015.jpg" /></p>
+<h2 id="fp-tree和fp-growth">FP-Tree和FP-Growth</h2>
+<p>FP-Growth（频繁模式增长）通过将频繁项目表示为FP-Tree（频繁模式树）来压缩数据集。</p>
+<p>FP-tree的构建方式是每次读取数据集中的一个事务，并将每个事务映射到FP-Tree中的一条路径上，其中不频繁的项目被丢弃，频繁的项目按支持计数的降序排列。如果不同的事务有几个共同的项目，它们在FP树中的路径可能会重叠。（字典树）</p>
+<p>一旦构建了FP-Tree，FP-Growth就会使用递归分治的方法来挖掘频繁项集。</p>
+<h3 id="fp-growth算法">FP-Growth算法</h3>
+<p>请看博客：<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/411594391">数据挖掘随笔（二）FP-growth算法——一种用于频繁模式挖掘的模式增长方式(Python实现)</a></p>
+<p>FP-Growth高效且可扩展，适用于挖掘长频繁项集和短频繁项集。它比Apriori算法快一个数量级。</p>
+<p>FP-Growth算法的关键步骤：</p>
+<ol type="1">
+<li>构建FP-Tree来压缩表示数据集。</li>
+<li>为头表中的每个项目构建条件模式库。</li>
+<li>从每个条件模式库构建条件FP-Tree。</li>
+<li>递归挖掘条件FP-Tree并增加目前获得的频繁项集。如果条件FP-Tree包含一条路径，则只需枚举所有项集即可。</li>
+</ol>
+<p><img src="/images/数据挖掘016.jpg" /></p>
+<figure>
+<img src="/images/数据挖掘017.jpg"
+alt="累计基中每个项的计数，为模式基的频繁项目构建条件 FP 树" />
+<figcaption
+aria-hidden="true">累计基中每个项的计数，为模式基的频繁项目构建条件 FP
+树</figcaption>
+</figure>
+<p>模式基：以该项为结尾的路径条数</p>
+<p><img src="/images/数据挖掘018.jpg" /></p>
+<p><img src="/images/数据挖掘019.jpg" /></p>
+<p>从FP-tree中频繁项头表的底部开始，通过跟踪每个频繁项的链接遍历FP-tree，累积该项目的所有转换前缀路径以形成条件模式库</p>
+<p><img src="/images/数据挖掘020.jpg" /></p>
+<h3 id="fp-growth的原理">FP-Growth的原理</h3>
+<p>模式增长性质：设<span class="math inline">\(\alpha\)</span>为<span
+class="math inline">\(DB\)</span>中的频繁项集，<span
+class="math inline">\(B\)</span>为<span
+class="math inline">\(\alpha\)</span>的条件模式基，<span
+class="math inline">\(\beta\)</span>为<span
+class="math inline">\(B\)</span>中的项集。若<span
+class="math inline">\(\beta\)</span>在<span
+class="math inline">\(B\)</span>中频繁出现，则<span
+class="math inline">\(\alpha\cup\beta\)</span>为<span
+class="math inline">\(DB\)</span>中的频繁项集。</p>
+<h3 id="fp-growth结论">FP-Growth结论</h3>
+<ul>
+<li>FP-tree：一种新颖的数据结构，存储有关频繁模式的压缩关键信息，对于频繁模式挖掘来说紧凑而完整。</li>
+<li>FP-Growth：一种有效的大型数据库中频繁模式挖掘方法：使用高度紧凑的FP树，本质上是分治的方法。</li>
+</ul>
+<h3 id="练习">练习</h3>
+<p><img src="/images/数据挖掘021.jpg" /></p>
+<h4 id="section"><span class="math inline">\(1)\)</span></h4>
+<blockquote>
+<p>使用FP-Growth算法从以下数据集中找出所有<span
+class="math inline">\(\text{minsup}=2\)</span>的频繁项集。</p>
+</blockquote>
+<h4 id="section-1"><span class="math inline">\(2)\)</span></h4>
+<blockquote>
+<p>使用Apriori查找频繁项集。</p>
+</blockquote>
+<p>后面写个代码吧，咕咕了。</p>
+<h2 id="关联规则评估">关联规则评估</h2>
+<h3 id="关联规则生成">关联规则生成</h3>
+<p>给定一个频繁项集<span
+class="math inline">\(Y\)</span>，找到所有非空子集<span
+class="math inline">\(X\subset Y\)</span>，使得<span
+class="math inline">\(X\rightarrow Y–X\)</span>满足最低置信度要求。</p>
+<p>如果<span class="math inline">\(\lvert Y\rvert=k\)</span>，除去<span
+class="math inline">\(Y\rightarrow\emptyset\)</span>和<span
+class="math inline">\(\emptyset\rightarrow Y\)</span>，则有<span
+class="math inline">\(2^k–2\)</span>条候选关联规则</p>
+<h3 id="关联规则生成---示例">关联规则生成 - 示例</h3>
+<p>给定频繁项目集：<span
+class="math inline">\(Y=\{\text{milk},\text{peanutbutter},\text{bread}\}\)</span>；<span
+class="math inline">\(k=3\)</span></p>
+<p><span class="math inline">\(Y\)</span>的所有非空子集：</p>
+<p><span
+class="math display">\[\begin{aligned}X_1&amp;=\{\text{milk}\}\\X_2&amp;=\{\text{peanutbutter}\}\\X_3&amp;=\{\text{bread}\}\\X_4&amp;=\{\text{milk},\text{peanutbutter}\}\\X_5&amp;=\{\text{milk},\text{bread}\}\\X_6&amp;=\{\text{peanutbutter},\text{bread}\}\\\end{aligned}\]</span></p>
+<p><span class="math inline">\(k=3\)</span>；共<span
+class="math inline">\(2^3-2=6\)</span>条候选规则<span
+class="math inline">\(X_i\rightarrow Y-X_i\)</span>：</p>
+<p><span
+class="math display">\[\begin{aligned}\{\text{milk}\}&amp;\rightarrow\{\text{peanutbutter},\text{bread}\}\\\{\text{peanutbutter}\}&amp;\rightarrow\{\text{milk},\text{bread}\}\\\{\text{bread}\}&amp;\rightarrow\{\text{milk},\text{peanutbutter}\}\\\{\text{peanutbutter},\text{bread}\}&amp;\rightarrow\{\text{milk}\}\\\{\text{milk},\text{bread}\}&amp;\rightarrow\{\text{peanutbutter}\}\\\{\text{milk},\text{peanutbutter}\}&amp;\rightarrow\{\text{bread}\}\\\end{aligned}\]</span></p>
+<p><img src="/images/数据挖掘022.jpg" /></p>
+<h3 id="基于置信度的剪枝">基于置信度的剪枝</h3>
+<p>基于置信度的剪枝：如果规则<span class="math inline">\(X\rightarrow
+Y-X\)</span>不满足置信度阈值，则任何规则<span
+class="math inline">\(X&#39;\rightarrow Y-X&#39;\ ,X&#39;\subset
+X\)</span>也不能满足置信度阈值。</p>
+<p><img src="/images/数据挖掘023.jpg" /></p>
+<p>候选规则是通过合并规则结果中具有相同前缀的两个规则来生成的。</p>
+<p>示例规则：</p>
+<ol type="1">
+<li>规则1：<span
+class="math inline">\(\{\text{diaper}\}\rightarrow\{\text{babywipe}\}\)</span>
+[支持度=0.2，置信度=0.8]</li>
+<li>规则2：<span
+class="math inline">\(\{\text{diaper}\}\rightarrow\{\text{milk}\}\)</span>
+[支持度=0.15，置信度=0.3]</li>
+</ol>
+<p>生成候选规则：在先行词中共享相同的前缀（左侧）：</p>
+<ul>
+<li>候选规则：<span
+class="math inline">\(\{\text{diaper}\}\rightarrow\{\text{babywipe},\text{milk}\}\)</span></li>
+</ul>
+<p>如果规则1或规则2不满足置信度阈值，则可以修剪该规则。</p>
+<h3 id="关联规则评估-1">关联规则评估</h3>
+<p>关联分析可以潜在地生成大量的关联规则（模式）。其中一些强关联规则可能仍然不太有趣。</p>
+<p>考虑以下喝茶和喝咖啡的人的例子：</p>
+<p><img src="/images/数据挖掘024.jpg" /></p>
+<p>尽管置信度<span
+class="math inline">\(P(\text{Coffee}\vert\text{Tea})\)</span>很高，但该规则具有误导性，因为支持度<span
+class="math inline">\(P(\text{Coffee})\)</span>和置信度<span
+class="math inline">\(P(\text{Coffee}\vert\overline{\text{Tea}})\)</span>甚至更高。</p>
+<h3 id="提升度">提升度</h3>
+<p>为了解决这个问题，可以使用兴趣度度量来增强支持度-置信度度量，以识别有趣的关联规则。</p>
+<p>提升度（Lift）是两个项目集<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>之间的简单相关性度量，定义为</p>
+<p><span
+class="math display">\[\text{lift}(X,Y)=\frac{\text{confidence}(X\rightarrow
+Y)}{\text{support}(Y)}=\frac{P(Y\vert X)}{P(Y)}=\frac{P(X\cup
+Y)}{P(X)P(Y)}\]</span></p>
+<p>其中</p>
+<p><span
+class="math display">\[\text{lift}(X,Y)\begin{cases}=1&amp;,X\text{和}Y\text{相互独立}\\\gt1&amp;,X\text{和}Y\text{正相关}\\\lt1&amp;,X\text{和}Y\text{负相关}\end{cases}\]</span></p>
+<p>对于所示的茶咖啡饮用者的例子，<span
+class="math inline">\(lift(\text{Tea},\text{Coffee})=0.9375\)</span>，这表明茶饮用者和咖啡饮用者之间存在轻微的负相关性。</p>
+<hr />
+<p>好多内容……</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" rel="tag"># 数据挖掘</a>
+              <a href="/tags/Apriori%E7%AE%97%E6%B3%95/" rel="tag"># Apriori算法</a>
+              <a href="/tags/FP-Growth%E7%AE%97%E6%B3%95/" rel="tag"># FP-Growth算法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/09/07/%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E8%A7%86%E8%A7%89%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB%EF%BC%9A%E4%BB%8E%E5%8C%B9%E9%85%8D%E5%88%B0%E5%88%86%E7%B1%BB%E5%86%8D%E5%88%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="prev" title="直观理解视觉对象识别：从匹配到分类再到机器学习">
+                  <i class="fa fa-angle-left"></i> 直观理解视觉对象识别：从匹配到分类再到机器学习
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
