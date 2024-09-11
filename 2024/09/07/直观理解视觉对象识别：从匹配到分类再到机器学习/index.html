@@ -26,17 +26,17 @@
 <meta property="og:site_name" content="FORTH">
 <meta property="og:description" content="以及其复杂的语言讲解了k-近邻算法的原理。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89026.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89027.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89028.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89026.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89027.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89028.jpg">
 <meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89029.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89030.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89031.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89032.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89033.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89034.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89030.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89031.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89032.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89033.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89034.jpg">
 <meta property="article:published_time" content="2024-09-07T08:01:03.000Z">
-<meta property="article:modified_time" content="2024-09-07T08:01:03.347Z">
+<meta property="article:modified_time" content="2024-09-11T05:42:16.436Z">
 <meta property="article:author" content="Sifr">
 <meta property="article:tag" content="机器视觉">
 <meta property="article:tag" content="机器学习">
@@ -44,7 +44,7 @@
 <meta property="article:tag" content="Mahalanobis距离">
 <meta property="article:tag" content="k-近邻算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89026.jpg">
+<meta name="twitter:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89026.jpg">
 
 
 <link rel="canonical" href="https://shifuru.github.io/2024/09/07/%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E8%A7%86%E8%A7%89%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB%EF%BC%9A%E4%BB%8E%E5%8C%B9%E9%85%8D%E5%88%B0%E5%88%86%E7%B1%BB%E5%86%8D%E5%88%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
@@ -142,7 +142,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -216,6 +216,13 @@
 
       <time title="创建时间：2024-09-07 16:01:03" itemprop="dateCreated datePublished" datetime="2024-09-07T16:01:03+08:00">2024-09-07</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-09-11 13:42:16" itemprop="dateModified" datetime="2024-09-11T13:42:16+08:00">2024-09-11</time>
+    </span>
 
   
 </div>
@@ -271,7 +278,7 @@ class="math inline">\(\mathbf g\)</span>，<span
 class="math inline">\(n=pq\)</span>。例如，<span
 class="math inline">\(p=q=3\)</span>，则<span
 class="math inline">\(n=3\times3=9\)</span>：</p>
-<p><img src="/images/机器视觉026.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉026.jpg" /></p>
 <p>然后，我们可以方便地将（平方）欧几里得距离表示为：</p>
 <p><span class="math display">\[d=\lVert F-G\rVert=\lVert\mathbf
 f-\mathbf g\rVert^2=(\mathbf f-\mathbf g)^\intercal(\mathbf f-\mathbf
@@ -279,7 +286,7 @@ g)\]</span></p>
 <p>这就是方便的向量差、转置和乘法。</p>
 <p>然而，两幅图像之间的欧几里得距离真的能体现两个视觉对象的相似性吗？</p>
 <p>计算以下两幅图像的欧几里得距离：</p>
-<p><img src="/images/机器视觉027.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉027.jpg" /></p>
 <p>我们有</p>
 <p><span class="math display">\[\begin{aligned}\mathbf
 f&amp;=\left[\begin{array}{ccccccccc}1&amp;1&amp;1&amp;1&amp;0&amp;1&amp;0&amp;0&amp;0\end{array}\right]^\intercal\\\mathbf
@@ -341,7 +348,7 @@ class="math inline">\(n=pq\)</span>。</p>
 <p><span class="math inline">\(n\)</span>维向量是<span
 class="math inline">\(n\)</span>维空间中的一个点。为了形象化地展示这个过程，取<span
 class="math inline">\(n=c=2\)</span>并使用距离，如图所示。</p>
-<p><img src="/images/机器视觉028.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉028.jpg" /></p>
 <p>然而，一个物体有很多变体，仅用一张图片来表示一个物体是不够的。每个对象应该由多幅图像来表示。因此，每个对象被称为一个类，每个图像被称为该类的一个样本。</p>
 <p>因此，将未知查询对象识别/认定为<span
 class="math inline">\(c\)</span>个已知图库对象之一就转化为将其归类到<span
@@ -384,7 +391,7 @@ class="math inline">\(\theta_1^*,\cdots,\theta_k^*\)</span>中具有最多代表
 x\)</span>的<span
 class="math inline">\(k\)</span>个最近邻中进行多数投票来执行的</p>
 </blockquote>
-<p><img src="/images/机器视觉030.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉030.jpg" /></p>
 <p>然而，有些类别可能有数千或数百万个样本。将查询样本与每个训练样本进行比较非常繁琐。NN分类器也会过度拟合训练数据或泛化能力较差。如何解决这些问题？</p>
 <p>一种解决方案是最小距离分类器，它比较查询样本与每个类均值向量<span
 class="math inline">\(\mathbf\mu_j\)</span>的距离。</p>
@@ -405,14 +412,14 @@ class="math inline">\(\mathbf x\)</span>进行分类：</p>
 <p><span class="math display">\[\omega_k=\argmin_j(\mathbf
 x-\mu_j)^\intercal(\mathbf x-\mu_j)\]</span></p>
 <p>然而，仅仅使用类别均值向量来表示一个类别并不复杂。通过一维示例可视化该问题：</p>
-<p><img src="/images/机器视觉031.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉031.jpg" /></p>
 <p><span class="math inline">\(\mathbf
 x\)</span>是否应该被归类为第2类（红色）？很可能是错的！问题是什么？</p>
 <p>（下面开始讲Mahalanobis距离，讲得仍然是一坨，请看博客：<a
 target="_blank" rel="noopener" href="https://blog.csdn.net/fu_jian_ping/article/details/111877248">Mahalanobis（马哈拉诺比斯）距离</a>）</p>
 <p>以一维数据为例，除了类均值之外，我们还应该考虑类标准差或方差。</p>
 <p>一种解决方案是通过类标准差对欧几里得距离进行归一化，或者通过类方差对平方欧几里得距离进行归一化。</p>
-<p><img src="/images/机器视觉032.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉032.jpg" /></p>
 <p>然而，对于多维数据，除了数据向量每个元素的均值和方差之外，我们还有数据向量不同元素之间的协方差。</p>
 <p>给定<span class="math inline">\(c\)</span>类的<span
 class="math inline">\(q\)</span>个<span
@@ -440,10 +447,10 @@ x-\mu_j)^\intercal\Sigma_j^{-1}(\mathbf x-\mu_j)\]</span></p>
 <p>称为（平方）马哈拉诺比斯（Mahalanobis）距离。</p>
 <p>如果每个类的数据都遵循正态分布，则最小马哈拉诺比斯距离分类器是最佳分类器。</p>
 <p>该图显示了二维情况下“红色”类和“蓝色”类的数据变化或分布。</p>
-<p><img src="/images/机器视觉033.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉033.jpg" /></p>
 <p>数据变化或分布的形状和大小由协方差矩阵决定。</p>
 <p>协方差矩阵所形成的椭圆上的所有点到椭圆中心的距离都相同。它与正态分布的轮廓一致</p>
-<p><img src="/images/机器视觉034.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉034.jpg" /></p>
 <p>如果我们将集中训练样本表示为</p>
 <p><span class="math display">\[\tilde{\mathbf x}_i=\mathbf
 x_i-\mu_j\]</span></p>

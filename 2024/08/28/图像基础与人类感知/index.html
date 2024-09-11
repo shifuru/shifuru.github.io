@@ -26,18 +26,18 @@
 <meta property="og:site_name" content="FORTH">
 <meta property="og:description" content="讲解图像基础知识">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89001.png">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89002.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89003.png">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89004.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89005.png">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89006.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89001.png">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89002.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89003.png">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89004.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89005.png">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89006.jpg">
 <meta property="article:published_time" content="2024-08-28T07:20:46.000Z">
-<meta property="article:modified_time" content="2024-08-28T07:22:17.038Z">
+<meta property="article:modified_time" content="2024-09-11T05:36:24.276Z">
 <meta property="article:author" content="Sifr">
 <meta property="article:tag" content="机器视觉">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89001.png">
+<meta name="twitter:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89001.png">
 
 
 <link rel="canonical" href="https://shifuru.github.io/2024/08/28/%E5%9B%BE%E5%83%8F%E5%9F%BA%E7%A1%80%E4%B8%8E%E4%BA%BA%E7%B1%BB%E6%84%9F%E7%9F%A5/">
@@ -135,7 +135,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -206,9 +206,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-08-28 15:20:46 / 修改时间：15:22:17" itemprop="dateCreated datePublished" datetime="2024-08-28T15:20:46+08:00">2024-08-28</time>
+      <time title="创建时间：2024-08-28 15:20:46" itemprop="dateCreated datePublished" datetime="2024-08-28T15:20:46+08:00">2024-08-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-09-11 13:36:24" itemprop="dateModified" datetime="2024-09-11T13:36:24+08:00">2024-09-11</time>
     </span>
 
   
@@ -238,7 +244,7 @@ I(x,y,\lambda)V(\lambda)\text{d}\lambda\]</span></p>
 <p>其中<span
 class="math inline">\(V(\lambda)\)</span>是视觉系统的相对光谱敏感度函数，是一条钟形曲线</p>
 <figure>
-<img src="/images/机器视觉001.png" alt="V(\lambda)" />
+<img src="/images/EE6222/机器视觉001.png" alt="V(\lambda)" />
 <figcaption aria-hidden="true"><span
 class="math inline">\(V(\lambda)\)</span></figcaption>
 </figure>
@@ -250,7 +256,7 @@ response，简称频响。是当向电子仪器系统输入一个振幅不变，
 class="math inline">\(V(\lambda)\)</span>，有助于感知颜色（红、绿、蓝）。</p>
 <p>颜色是波长（频率）的函数，基色：红 (R)、绿 (G)、蓝
 (B)，因此彩色图像每个样本（像素）需要三个值。</p>
-<p><img src="/images/机器视觉002.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉002.jpg" /></p>
 <ul>
 <li>加色法原色：红 (Red)、绿 (Green)、蓝 (Blue)</li>
 <li>减色法原色：青（Cyan）、品红（Magenta）、黄（Yellow）</li>
@@ -260,7 +266,7 @@ class="math inline">\(c=axp_1+bxp_2+cxp_3\)</span>，其中<span
 class="math inline">\((p_1,p_2,p_3)\)</span>是一组特定的原色。（就是线性变换罢）</p>
 <p>颜色空间是一个3D空间，以某种标准方式定义来描述颜色。</p>
 <figure>
-<img src="/images/机器视觉003.png" alt="RGB颜色空间" />
+<img src="/images/EE6222/机器视觉003.png" alt="RGB颜色空间" />
 <figcaption aria-hidden="true">RGB颜色空间</figcaption>
 </figure>
 <p>常见颜色空间：</p>
@@ -276,7 +282,7 @@ class="math inline">\((p_1,p_2,p_3)\)</span>是一组特定的原色。（就是
 <h1 id="图像的表示">图像的表示</h1>
 <p>从数学上讲，图像是二维（2D）函数<span
 class="math inline">\(f(x,y)\)</span>，它是两个空间坐标的函数。</p>
-<p><img src="/images/机器视觉004.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉004.jpg" /></p>
 <p>数字图像是通过光学方式生成的二维光强度函数的采样和量化版本。该函数通常以等间距的矩形网格模式进行采样，其幅度以等间距量化。</p>
 <p>数字图像的<span class="math inline">\(f(x,y)\)</span>中<span
 class="math inline">\(x\)</span>、<span
@@ -309,7 +315,7 @@ class="math inline">\(b\)</span>是每个样本的位数。（如<span
 class="math inline">\(b=8\)</span>时<span
 class="math inline">\(g=256\)</span>）</p>
 <figure>
-<img src="/images/机器视觉005.png" alt="灰度级分辨率" />
+<img src="/images/EE6222/机器视觉005.png" alt="灰度级分辨率" />
 <figcaption aria-hidden="true">灰度级分辨率</figcaption>
 </figure>
 <h1 id="图像直方图">图像直方图</h1>
@@ -331,7 +337,7 @@ class="math inline">\(\sum_{f=0}^L p_f(f)=1\)</span>。</p>
 class="math inline">\(p_f(f)\)</span>是对图像中灰度级<span
 class="math inline">\(f\)</span>出现概率的估计。</p>
 <p>图像直方图的形状为图像的特征提供了许多线索。例如，分布较窄的直方图表示图像对比度较低等。</p>
-<p><img src="/images/机器视觉006.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉006.jpg" /></p>
 <h1 id="图像处理">图像处理</h1>
 <p>数字图像处理是一系列机器或计算机操作，可产生一些预期的结果。这些操作可以、应该、并且希望用数学来描述。数字图像处理从一幅或一组图像开始，生成图像的修改版本或从图像中提取更多“有意义”的信息（特征），或理解（识别）图像内容的含义。</p>
 <p>为何需要图像处理？</p>

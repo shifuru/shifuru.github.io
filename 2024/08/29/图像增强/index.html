@@ -26,19 +26,19 @@
 <meta property="og:site_name" content="FORTH">
 <meta property="og:description" content="简单讲解了一些点处理方法、直方图均衡化、图像平滑、图像锐化等方法。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89010.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89011.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89012.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89013.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89014.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89015.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89016.png">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89010.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89011.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89012.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89013.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89014.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89015.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89016.png">
 <meta property="article:published_time" content="2024-08-29T08:58:44.000Z">
-<meta property="article:modified_time" content="2024-08-29T11:07:31.809Z">
+<meta property="article:modified_time" content="2024-09-11T05:37:29.720Z">
 <meta property="article:author" content="Sifr">
 <meta property="article:tag" content="机器视觉">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://shifuru.github.io/images/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89010.jpg">
+<meta name="twitter:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89010.jpg">
 
 
 <link rel="canonical" href="https://shifuru.github.io/2024/08/29/%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA/">
@@ -136,7 +136,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -207,9 +207,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-08-29 16:58:44 / 修改时间：19:07:31" itemprop="dateCreated datePublished" datetime="2024-08-29T16:58:44+08:00">2024-08-29</time>
+      <time title="创建时间：2024-08-29 16:58:44" itemprop="dateCreated datePublished" datetime="2024-08-29T16:58:44+08:00">2024-08-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-09-11 13:37:29" itemprop="dateModified" datetime="2024-09-11T13:37:29+08:00">2024-09-11</time>
     </span>
 
   
@@ -226,7 +232,7 @@
 <p>图像处理操作旨在增强图像内容或特征，使其更适合显示或分析。许多图像增强过程都是点和无记忆操作，它们根据变换<span
 class="math inline">\(g=T(f)\)</span>将输入图像灰度级映射到输出灰度级。</p>
 <p>幂变换伽马校正：<span class="math inline">\(g=cf^\gamma\)</span></p>
-<p><img src="/images/机器视觉010.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉010.jpg" /></p>
 <p>对数变换：<span class="math inline">\(g=c\log(1+f)\)</span></p>
 <p>分段线性变换：对比度拉伸：</p>
 <p><span
@@ -234,7 +240,7 @@ class="math display">\[\begin{aligned}g&amp;=T(f)\\&amp;=\begin{cases}\alpha
 f&amp;,0\leq f\lt a\\\beta(f-a)+T(a)&amp;,a\leq f\lt
 b\\\gamma(f-b)+T(b)&amp;,b\leq f\lt
 L\end{cases}\end{aligned}\]</span></p>
-<p><img src="/images/机器视觉011.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉011.jpg" /></p>
 <h1 id="直方图均衡化">直方图均衡化</h1>
 <p>直方图均衡化的目的是通过将输入图像<span
 class="math inline">\(f(x,y)\)</span>的灰度级<span
@@ -292,11 +298,11 @@ LPF）是图像处理领域中的一种基础技术，旨在让图像中的低�
 <p><span
 class="math display">\[\begin{aligned}D(u,v)&amp;=\sqrt{u^2+v^2}\\H(u,v)&amp;=\begin{cases}1&amp;,D(u,v)\leq
 D_0\\0,&amp;,D(u,v)\gt D_0\end{cases}\end{aligned}\]</span></p>
-<p><img src="/images/机器视觉012.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉012.jpg" /></p>
 <p>高斯低通滤波（GLPF）：</p>
 <p><span class="math display">\[G(u,v)=\frac1{2\pi\sigma^2}\text
 e^{-\frac{u^2+v^2}{2D_0}}\]</span></p>
-<p><img src="/images/机器视觉013.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉013.jpg" /></p>
 <h1 id="图像锐化">图像锐化</h1>
 <p>高通滤波：</p>
 <p><span class="math display">\[H_{hp}(u,v)=1-H_{lr}(u,v)\]</span></p>
@@ -307,7 +313,7 @@ D_0\\1,&amp;,D(u,v)\gt D_0\end{cases}\end{aligned}\]</span></p>
 <p>高斯高通滤波（GHPF）：</p>
 <p><span class="math display">\[G(u,v)=1-\text
 e^{-\frac{u^2+v^2}{2D_0}}\]</span></p>
-<p><img src="/images/机器视觉014.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉014.jpg" /></p>
 <p>高提升滤波：</p>
 <p><span
 class="math display">\[f_{hb}(x,y)=Af(x,y)-f_{lp}(x,y)\]</span></p>
@@ -315,7 +321,7 @@ class="math display">\[f_{hb}(x,y)=Af(x,y)-f_{lp}(x,y)\]</span></p>
 class="math inline">\(f_{lp}(x,y)\)</span>是经过低通滤波器平滑后的<span
 class="math inline">\(f(x,y)\)</span>，<span
 class="math inline">\(A\geq1\)</span></p>
-<p><img src="/images/机器视觉015.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉015.jpg" /></p>
 <h1 id="非线性图像处理">非线性图像处理</h1>
 <h2 id="线性滤波器的问题">线性滤波器的问题</h2>
 <p>任何线性滤波器的输出都是输入像素的加权平均值</p>
@@ -328,7 +334,7 @@ S_{xy}}\omega(s,t)f(s,t)\end{aligned}\]</span></p>
 <p><span class="math display">\[\hat f(x,y)=\text{median}_{(s,t)\in
 S_{xy}}\{f(s,t)\}\]</span></p>
 <figure>
-<img src="/images/机器视觉016.png" alt="中值滤波器" />
+<img src="/images/EE6222/机器视觉016.png" alt="中值滤波器" />
 <figcaption aria-hidden="true">中值滤波器</figcaption>
 </figure>
 <p>考虑具有脉冲函数的均匀一维图像，脉冲函数对应线条、曲线等精细的图像细节。</p>

@@ -26,15 +26,15 @@
 <meta property="og:site_name" content="FORTH">
 <meta property="og:description" content="问题分类、自然选择、遗传算法基础">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80001.png">
-<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80002.jpg">
-<meta property="og:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80003.png">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6407/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80001.png">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6407/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80002.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6407/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80003.png">
 <meta property="article:published_time" content="2024-08-24T10:10:45.000Z">
-<meta property="article:modified_time" content="2024-08-26T07:05:59.856Z">
+<meta property="article:modified_time" content="2024-09-11T05:34:50.688Z">
 <meta property="article:author" content="Sifr">
 <meta property="article:tag" content="遗传算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://shifuru.github.io/images/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80001.png">
+<meta name="twitter:image" content="https://shifuru.github.io/images/EE6407/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80001.png">
 
 
 <link rel="canonical" href="https://shifuru.github.io/2024/08/24/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%951/">
@@ -133,7 +133,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -212,7 +212,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-26 15:05:59" itemprop="dateModified" datetime="2024-08-26T15:05:59+08:00">2024-08-26</time>
+      <time title="修改时间：2024-09-11 13:34:50" itemprop="dateModified" datetime="2024-09-11T13:34:50+08:00">2024-09-11</time>
     </span>
 
   
@@ -239,7 +239,7 @@
 </ul>
 <h2 id="黑盒模型">黑盒模型</h2>
 <figure>
-<img src="/images/遗传算法基础001.png"
+<img src="/images/EE6407/遗传算法基础001.png"
 alt="&quot;Black Box model&quot;" />
 <figcaption aria-hidden="true">"Black Box model"</figcaption>
 </figure>
@@ -314,7 +314,7 @@ problem，CSPs）：寻找所有满足约束条件的情况。</li>
 </ul></li>
 </ol>
 <figure>
-<img src="/images/遗传算法基础002.jpg"
+<img src="/images/EE6407/遗传算法基础002.jpg"
 alt="自然选择学说主要内容之间的关系图解" />
 <figcaption
 aria-hidden="true">自然选择学说主要内容之间的关系图解</figcaption>
@@ -330,7 +330,8 @@ aria-hidden="true">自然选择学说主要内容之间的关系图解</figcapti
 <p>进化算法属于“生成并测试”算法类别，是基于种群的随机算法。</p>
 <p>变异算子（重组和突变）创造了必要的多样性，从而促进了新颖性；自然选择减少了多样性，并起到了推动质量的作用。</p>
 <figure>
-<img src="/images/遗传算法基础003.png" alt="General scheme of EAs" />
+<img src="/images/EE6407/遗传算法基础003.png"
+alt="General scheme of EAs" />
 <figcaption aria-hidden="true">General scheme of EAs</figcaption>
 </figure>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">begin</span><br><span class="line">    INITIALIZE population(random);</span><br><span class="line">    EVALUATE each candidate;</span><br><span class="line">    REPEAT UNTIL (TERMINATION CONDITION satisfied) DO</span><br><span class="line">        SELECT parents;</span><br><span class="line">        RECOMBINE pairs of parents;</span><br><span class="line">        MUTATE the resulting offspring;</span><br><span class="line">        EVALUATE new candidates;</span><br><span class="line">        SELECT individuals for the next generation;</span><br><span class="line">    OD</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
