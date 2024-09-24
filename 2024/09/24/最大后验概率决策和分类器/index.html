@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="如何在不确定的情况下做出最佳决策？我们来看一个简单的例子： 你完全看不清楚EEE学院教室里的一名学生。你需要决定&#x2F;判断这名学生是男生还是女生。你的决定是什么？如果你不傻的话，你会根据EEE学院学生人数中\(70\%\)为男生、\(30\%\)为女生的事实判断这名学生是男生。假设会计学院的学生人数中男生占\(30\%\)，女生占\(70\%\)，那么在会计学院的教室里，您的决定是否相同？ 您如何">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最大后验概率决策和分类器">
+<meta property="og:url" content="https://shifuru.github.io/2024/09/24/%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87%E5%86%B3%E7%AD%96%E5%92%8C%E5%88%86%E7%B1%BB%E5%99%A8/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="如何在不确定的情况下做出最佳决策？我们来看一个简单的例子： 你完全看不清楚EEE学院教室里的一名学生。你需要决定&#x2F;判断这名学生是男生还是女生。你的决定是什么？如果你不傻的话，你会根据EEE学院学生人数中\(70\%\)为男生、\(30\%\)为女生的事实判断这名学生是男生。假设会计学院的学生人数中男生占\(30\%\)，女生占\(70\%\)，那么在会计学院的教室里，您的决定是否相同？ 您如何">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89035.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89036.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89037.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89038.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89039.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89040.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89041.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89042.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89043.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89044.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89045.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89046.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89047.jpg">
+<meta property="article:published_time" content="2024-09-24T08:40:05.000Z">
+<meta property="article:modified_time" content="2024-09-24T08:40:05.860Z">
+<meta property="article:author" content="Sifr">
+<meta property="article:tag" content="概率论">
+<meta property="article:tag" content="正态分布">
+<meta property="article:tag" content="最大后验概率决策">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shifuru.github.io/images/EE6222/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89035.jpg">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2024/09/24/%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87%E5%86%B3%E7%AD%96%E5%92%8C%E5%88%86%E7%B1%BB%E5%99%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2024/09/24/%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87%E5%86%B3%E7%AD%96%E5%92%8C%E5%88%86%E7%B1%BB%E5%99%A8/","path":"2024/09/24/最大后验概率决策和分类器/","title":"最大后验概率决策和分类器"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>最大后验概率决策和分类器 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意に満ちた人間は絶滅すべき</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/09/24/%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87%E5%86%B3%E7%AD%96%E5%92%8C%E5%88%86%E7%B1%BB%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="最大后验概率决策和分类器 | FORTH">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          最大后验概率决策和分类器
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-09-24 16:40:05" itemprop="dateCreated datePublished" datetime="2024-09-24T16:40:05+08:00">2024-09-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>如何在不确定的情况下做出最佳决策？我们来看一个简单的例子：</p>
+<p>你完全看不清楚EEE学院教室里的一名学生。你需要决定/判断这名学生是男生还是女生。你的决定是什么？如果你不傻的话，你会根据EEE学院学生人数中<span
+class="math inline">\(70\%\)</span>为男生、<span
+class="math inline">\(30\%\)</span>为女生的事实判断这名学生是男生。假设会计学院的学生人数中男生占<span
+class="math inline">\(30\%\)</span>，女生占<span
+class="math inline">\(70\%\)</span>，那么在会计学院的教室里，您的决定是否相同？</p>
+<p>您如何做出您的决策、描述您的决策规则或从科学、理论或数学的角度证明它是一个好的决策？</p>
+<p>从数学上讲，这是基于我们的知识做出的最大概率决策，即对于EEE学院的男性和女性，<span
+class="math inline">\(p(\omega_1)=0.7\)</span>和<span
+class="math inline">\(p(\omega_2)=0.3\)</span>，对于会计学校的男性和女性，<span
+class="math inline">\(p(\omega_1)=0.3\)</span>和<span
+class="math inline">\(p(\omega_2)=0.7\)</span>。因此，明智的决策规则是，如果<span
+class="math inline">\(p(\omega_1)&gt;p(\omega_2)\)</span>，则判定<span
+class="math inline">\(\omega_1\)</span>，反之亦然。</p>
+<p>你的决定一定正确吗？不。但是还有其他更好的决定吗？没有。错误决定的概率（错误率）是<span
+class="math inline">\(p(\mathrm e)=0.3\)</span>，这是最小值。</p>
+<p>现在，如果您知道会计学院教室里的学生身高是<span
+class="math inline">\(1.75\)</span>，您如何做出最佳决定？</p>
+<p>没有区别。最佳决策仍基于<span
+class="math inline">\(p(\omega_1)\)</span>和<span
+class="math inline">\(p(\omega_2)\)</span>，看哪个更大。这么简单？是的！我们的世界里没有魔法。但现在<span
+class="math inline">\(p(\omega_i),\ i=1,2\)</span>是什么？</p>
+<p>就像会计学院的<span
+class="math inline">\(p(\omega_i)\)</span>与EEE的<span
+class="math inline">\(p(\omega_i)\)</span>不同一样，包含身高<span
+class="math inline">\(1.75\)</span>的知识的<span
+class="math inline">\(p(\omega_i)\)</span>与不包含此知识的<span
+class="math inline">\(p(\omega_i)\)</span>也不同</p>
+<p>为了方便起见，它们在数学上被表示为<span
+class="math inline">\(p(\omega_1\vert x)\)</span>和<span
+class="math inline">\(p(\omega_2\vert x)\)</span>，<span
+class="math inline">\(x=1.75\)</span>，称为后验概率（aposterior
+probability）。它表示在特定场景下，在知道数据值<span
+class="math inline">\(x\)</span>之后，类 <span
+class="math inline">\(\omega_i\)</span>的概率。在不知道<span
+class="math inline">\(x\)</span>值的情况下，<span
+class="math inline">\(p(\omega_1)\)</span>和<span
+class="math inline">\(p(\omega_2)\)</span>则改称为先验概率（prior
+probability）。</p>
+<p>将决策规则的名称由最大概率决策修改为最大后验概率决策，简称MAP决策。因此，一般来说，我们有MAP决策规则：</p>
+<blockquote>
+<p>决定<span class="math inline">\(\omega_k\)</span>：如果<span
+class="math inline">\(p(\omega_k\vert x)\gt p(\omega_i\vert x),\ i\neq
+k\)</span> 或者更一般地：<span
+class="math inline">\(\omega_k=\argmax_{\omega_i}\left[p(\omega_i\vert
+x)\right]\)</span></p>
+</blockquote>
+<p>当你根据观测值<span class="math inline">\(x\)</span>决定<span
+class="math inline">\(\omega_k\)</span>时，你做出正确决定的概率为<span
+class="math inline">\(p(\omega_k\vert
+x)\)</span>。因此，你做出错误决定的概率或错误率为：</p>
+<p><span class="math display">\[p(\mathrm e_k\vert x)=1-p(\omega_k\vert
+x)\]</span></p>
+<p>如果你的决策是<span
+class="math inline">\(\omega_k\)</span>，因为<span
+class="math inline">\(p(\omega_k\vert
+x)\)</span>最大，所以决策错误的概率最小。因此，该决策规则从最小化错误决策概率的意义上来说是最佳的。</p>
+<p>最大后验（MAP）决策规则即最小化决策错误的概率。</p>
+<p><span
+class="math display">\[\omega_k=\argmax_{\omega_i}\left[p(\omega_i\vert
+x)\right]=\argmin_{\omega_i}\left[p(\mathrm e_i\vert
+x)\right]\]</span></p>
+<p>但是，获取<span class="math inline">\(p(\omega_i\vert
+x)\)</span>的值并不十分简单，获取<span
+class="math inline">\(p(\omega_i)\)</span>和<span
+class="math inline">\(p(x\vert\omega_i)\)</span>的值则更为简单和方便，这两个值被称为类条件概率。</p>
+<p>根据概率论的基本规则：</p>
+<p><span class="math display">\[p(x,\omega_i)=p(x)p(\omega_i\vert
+x)=p(\omega_i)p(x\vert\omega_i)\]</span></p>
+<p>我们有</p>
+<p><span class="math display">\[p(\omega_i\vert
+x)=\frac{p(\omega_i)p(x\vert\omega_i)}{p(x)}\]</span></p>
+<p>其中</p>
+<p><span
+class="math display">\[p(x)=\sum_{i=1}^cp(\omega_i)p(x\vert\omega_i)\]</span></p>
+<p><span
+class="math inline">\(p(x)\)</span>称为混合概率密度函数（PDF）或概率质量函数（PMF），即一个人的身高在<span
+class="math inline">\(x\)</span>处的概率（密度）。我们可以将其从决策中移除，因为它在所有类别中都具有相同的值。</p>
+<p>现在我们知道了如何在特定值<span class="math inline">\(x=1.75\ \mathrm
+m\)</span>下做出最佳决策/识别，并计算错误率。这个概念很直观，很容易理解。</p>
+<p>然而，要完全自动识别一个人在所有<span
+class="math inline">\(x\)</span>值下的性别，我们需要<span
+class="math inline">\(x\)</span>所有可能值的类条件概率<span
+class="math inline">\(p(x\vert\omega_i)\)</span>。这带来了巨大的挑战。</p>
+<p>是否有可能简化系统的计算？将决策转化为分类。如下图，我们以<span
+class="math inline">\(1.69\ \mathrm
+m\)</span>为界限，高于该值，我们分类是男性，否则分类是女性。</p>
+<p><img src="/images/EE6222/机器视觉035.jpg" /></p>
+<p>系统有多好？或者系统的性能如何？或者如何评价你设计的系统？</p>
+<p><span class="math display">\[\text{决定}:
+\omega_k=\argmax_{\omega_i}[p(\omega_i\vert x)]\]</span></p>
+<p>我们已经了解了计算特定<span
+class="math inline">\(x\)</span>值的错误概率的公式。</p>
+<p><span class="math display">\[p(\mathrm e_k\vert x)=1-p(\omega_k\vert
+x)=\sum_{i=1,i\neq k}^cp(\omega_i\vert x)\]</span></p>
+<p>不难理解，识别系统的性能可以通过<span class="math inline">\(p(\mathrm
+e_k\vert x)\)</span>对所有可能<span
+class="math inline">\(x\)</span>值的平均值来衡量。</p>
+<p>如何对<span class="math inline">\(x\)</span>的所有可能值求<span
+class="math inline">\(p(\mathrm e_k\vert x)\)</span>的平均值？</p>
+<p>对离散<span class="math inline">\(x\)</span>：</p>
+<p><span class="math display">\[p(\mathrm
+e)=\sum_{x=-\infty}^{+\infty}p(\mathrm e_k\vert x)p(x)\]</span></p>
+<p>对连续<span class="math inline">\(x\)</span>：</p>
+<p><span class="math display">\[p(\mathrm
+e)=\int_{-\infty}^{+\infty}p(\mathrm e_k\vert x)p(x)\mathrm
+dx\]</span></p>
+<p>又</p>
+<p><span class="math display">\[\begin{aligned}p(\mathrm
+e)&amp;=\int_{-\infty}^{+\infty}p(\mathrm e_k\vert x)p(x)\mathrm
+dx\\&amp;=\int_{-\infty}^{+\infty}[1-p(\omega_k\vert x)]p(x)\mathrm
+dx\\&amp;=\int_{-\infty}^{+\infty}[1-\frac{p(\omega_k)p(x\vert\omega_k)}{p(x)}]p(x)\mathrm
+dx\\&amp;=1-\int_{-\infty}^{+\infty}p(\omega_k)p(x\vert\omega_k)\mathrm
+dx\end{aligned}\]</span></p>
+<p>注意，对于<span
+class="math inline">\(x\)</span>的不同区域，模式识别系统具有不同的决策<span
+class="math inline">\(\omega_k\)</span>。决策/分类是将<span
+class="math inline">\(x\)</span>的整个空间划分为<span
+class="math inline">\(c\)</span>个决策区域<span
+class="math inline">\(\mathfrak R_i\)</span>。因此，</p>
+<p><span class="math display">\[\begin{aligned}p(\mathrm
+e)&amp;=1-\sum_{i=1}^c\int_{\mathfrak
+R_i}p(\omega_i)p(x\vert\omega_i)\mathrm
+dx\\&amp;=1-\sum_{i=1}^cp(\omega_i)\int_{\mathfrak
+R_i}p(x\vert\omega_i)\mathrm dx\end{aligned}\]</span></p>
+<p>显然，正确决策的概率是</p>
+<p><span class="math display">\[p(\text{correct})=1-p(\mathrm
+e)=\sum_{i=1}^cp(\omega_i)\int_{\mathfrak R_i}p(x\vert\omega_i)\mathrm
+dx\]</span></p>
+<p>对于二分类问题：</p>
+<p><span class="math display">\[\begin{aligned}p(\mathrm
+e)&amp;=1-p(\omega_1)\int_{\mathfrak R_1}p(x\vert\omega_1)\mathrm
+dx-p(\omega_2)\int_{\mathfrak R_2}p(x\vert\omega_2)\mathrm
+dx\\&amp;=p(\omega_1)\int_{\mathfrak R_2}p(x\vert\omega_1)\mathrm
+dx+p(\omega_2)\int_{\mathfrak R_1}p(x\vert\omega_2)\mathrm
+dx\end{aligned}\]</span></p>
+<p><img src="/images/EE6222/机器视觉036.jpg" /></p>
+<p>现在，如果我们不仅知道人的身高<span
+class="math inline">\(x_1\)</span>，还知道头发的长度<span
+class="math inline">\(x_2\)</span>，那么不难想象我们会做出更好的决定，即错误概率更低。只要现在使用向量<span
+class="math inline">\(\mathbf
+x=[x_1,x_2]^\intercal\)</span>替换之前的标量<span
+class="math inline">\(x\)</span>，识别原理将与以前相同。概率分布现在是二维的。在1D情况下用于区分两个类别的标量阈值变成了<span
+class="math inline">\(x\)</span>所跨平面上的曲线。</p>
+<p><img src="/images/EE6222/机器视觉037.jpg" /></p>
+<p>信息、数据或特征维度的增加一般都会增加正确决策的概率或降低决策错误的概率。</p>
+<p>我们知道，最佳分类会最大化后验概率，从而最小化分类误差：</p>
+<p><span class="math display">\[\text{决定}:
+\omega_k=\argmax_{\omega_i}[p(\omega_i\vert\mathbf
+x)]=\argmin_{\omega_i}[p(\mathrm e_i\vert\mathbf x)]\]</span></p>
+<p>因为：<span class="math inline">\(p(\omega_i\vert\mathbf
+x)=\frac{p(\omega_i)p(\mathbf x\vert\omega_i)}{p(\mathbf
+x)}\)</span>，并且<span class="math inline">\(p(\mathbf
+x)\)</span>不是<span
+class="math inline">\(\omega_i\)</span>的函数，贝叶斯（最优）分类就是评估所谓的判别函数（discriminant
+functions），可以定义为<span class="math inline">\(g_i(\mathbf x)=\ln
+p(\mathbf x\vert\omega_i)+\ln
+p(\omega_i)\)</span>，并找到对于给定模式<span
+class="math inline">\(\mathbf x\)</span>具有判别函数最大值的类<span
+class="math inline">\(\omega_i\)</span>。</p>
+<p>这里应用了自然对数<span
+class="math inline">\(\ln\)</span>，因为它是一个单调递增函数，不会影响决策结果，但如果<span
+class="math inline">\(p(\mathbf
+x\vert\omega_i)\)</span>是指数函数，则会简化其评估。</p>
+<p>我们将针对类条件PDF为多元高斯分布<span
+class="math inline">\(p(\mathbf x\vert\omega_i)=\mathrm
+N(\mu_i,\Sigma_i)\)</span>的情况推导分类器</p>
+<p><span class="math display">\[p(\mathbf
+x\vert\omega_i)=\frac1{(2\pi)^{\frac
+d2}\lvert\Sigma_i\rvert^{\frac12}}\exp\left[-\frac12(\mathbf
+x-\mu_i)^\intercal\Sigma_i^{-1}(\mathbf x-\mu_i)\right]\]</span></p>
+<p>判别函数变成<span class="math inline">\(\mathbf
+x\)</span>的二次函数：</p>
+<p><span class="math display">\[\begin{aligned}g_i(\mathrm
+x)&amp;=-\frac12(\mathbf x-\mu_i)^\intercal\Sigma_i^{-1}(\mathbf
+x-\mu_i)+\ln p(\omega_i)-\frac12\ln\lvert\Sigma_i\rvert-\frac
+d2\ln2\pi\\&amp;=-\frac12(\mathbf
+x-\mu_i)^\intercal\Sigma_i^{-1}(\mathbf
+x-\mu_i)+b_i\\&amp;=-\frac12d_{\Sigma_i}(\mathbf
+x,\mu_i)+b_i\end{aligned}\]</span></p>
+<p>其中</p>
+<p><span class="math display">\[\begin{aligned}d_{\Sigma_i}(\mathbf
+x,\mu_i)&amp;=(\mathbf x-\mu_i)^\intercal\Sigma_i^{-1}(\mathbf
+x-\mu_i)\\b_i&amp;=\ln
+p(\omega_i)-\frac12\ln\lvert\Sigma_i\rvert\end{aligned}\]</span></p>
+<p><span class="math inline">\(d_{\Sigma_i}(\mathbf
+x,\mu_i)\)</span>称为<span class="math inline">\(\mathbf
+x\)</span>和<span
+class="math inline">\(\mu_i\)</span>之间的Mahalanobis距离的平方。</p>
+<p>与欧氏距离的平方进行比较</p>
+<p><span class="math display">\[d_{\text{Eu}}=(\mathbf
+x-\mu_i)^\intercal(\mathbf x-\mu_i)\]</span></p>
+<p>一维的情况：</p>
+<p><span
+class="math display">\[\begin{aligned}d_{\text{Eu}}(x,\mu_i)&amp;=(x-\mu_i)^2\\d_\Sigma(x,\mu_i)&amp;=\frac{(x-\mu_i)^2}{\sigma^2}\end{aligned}\]</span></p>
+<p>（就是正态分布里面<span
+class="math inline">\(\exp\)</span>的一坨东西）</p>
+<p>对于二维高斯PDF从二维高斯中抽取的样本位于以均值为中心的云中。椭圆显示高斯的等概率密度线。椭圆上的所有点都具有相同的Mahalanobis距离，但与均值的欧几里得距离不同</p>
+<p><img src="/images/EE6222/机器视觉038.jpg" /></p>
+<p>二次分类器：回想一下，<span class="math inline">\(p(\mathbf
+x\vert\omega_i)=\mathrm
+N(\mu_i,\Sigma_i)\)</span>的多元高斯类条件PDF的判别函数是</p>
+<p><span class="math display">\[g_i(\mathrm x)=-\frac12(\mathbf
+x-\mu_i)^\intercal\Sigma_i^{-1}(\mathbf x-\mu_i)+\ln
+p(\omega_i)-\frac12\ln\lvert\Sigma_i\rvert\]</span></p>
+<p>这是一般多元正态情况，其中每个类别的协方差矩阵不同。唯一可以删除的项是<span
+class="math inline">\(\frac
+d2\ln2\pi\)</span>项（常数），并且得到的判别函数本质上是二次的：</p>
+<p><span class="math display">\[g_i(\mathbf x)=\mathbf
+x^\intercal\mathbf W_i\mathbf x+\mathbf w_i^\intercal\mathbf
+x+\omega_{0i}\]</span></p>
+<p>其中</p>
+<p><span class="math display">\[\begin{aligned}\mathbf
+W_i&amp;=-\frac12\Sigma_i^{-1}\\\mathbf
+w_i&amp;=\Sigma_i^{-1}\mu_i\\\omega_{0i}&amp;=-\frac12\mu_i^\intercal\Sigma_i^{-1}\mu_i+\ln
+p(\omega_i)-\frac12\ln\lvert\Sigma_i\rvert\end{aligned}\]</span></p>
+<p>决策曲面是超二次曲面，可以采用任何一般形式的超平面、超平面对、超球面、超椭圆体、超抛物面以及各种类型的超双曲面</p>
+<p><img src="/images/EE6222/机器视觉039.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉040.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉041.jpg" /></p>
+<p>特殊情况1：所有类都拥有相同的协方差矩阵<span
+class="math inline">\(\Sigma_i=\Sigma\)</span>。</p>
+<p>判别函数简化为</p>
+<p><span class="math display">\[\begin{aligned}g_i(\mathrm
+x)&amp;=-\frac12(\mathbf x-\mu_i)^\intercal\Sigma_i^{-1}(\mathbf
+x-\mu_i)+\ln p(\omega_i)\\&amp;=-\frac12\mathbf
+x^\intercal\Sigma_i^{-1}\mathbf x+\mu_i^\intercal\Sigma_i^{-1}\mathbf
+x-\frac12\mu_i^\intercal\Sigma_i^{-1}\mu_i+\ln
+p(\omega_i)\end{aligned}\]</span></p>
+<p>并删除与类标签<span
+class="math inline">\(i\)</span>无关的项，我们有</p>
+<p><span class="math display">\[\begin{aligned}g_i(\mathrm
+x)&amp;=\mu_i^\intercal\Sigma_i^{-1}\mathbf
+x-\frac12\mu_i^\intercal\Sigma_i^{-1}\mu_i+\ln
+p(\omega_i)\\&amp;=\mathbf w_i^\intercal\mathbf x+\mathrm
+w_{i0}\end{aligned}\]</span></p>
+<p>判别函数是<span class="math inline">\(\mathbf
+x\)</span>的线性函数。这将产生一个线性分类器，因为我们将表明任何两个类之间的决策或分类边界是一个超平面。我们将<span
+class="math inline">\(\mathrm w_{i0}\)</span>称为<span
+class="math inline">\(\omega_i\)</span>类的阈值或偏差。</p>
+<p>任何两个类别之间的决策或分类边界是方程的解。</p>
+<p><span class="math display">\[
+\begin{aligned}
+    g_i(\mathbf x)&amp;=g_j(\mathbf x)\\
+    (\mathbf w_i-\mathbf w_j)^\intercal\mathbf x+\mathrm w_{i0}-\mathrm
+w_{j0}&amp;=0\\
+    (\mu_i-\mu_j)^\intercal\Sigma^{-1}\mathbf
+x-\frac12(\mu_i-\mu_j)^\intercal\Sigma^{-1}(\mu_i-\mu_j)+\ln\frac{p(\omega_i)}{p(\omega_j)}&amp;=0
+\end{aligned}
+\]</span></p>
+<p>在二维空间<span class="math inline">\(\mathbf
+x\)</span>中它是一条直线，在三维空间<span class="math inline">\(\mathbf
+x\)</span>中它是一个平面，在高维空间<span class="math inline">\(\mathbf
+x\)</span>中它是一个超平面。</p>
+<p>我们看到，分隔两个类的决策超平面通常不与均值之间的线正交。（在什么情况下它是正交的？）</p>
+<p><img src="/images/EE6222/机器视觉042.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉043.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉044.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉045.jpg" /></p>
+<p><img src="/images/EE6222/机器视觉046.jpg" /></p>
+<p>特殊情况2：所有类都具有相同的对角线标量协方差矩阵<span
+class="math inline">\(\Sigma_i=\sigma^2\mathbf I\)</span>。<span
+class="math inline">\(\mathbf I\)</span>是单位矩阵。</p>
+<p>当所有特征（<span
+class="math inline">\(x\)</span>的组成部分）在统计上不相关且每个特征具有相同的方差<span
+class="math inline">\(\sigma_2\)</span>时，就会出现这种情况。</p>
+<p>注意<span class="math inline">\(\Sigma_i=\sigma^2\mathbf
+I\Rightarrow\Sigma_i^{-1}=\frac{\mathbf
+I}{\sigma^2},\qquad\lvert\Sigma_i\rvert=\sigma^{2d}\)</span></p>
+<p>判别函数简化为</p>
+<p><span class="math display">\[\begin{aligned}g_i(\mathrm
+x)&amp;=-\frac12(\mathbf x-\mu_i)^\intercal\Sigma_i^{-1}(\mathbf
+x-\mu_i)+\ln p(\omega_i)\\&amp;=-\frac1{2\sigma^2}(\mathbf
+x-\mu_i)^\intercal(\mathbf x-\mu_i)+\ln
+p(\omega_i)\\&amp;=-\frac1{2\sigma^2}(\mathbf x^\intercal\mathbf
+x-2\mu_i^\intercal\mathbf x+\mu_i^\intercal\mu_i)+\ln
+p(\omega_i)\end{aligned}\]</span></p>
+<p>二次项<span class="math inline">\(\mathbf x^\intercal\mathbf
+x\)</span>对于所有<span
+class="math inline">\(i\)</span>类都是相同的，因此可以删除。乘以常数<span
+class="math inline">\(\sigma^2\)</span>，判别函数简化为</p>
+<p><span class="math display">\[\begin{aligned}g_i(\mathrm
+x)&amp;=-2\mu_i^\intercal\mathbf x+\mu_i^\intercal\mu_i+\sigma^2\ln
+p(\omega_i)\\&amp;=\mathbf w_i^\intercal\mathbf x+\mathrm
+w_{i0}\end{aligned}\]</span></p>
+<p>我们将<span class="math inline">\(\mathrm w_{i0}\)</span>称为<span
+class="math inline">\(\omega_i\)</span>类的阈值或偏差。它是<span
+class="math inline">\(\mathbf
+x\)</span>的线性函数。这产生了一个线性分类器。</p>
+<p>任何两个类别之间的决策或分类边界是方程的解。</p>
+<p><span class="math display">\[
+\begin{aligned}
+    g_i(\mathbf x)&amp;=g_j(\mathbf x)\\
+    (\mathbf w_i-\mathbf w_j)^\intercal\mathbf x+\mathrm w_{i0}-\mathrm
+w_{j0}&amp;=0\\
+    (\mu_i-\mu_j)^\intercal\mathbf
+x-\frac{\mu_i^\intercal\mu_i-\mu_j^\intercal\mu_j}2+\ln\frac{p(\omega_i)}{p(\omega_j)}&amp;=0
+\end{aligned}
+\]</span></p>
+<p>该方程定义了一个与连接两个均值的线正交的超平面</p>
+<p><img src="/images/EE6222/机器视觉047.jpg" /></p>
+<p>回想一下判别函数</p>
+<p><span class="math display">\[g_i(\mathrm
+x)=-\frac1{2\sigma^2}(\mathbf x-\mu_i)^\intercal(\mathbf x-\mu_i)+\ln
+p(\omega_i)\]</span></p>
+<p>如果所有类别的先验概率相同，则</p>
+<p><span class="math display">\[g_i(\mathrm x)=(\mathbf
+x-\mu_i)^\intercal(\mathbf x-\mu_i)=-d_{\text{Eu}}=\lVert\mathbf
+x-\mu_i\rVert\]</span></p>
+<p>当这种情况发生时，最佳决策规则可以非常简单地表述为：对特征向量<span
+class="math inline">\(\mathbf x\)</span>进行分类，测量<span
+class="math inline">\(\mathbf x\)</span>到每个<span
+class="math inline">\(c\)</span>个均值向量的欧几里得距离，并将<span
+class="math inline">\(\mathbf
+x\)</span>分配给最接近均值的类别。这样的分类器称为最小距离分类器。如果将每个均值向量视为其类别中模式的理想原型或模板，那么这本质上就是一个模板匹配过程。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"># 概率论</a>
+              <a href="/tags/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83/" rel="tag"># 正态分布</a>
+              <a href="/tags/%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87%E5%86%B3%E7%AD%96/" rel="tag"># 最大后验概率决策</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/09/11/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/" rel="prev" title="机器学习的数据准备">
+                  <i class="fa fa-angle-left"></i> 机器学习的数据准备
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
