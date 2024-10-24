@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -157,6 +157,946 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/10/24/%E8%A7%86%E9%A2%91%E5%8E%8B%E7%BC%A9%E5%92%8C%E6%A0%87%E5%87%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | FORTH">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/10/24/%E8%A7%86%E9%A2%91%E5%8E%8B%E7%BC%A9%E5%92%8C%E6%A0%87%E5%87%86/" class="post-title-link" itemprop="url">视频压缩和标准</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-10-24 17:23:38" itemprop="dateCreated datePublished" datetime="2024-10-24T17:23:38+08:00">2024-10-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="视频编码和标准">视频编码和标准</h1>
+<h2 id="视频压缩基础知识">视频压缩基础知识</h2>
+<p>空间冗余（spatial
+redundancy）是指图像内（或更具体地说，在小的图像邻域内）像素之间的统计相关性，也被称为帧内冗余（intraframe
+redundancy）。</p>
+<p>时间冗余（temporal
+redundancy）是指视频序列中连续帧的像素之间的统计相关性，因此，它也被称为帧间冗余（interframe
+redundancy）。</p>
+<p>心理视觉冗余（Psychovisual Redundancy）</p>
+<ul>
+<li>频率掩蔽（frequency
+masking）：人类对高频成分中的噪声或失真不太敏感，反之亦然。</li>
+<li>色彩掩蔽（color masking）：人类对亮度成分比色度成分更敏感。</li>
+</ul>
+<p>视频压缩的方法：</p>
+<ul>
+<li>通过利用视频中的冗余。
+<ul>
+<li>空间冗余。</li>
+<li>时间冗余。</li>
+<li>心理视觉冗余。</li>
+</ul></li>
+<li>通过提高编码效率：
+<ul>
+<li>Huffman编码。</li>
+<li>预测/差分编码。</li>
+</ul></li>
+</ul>
+<h3 id="视频结构">视频结构</h3>
+<p><img src="/images/EE6427/视频信号处理025.jpg" /></p>
+<p><img src="/images/EE6427/视频信号处理026.jpg" /></p>
+<h3 id="宏块macroblock">宏块（Macroblock）</h3>
+<p>一个宏块包含一个16x16的Y分量以及空间对应的8x8的C<sub>b</sub>和C<sub>r</sub>分量。</p>
+<p>一个宏块有4个亮度块和2个色度块，是进行DCT运算和运动补偿的基本单位。</p>
+<p><img src="/images/EE6427/视频信号处理027.jpg" /></p>
+<h3 id="视频压缩基础知识-1">视频压缩基础知识</h3>
+<p>视频压缩的主要思想：</p>
+<ul>
+<li>运动估计：预测宏块的运动矢量</li>
+<li>运动补偿：对预测宏块和实际宏块之间的微小差异进行编码</li>
+</ul>
+<h3 id="运动估计与补偿">运动估计与补偿</h3>
+<p><img src="/images/EE6427/视频信号处理028.jpg" /></p>
+<h3 id="帧内压缩与帧间压缩">帧内压缩与帧间压缩</h3>
+<p>许多视频压缩方法（例如MPEG）都使用帧内压缩和帧间压缩。</p>
+<p>帧内压缩</p>
+<ul>
+<li>将每个视频帧视为静止图像（例如，MPEG中的I帧）。</li>
+<li>减少空间冗余。</li>
+<li>采用基于JPEG的压缩。</li>
+</ul>
+<p>帧间压缩</p>
+<ul>
+<li>利用时间域相关性（例如MPEG中的P帧和B帧）。</li>
+<li>减少时间冗余。</li>
+<li>采用运动估计和补偿。</li>
+</ul>
+<h3 id="色度二次采样chroma-subsampling">色度二次采样（Chroma
+Subsampling）</h3>
+<p>二次采样格式：</p>
+<ul>
+<li>4:4:4 - 无二次采样</li>
+<li>4:2:2、4:1:1 - 水平二次采样</li>
+<li>4:2:0 - 水平和垂直二次采样</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理029.jpg" /></p>
+<ul>
+<li>人类对亮度分量比色度分量更敏感。因此，为了实现压缩，色度分量被进行二次采样。</li>
+<li>4:2:2二次采样：对于每两个水平Y样本，采样1个C<sub>b</sub>和1个C<sub>r</sub>。</li>
+<li>4:2:0二次采样：对于每2x2的Y样本，采样1个C<sub>b</sub>和1个C<sub>r</sub>。</li>
+</ul>
+<h2 id="mpeg基础">MPEG基础</h2>
+<p>-目的：对视频信号进行编码/压缩。 -
+MPEG标准基于DCT编码和运动估计与补偿。 - DCT编码：消除帧内冗余。 -
+运动估计与补偿：消除帧间冗余。 - 彩色视频源有三个分量 - 亮度分量（Y） -
+两个色度分量（C<sub>b</sub>和C<sub>r</sub>），通常采用4:2:0二次采样格式。</p>
+<p><img src="/images/EE6427/视频信号处理030.jpg" /></p>
+<p><img src="/images/EE6427/视频信号处理031.jpg" /></p>
+<h3 id="图片组gop">图片组（GOP）</h3>
+<p><img src="/images/EE6427/视频信号处理032.jpg" /></p>
+<p>视频序列被划分为图像组（GOP）。</p>
+<p>每个GOP可能包含三种类型的图片：</p>
+<ul>
+<li>I帧（帧内编码帧，Intra-coded frames）</li>
+<li>P帧（预测编码帧，Predictive-coded frame）</li>
+<li>B帧（双向编码帧，Bidirectional-coded frame）</li>
+</ul>
+<h3 id="i帧p帧b帧">I帧、P帧、B帧</h3>
+<ul>
+<li>I帧
+<ul>
+<li>编码时不参考任何其他帧。</li>
+<li>Y、C<sub>b</sub>、C<sub>r</sub>块使用JPEG算法独立编码。</li>
+</ul></li>
+<li>P帧和B帧
+<ul>
+<li>称为帧间编码或插值帧。</li>
+<li>P帧使用来自前一个锚I帧或P帧的运动估计和补偿进行编码。</li>
+<li>B帧使用来自过去、未来或两个锚帧的预测进行编码。</li>
+</ul></li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理033.jpg" /></p>
+<h2 id="运动估计与补偿-1">运动估计与补偿</h2>
+<p>时间冗余：视频中连续的帧是相似的。</p>
+<ul>
+<li>并非视频的每一帧都需要单独编码。</li>
+<li>思路：对当前帧和序列中其他帧之间的差异进行编码。</li>
+<li>差异值较小，因此有利于压缩。</li>
+<li>视频压缩：
+<ul>
+<li>运动估计：运动矢量搜索。</li>
+<li>运动补偿：计算预测误差。</li>
+</ul></li>
+</ul>
+<h3 id="运动估计">运动估计</h3>
+<p>MV搜索通常仅限于小范围的邻近区域。水平和垂直位移都在<span
+class="math inline">\([−p,p]\)</span>范围内。这使得搜索窗口的大小为<span
+class="math inline">\((2p+1)\times(2p+1)\)</span>。</p>
+<p><img src="/images/EE6427/视频信号处理034.jpg" /></p>
+<p>两个宏块之间的差异可以通过平均绝对差异（Mean Absolute
+Difference，MAD）来测量：</p>
+<p><span
+class="math display">\[\mathrm{MAD}(i,j)=\frac1{N^2}\sum_{k=0}^{N-1}\sum_{l=0}^{N-1}\left\lvert
+C(x+k,y+l)-R(x+i+k,y+j+l)\right\rvert\]</span></p>
+<ul>
+<li><span class="math inline">\(N\)</span>：宏块的大小</li>
+<li><span class="math inline">\(k\)</span>和<span
+class="math inline">\(l\)</span>：宏块中像素的索引</li>
+<li><span class="math inline">\(i\)</span>和<span
+class="math inline">\(j\)</span>：水平和垂直位移</li>
+<li><span
+class="math inline">\(C(x+k,y+l)\)</span>：目标帧宏块中的像素</li>
+<li><span
+class="math inline">\(R(x+i+k,y+j+l)\)</span>：参考帧宏块中的像素</li>
+</ul>
+<p>目标：找到运动矢量<span
+class="math inline">\(\mathrm{MV}=(u,v)\)</span>，使得<span
+class="math inline">\(\mathrm{MAD}(i,j)\)</span>最小：</p>
+<p><span class="math display">\[(u,v)=\arg\min_{(i,j)}\mathrm{MAD}\
+,i\in[-p,p],j\in[-p,p]\]</span></p>
+<h4 id="运动估计方法">运动估计方法</h4>
+<ul>
+<li>全面搜索</li>
+<li>三步搜索</li>
+<li>2D-Log 搜索</li>
+<li>分层搜索</li>
+<li>钻石搜索</li>
+<li>交叉搜索</li>
+<li>等等</li>
+</ul>
+<h5 id="全面搜索">全面搜索</h5>
+<ul>
+<li>搜索搜索窗口内的每个点。</li>
+<li>优点：准确、压缩率最高。</li>
+<li>缺点：速度慢、计算量大。</li>
+</ul>
+<h5 id="三步搜索">三步搜索</h5>
+<p><img src="/images/EE6427/视频信号处理035.jpg" /></p>
+<p>仅包含 3 个步骤。</p>
+<ul>
+<li>步骤 1：搜索 9 个点以获得最小预测误差。</li>
+<li>步骤 2：以步骤 1 中找到的位置为中心，将搜索宽度减半，搜索 9
+个点以获得最小误差。</li>
+<li>步骤 3：以步骤 2 中找到的位置为中心，将搜索宽度减半，搜索 9
+个点以获得最小误差。最终位置是找到的最佳位置。</li>
+<li>优点：快速</li>
+<li>缺点：准确度较低，压缩率较低。</li>
+</ul>
+<h5 id="二维对数搜索">二维对数搜索</h5>
+<p><img src="/images/EE6427/视频信号处理036.jpg" /></p>
+<ul>
+<li>步骤 1：搜索 5 个点以获得最小预测误差。</li>
+<li>步骤 2：以前次迭代中找到的位置为中心，
+<ol type="1">
+<li>如果找到的位置是中心位置或位于边界，则将搜索宽度减半；否则，保留搜索宽度。</li>
+<li><ol type="1">
+<li>如果搜索窗口尚未达到 3x3，则搜索 5 个点以获得最小误差并重复步骤
+2。</li>
+<li>否则，如果搜索窗口为 3x3，则搜索 9
+个点以获得最小误差并返回最佳找到位置。</li>
+</ol></li>
+</ol></li>
+<li>速度：介于完整搜索和 3 步搜索之间。</li>
+<li>准确度：介于完整搜索和 3 步搜索之间。</li>
+</ul>
+<h5 id="分层搜索">分层搜索</h5>
+<ul>
+<li>三级分层搜索，原始图像位于第 0 级。</li>
+<li>第 1 级和第 2 级的图像是通过从前面的级别按 2
+倍的倍数下采样获得的，初始搜索在第 2 级进行。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理037.jpg" /></p>
+<ul>
+<li>搜索可从分层/多分辨率方法中受益。</li>
+<li>可以从分辨率显著降低的图像中获得运动矢量的初始估计。</li>
+<li>宏块的尺寸更小。</li>
+<li>搜索范围 p 也可按比例缩小。</li>
+<li>因此，所需的操作数量大大减少。</li>
+</ul>
+<h1 id="mpeg标准">MPEG标准</h1>
+<h2 id="mpeg-1">MPEG-1</h2>
+<ul>
+<li>由 ISO/IEC 于 1992 年 11 月制定。</li>
+<li>有损视频/音频压缩标准。</li>
+<li>为数字存储媒体 (VCD) 提供速度为 1.5 Mbps
+的视频及其相关音频编码。</li>
+<li>JPEG、H.261 的扩展。</li>
+<li>仅支持逐行扫描。</li>
+<li>支持的图片分辨率：</li>
+<li>30 fps 的 NTSC 视频为 352 × 240。</li>
+<li>25 fps 的 PAL 视频为 352 × 288。</li>
+<li>使用 4:2:0 色度子采样。</li>
+</ul>
+<p>MPEG-1 也称为 ISO/IEC 11172。</p>
+<p>它有五个部分：</p>
+<ul>
+<li>第 1 部分 - MPEG-1 系统</li>
+<li>第 2 部分 - MPEG-1 视频</li>
+<li>第 3 部分 - MPEG-1 音频</li>
+<li>第 4 部分 - 一致性</li>
+<li>第 5 部分 - 参考软件</li>
+</ul>
+<p>限制：</p>
+<ul>
+<li>仅支持逐行扫描。</li>
+<li>图像质量低。</li>
+<li>压缩率低。</li>
+</ul>
+<h3 id="ip-和-b-帧编码">I、P 和 B 帧编码</h3>
+<h4 id="i帧编码">I帧编码</h4>
+<figure>
+<img src="/images/EE6427/视频信号处理038.jpg" alt="I帧编码" />
+<figcaption aria-hidden="true">I帧编码</figcaption>
+</figure>
+<h4 id="p帧编码">P帧编码</h4>
+<figure>
+<img src="/images/EE6427/视频信号处理039.jpg" alt="P帧编码示意图" />
+<figcaption aria-hidden="true">P帧编码示意图</figcaption>
+</figure>
+<figure>
+<img src="/images/EE6427/视频信号处理040.jpg" alt="P帧编码流程图" />
+<figcaption aria-hidden="true">P帧编码流程图</figcaption>
+</figure>
+<ul>
+<li>对目标帧中的每个宏块进行运动估计和补偿。
+<ul>
+<li>将目标帧中的每个宏块与前一个I或P参考（锚）帧进行比较。</li>
+<li>对于每个宏块，以参考帧中的搜索窗口为中心进行搜索。</li>
+<li>如果绝对差和(SAD)小于阈值，则找到匹配项。</li>
+<li>如果找到匹配项，则确定两个参数：运动矢量和预测误差（矩阵）。
+<ul>
+<li>运动矢量测量目标宏块的位置与参考帧中最佳匹配宏块的位置之间的偏移或位移矢量。</li>
+<li>预测误差测量目标宏块与参考帧中最佳匹配宏块之间的差异（矩阵）。</li>
+<li>运动矢量使用差分编码进行编码，并对得到的符号进行霍夫曼编码。</li>
+<li>预测误差（Y、Cr、Cb）的差异矩阵使用与 I 帧相同的步骤进行编码。</li>
+</ul></li>
+<li>如果未找到匹配项，则将宏块独立编码为 I 帧中的宏块。</li>
+</ul></li>
+</ul>
+<h4 id="b帧编码">B帧编码</h4>
+<p>为什么双向搜索：</p>
+<ul>
+<li>在前一个和下一个参考帧中找到目标帧的宏块 (MB)
+的良好匹配的几率更高。</li>
+<li>例如，目标帧中包含球的一部分的 MB 无法在前一帧中找到良好的匹配
+MB。</li>
+<li>但是，可以从下一帧轻松获得匹配。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理041.jpg" /></p>
+<p><img src="/images/EE6427/视频信号处理042.jpg" /></p>
+<figure>
+<img src="/images/EE6427/视频信号处理043.jpg" alt="B帧编码流程图" />
+<figcaption aria-hidden="true">B帧编码流程图</figcaption>
+</figure>
+<ul>
+<li>对于目标帧中的每个宏块，针对前一个（前一个）和后一个（后一个）参考（锚点）I
+帧或 P 帧执行运动估计和补偿。</li>
+<li>这会产生 2
+组（运动矢量、差异矩阵）对，一组基于前一个锚点帧，另一组基于后一个锚点帧。</li>
+<li>使用目标宏块以及前一个和后一个最佳匹配宏块的平均值计算第三个差异矩阵。</li>
+<li>选择具有最小预测误差的集合，并以与 P 帧相同的方式对其进行编码。</li>
+</ul>
+<h4 id="帧大小">帧大小</h4>
+<ul>
+<li>P帧明显小于I帧，因为利用了时间冗余。</li>
+<li>B帧甚至比P帧还要小，因为具有双向预测的优势。</li>
+</ul>
+<h2 id="mpeg-2">MPEG-2</h2>
+<ul>
+<li>旨在解决 MPEG-1 的局限性：例如，低比特率（1.5
+Mbps）、仅逐行扫描。</li>
+<li>1995 年标准化。</li>
+<li>为高比特率（4 Mbps）的数字广播电视（隔行扫描）开发。</li>
+<li>为不同的应用定义不同的配置文件。</li>
+<li>支持可扩展编码。</li>
+</ul>
+<h3 id="可扩展性">可扩展性</h3>
+<p>可扩展编码对于通过具有以下特征的网络传输的MPEG-2视频非常有用：</p>
+<ul>
+<li>比特率差异很大的网络。</li>
+<li>具有可变比特率 (VBR) 通道的网络。</li>
+<li>具有噪声连接的网络。</li>
+</ul>
+<h4 id="可扩展编码">可扩展编码</h4>
+<ul>
+<li>分层编码：一个基础层和一个或多个增强层。</li>
+<li>基础层可以独立编码、传输和解码以获得基本视频质量。</li>
+<li>首先发送基础层的比特流，以便为用户提供快速和基本的视频视图，然后发送增强层以提高质量。</li>
+<li>但是，增强层的编码和解码依赖于基础层或先前的增强层。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理044.jpg" /></p>
+<h4 id="可扩展性种类">可扩展性种类</h4>
+<p><img src="/images/EE6427/视频信号处理045.jpg" /></p>
+<p><img src="/images/EE6427/视频信号处理046.jpg" /></p>
+<ul>
+<li>SNR可扩展性：增强层提供更高的SNR。</li>
+<li>空间可扩展性：增强层提供更高的空间分辨率。</li>
+<li>时间可扩展性：增强层有助于提高帧速率。</li>
+<li>混合可扩展性：这结合了上述三种可扩展性中的任意两种。</li>
+<li>数据分区：量化DCT系数被分成多个分区。</li>
+</ul>
+<h5 id="snr可扩展性">SNR可扩展性</h5>
+<ul>
+<li>对基础层进行增强以提高信噪比(SNR)。</li>
+<li>在两层生成输出比特流Bits_base和Bits_enhance：
+<ul>
+<li>基础层对DCT系数进行粗量化，导致位数较少且视频质量相对较低。</li>
+<li>粗量化的DCT系数随后进行逆量化(Q<sup>-1</sup>)并馈送到增强层以与原始DCT系数进行比较。</li>
+<li>它们的差异被精细量化以生成DCT系数细化，经过VLC后，变为称为Bits_enhance的比特流。</li>
+</ul></li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理047.jpg" /></p>
+<h5 id="空间可扩展性">空间可扩展性</h5>
+<ul>
+<li>基础层用于生成降低分辨率图片的比特流。</li>
+<li>与增强层结合时，生成原始分辨率的图片。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理048.jpg" /></p>
+<h5 id="时间可扩展性">时间可扩展性</h5>
+<ul>
+<li>输入视频在时间上被解复用为两部分，每部分承载原始帧速率的一半。</li>
+<li>基础层编码器对其自己的输入视频执行正常的单层编码程序，并产生输出比特流
+Bits_base。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理049.jpg" /></p>
+<h5 id="混合可扩展性">混合可扩展性</h5>
+<ul>
+<li>以上三种可伸缩性中的任意两种可以组合形成混合可伸缩性：
+<ul>
+<li>空间和时间混合可伸缩性。</li>
+<li>SNR和空间混合可伸缩性。</li>
+<li>SNR和时间混合可伸缩性。</li>
+</ul></li>
+<li>通常采用由基础层、增强层1和增强层2组成的三层混合编码器。</li>
+</ul>
+<h5 id="数据分区">数据分区</h5>
+<ul>
+<li>基础分区包含低频DCT系数。</li>
+<li>增强分区包含高频DCT系数。</li>
+<li>严格来说，数据分区不是分层编码：
+<ul>
+<li>因为单个视频数据流被简单地分割。</li>
+<li>在生成增强分区时不再依赖基础分区。</li>
+</ul></li>
+<li>适用于通过嘈杂的信道进行传输和渐进式传输。</li>
+</ul>
+<h3 id="相对于mpeg-1的优势">相对于MPEG-1的优势</h3>
+<ul>
+<li>在同等比特率下，图像质量比MPEG-1更好。</li>
+<li>支持逐行和隔行扫描，而MPEG-1仅支持逐行扫描。</li>
+<li>支持可扩展性，而MPEG-1不支持。</li>
+<li>更好地抵御比特错误。MPEG-2可以在嘈杂且不可靠的网络上传输带有比特错误的视频。</li>
+<li>支持 4:2:2 和 4:4:4 色度子采样以提高色彩质量。</li>
+<li>更灵活的视频格式，支持DVD和HDTV定义的各种图像分辨率。</li>
+</ul>
+<h1 id="h.26x标准">H.26x标准</h1>
+<p><img src="/images/EE6427/视频信号处理050.jpg" /></p>
+<h2 id="h.264">H.264</h2>
+<ul>
+<li>2003年由ITU-T VCEG和ISO/IEC MPEG标准化。</li>
+<li>也称为高级视频编码(AVC)或MPEG-4第10部分。</li>
+<li>压缩效率比H.262高50%，比H.263高30%。</li>
+<li>应用：互联网视频、计算机、高清电视广播、蓝光盘、移动和便携式设备。</li>
+<li>通过可变块大小、多参考帧改进运动补偿。</li>
+</ul>
+<figure>
+<img src="/images/EE6427/视频信号处理051.jpg" alt="编码器" />
+<figcaption aria-hidden="true">编码器</figcaption>
+</figure>
+<h3 id="主要特点">主要特点</h3>
+<ul>
+<li>4×4块中的整数变换。低复杂度，无漂移。</li>
+<li>可变块大小运动补偿，亮度图像中从16×16到4×4。</li>
+<li>通过插值实现运动矢量的四分之一像素精度。</li>
+<li>多参考图像运动补偿。</li>
+<li>帧内方向空间预测。</li>
+<li>循环内去块滤波。</li>
+<li>上下文自适应可变长度编码 (CAVLC) 和上下文自适应二进制算术编码
+(CABAC)</li>
+<li>对数据错误和数据丢失更具鲁棒性。</li>
+<li>采用混合编码
+<ul>
+<li>帧内空间预测。</li>
+<li>帧间运动预测。</li>
+<li>对残差进行变换编码。</li>
+</ul></li>
+</ul>
+<h3 id="运动补偿">运动补偿</h3>
+<ul>
+<li>可变块大小运动补偿。</li>
+<li>两种类型：16×16宏块（M类型）和8×8分区（8×8类型）。</li>
+<li>默认情况下，宏块的大小为 16×16。</li>
+<li>可以进一步划分为更小的分区。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理052.jpg" /></p>
+<ul>
+<li>在亮度图像中，运动补偿的精度为四分之一像素精度。</li>
+<li>半像素和四分之一像素位置的像素值可以通过插值得出。</li>
+<li>使用6抽头滤波器估算半像素位置的像素值（b和h）：</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+    b_1&amp;=E-5F+20G+20H-5I+J\\
+    h_1&amp;=A-5C+20G+20M-5R+T\\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    b&amp;=(b_1+16)\gg5\\
+    h&amp;=(h_1+16)\gg5\\
+\end{aligned}
+\]</span></p>
+<ul>
+<li>请注意，&gt;&gt;为按位右移。</li>
+<li>b 和 h 被剪裁到图像范围，例如 0-255。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理053.jpg" /></p>
+<h3 id="gop中的附加选项">GOP中的附加选项</h3>
+<ul>
+<li>无 B 帧
+<ul>
+<li>B 帧中的宏块预测会导致更多延迟和存储。</li>
+<li>在此选项中，仅允许 I 帧和 P 帧。</li>
+<li>压缩效率相对较低。</li>
+<li>更适合某些应用，例如视频会议。</li>
+<li>与 H.264 的 Baseline Profile 或 Constrained Baseline Profile
+兼容。</li>
+</ul></li>
+<li>多个参考帧
+<ul>
+<li>为了在 P 帧中找到每个宏块的最佳匹配，H.264 最多允许 N
+个参考帧。</li>
+<li>提高压缩效率。</li>
+<li>需要更多计算。</li>
+</ul></li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理054.jpg" /></p>
+<h3 id="整数变换">整数变换</h3>
+<ul>
+<li><p>DCT会因为浮点计算和变换与逆变换中的舍入误差而导致预测偏移。</p></li>
+<li><p>它可能累积起来，导致较大的误差。</p></li>
+<li><p>在H.264中，整数变换用于解决该问题。</p></li>
+<li><p>H.264提供具有非线性步长的量化方案，以获得准确的速率控制。</p></li>
+<li><p>2D DCT 可以通过两个连续的1D变换实现。</p></li>
+<li><p>令<span class="math inline">\(\mathbf
+f\)</span>为4×4输入矩阵，<span class="math inline">\(\mathbf
+F\)</span>为DCT变换数据，<span class="math inline">\(\mathbf
+T\)</span>为DCT矩阵：</p></li>
+</ul>
+<p><span class="math display">\[
+\mathbf F=\mathbf T\times\mathbf f\times\mathbf T^\intercal
+\]</span></p>
+<ul>
+<li>4x4 DCT 矩阵由以下公式给出：</li>
+</ul>
+<p><span class="math display">\[
+\mathbf T_4=
+    \begin{bmatrix}
+    a&amp;a&amp;a&amp;a\\
+    b&amp;c&amp;-c&amp;-b\\
+    a&amp;-a&amp;-a&amp;a\\
+    c&amp;-b&amp;b&amp;-c
+    \end{bmatrix}\\
+\begin{cases}
+a=\frac12\\
+b=\frac1{\sqrt2}\cos\frac\pi8\\
+c=\frac1{\sqrt2}\cos\frac{3\pi}8
+\end{cases}
+\]</span></p>
+<p>为了导出缩放的4×4整数变换，我们可以简单地将<span
+class="math inline">\(\mathbf
+T_4\)</span>的条目向上缩放并将它们四舍五入为最接近的整数</p>
+<p><span class="math display">\[
+\mathbf H=\mathrm{round}(\alpha\cdot\mathbf T_4)
+\]</span></p>
+<p>设<span
+class="math inline">\(\alpha=2.5\)</span>，得到4x4整数DCT矩阵</p>
+<p><span class="math display">\[
+\mathbf H=
+\begin{bmatrix}
+1&amp;1&amp;1&amp;1\\
+2&amp;1&amp;-1&amp;-2\\
+1&amp;-1&amp;-1&amp;1\\
+1&amp;-2&amp;2&amp;-1
+\end{bmatrix}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\mathbf
+H\)</span>是正交的。但是，它的行不再具有相同的范数。</li>
+<li>归一化步骤推迟到量化步骤。</li>
+<li>逆变换：</li>
+</ul>
+<p><span class="math display">\[
+\mathbf H_{\mathrm{inv}}=
+\begin{bmatrix}
+1&amp;1&amp;1&amp;\frac12\\
+1&amp;\frac12&amp;-1&amp;-1\\
+1&amp;-\frac12&amp;-1&amp;1\\
+1&amp;-1&amp;1&amp;-\frac12
+\end{bmatrix}
+\]</span></p>
+<ul>
+<li>令<span class="math inline">\(\mathbf f\)</span>为4×4输入矩阵，<span
+class="math inline">\(\hat{\mathbf F}\)</span>为量化变换输出。</li>
+<li>正向整数变换，缩放和量化：</li>
+</ul>
+<p><span class="math display">\[
+\hat{\mathbf F}=\mathrm{round}\left[\left(\mathbf H\times\mathbf
+f\times\mathbf H^\intercal\right)\cdot\frac{\mathbf M_{\mathbf
+f}}{2^{15}}\right]
+\]</span></p>
+<p>其中，“×”表示矩阵乘法，“·”表示元素乘法，<span
+class="math inline">\(\mathbf M_{\mathbf f}\)</span>是由矩阵<span
+class="math inline">\(\mathbf
+m\)</span>和量化参数QP得到的4×4量化矩阵。</p>
+<p><img src="/images/EE6427/视频信号处理055.jpg" /></p>
+<p>令<span class="math inline">\(\hat{\mathbf
+f}\)</span>为去量化然后逆变换的结果。缩放、去量化和逆整数变换为：</p>
+<p><span class="math display">\[
+\hat{\mathbf f}=\mathrm{round}\left[\frac{\mathbf
+H_{\mathrm{inv}}\times\left(\hat{\mathbf F}\cdot\mathbf
+V_i\right)\times\mathbf H_{\mathrm{inv}}^\intercal}{2^6}\right]
+\]</span></p>
+<p>其中<span class="math inline">\(\mathbf V_i\)</span>是由矩阵<span
+class="math inline">\(\mathbf
+v\)</span>和量化参数QP得到的4×4反量化矩阵。</p>
+<p><img src="/images/EE6427/视频信号处理056.jpg" /></p>
+<h3 id="帧内编码">帧内编码</h3>
+<ul>
+<li><p>使用一些相邻的重建像素来预测帧内编码宏块。</p></li>
+<li><p>可以选择不同的帧内预测块大小（4×4或16×16）。</p></li>
+<li><p>4×4 块有九种预测模式。</p></li>
+<li><p>16×16 块有四种预测模式。</p></li>
+<li><p>对于每种预测模式，将比较预测值和实际值以产生预测误差/残差。</p></li>
+<li><p>产生最小残差的模式将被选为该块的预测模式。</p></li>
+<li><p>然后将残差发送到变换编码，其中采用 4×4 整数变换。</p></li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理057.jpg" /></p>
+<p><img src="/images/EE6427/视频信号处理058.jpg" /></p>
+<h3 id="h.264比特流结构">H.264比特流结构</h3>
+<p><img src="/images/EE6427/视频信号处理059.jpg" /></p>
+<h1 id="新兴的编码和标准">新兴的编码和标准</h1>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/10/24/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | FORTH">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/10/24/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9E%B6%E6%9E%84/" class="post-title-link" itemprop="url">人工智能模型与架构</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-10-24 17:23:29" itemprop="dateCreated datePublished" datetime="2024-10-24T17:23:29+08:00">2024-10-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="卷积神经网络-cnn">卷积神经网络 (CNN)</h1>
+<h2 id="简介">简介</h2>
+<ul>
+<li>由深层组成，以逐步提取更高级别的抽象特征。</li>
+<li>常用于分类和回归应用。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理060.jpg" /></p>
+<h2 id="线性分类器">线性分类器</h2>
+<p>大脑视觉皮层：大脑皮层的主要区域，接收、整合和处理从视网膜传递的视觉信息。</p>
+<figure>
+<img src="/images/EE6427/视频信号处理063.jpg" alt="生物神经网络" />
+<figcaption aria-hidden="true">生物神经网络</figcaption>
+</figure>
+<figure>
+<img src="/images/EE6427/视频信号处理064.jpg" alt="多层感知器" />
+<figcaption aria-hidden="true">多层感知器</figcaption>
+</figure>
+<figure>
+<img src="/images/EE6427/视频信号处理065.jpg" alt="线性分类器" />
+<figcaption aria-hidden="true">线性分类器</figcaption>
+</figure>
+<figure>
+<img src="/images/EE6427/视频信号处理066.jpg" alt="线性分类器" />
+<figcaption aria-hidden="true">线性分类器</figcaption>
+</figure>
+<h3 id="损失函数">损失函数</h3>
+<ul>
+<li><p>我们如何确定W和b？</p></li>
+<li><p>我们需要一个损失函数（误差测量），它是训练期间预测值和输出目标值（教师）之间的度量/距离。</p></li>
+<li><p>损失函数取决于我们要解决的问题类型。</p></li>
+<li><p>两个常见问题：</p>
+<ul>
+<li>回归
+<ul>
+<li>目标输出是连续值。</li>
+<li>例如，股价预测、降雨量估计等。</li>
+</ul></li>
+<li>分类
+<ul>
+<li>预测输入的标签/类别。</li>
+<li>目标输出是离散的（来自一组可能的标签）。</li>
+<li>例如，癌症分类（二进制）、人脸识别（多类）。</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="常用回归损失函数">常用回归损失函数</h4>
+<ul>
+<li>平方损失：</li>
+</ul>
+<p><span class="math display">\[
+L(x,y)=\sum_i(y_i-f(x_i))^2
+\]</span></p>
+<ul>
+<li>均方误差 (MSE)：</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{MSE}=\frac1N\sum_i(y_i-f(x_i))^2
+\]</span></p>
+<ul>
+<li>平均绝对误差 (MAE)：</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{MAE}=\frac1N\sum_i\lvert y_i-f(x_i)\rvert
+\]</span></p>
+<p><span class="math inline">\(x\)</span>和<span
+class="math inline">\(y\)</span>是输入数据和目标输出值，<span
+class="math inline">\(f(x)\)</span>是网络预测输出。</p>
+<h4 id="常用分类损失函数">常用分类损失函数</h4>
+<ul>
+<li>Softmax损失：具有softmax正则化的交叉熵损失。</li>
+</ul>
+<p><span class="math display">\[
+p_j=\frac{\mathrm e^{z_j}}{\sum_k\mathrm e^{z_k}},\ \text{where}\
+z_j=f(x_j)\\
+L=-\sum_jy_j\ln p_j
+\]</span></p>
+<p><img src="/images/EE6427/视频信号处理067.jpg" /></p>
+<h2 id="卷积神经网络-cnn-1">卷积神经网络 (CNN)</h2>
+<h3 id="cnn架构">CNN架构</h3>
+<ul>
+<li>卷积层</li>
+<li>激活函数层</li>
+<li>池化层</li>
+<li>全连接 (FC) 层 / 线性层</li>
+<li>Softmax层</li>
+</ul>
+<h4 id="卷积层">卷积层</h4>
+<ul>
+<li>以分层方式提取特征。</li>
+<li>前几层提取低级特征，而后几层提取高级特征。</li>
+<li>通过卷积核共享权重来减少要训练的参数。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理068.jpg" /></p>
+<h4 id="激活函数层">激活函数层</h4>
+<p><img src="/images/EE6427/视频信号处理069.jpg" /></p>
+<h4 id="池化层">池化层</h4>
+<ul>
+<li>降低激活图维度，从而减少计算和存储需求。</li>
+<li>常见池化操作：最大池化、平均池化。</li>
+<li>激活图/特征图的每个通道独立运行。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理070.jpg" /></p>
+<p><img src="/images/EE6427/视频信号处理071.jpg" /></p>
+<h4 id="softmax层">Softmax层</h4>
+<ul>
+<li>将最后一层 FC 层的输出分数 (logits) 映射到分类问题的概率中。</li>
+<li>根据概率计算 Softmax 损失。</li>
+</ul>
+<h2 id="cnn-训练与优化">CNN 训练与优化</h2>
+<ul>
+<li>目标是最小化/优化损失函数。</li>
+<li>常见策略以随机梯度下降 (SGD) 及其变体为中心。</li>
+<li>使用计算图计算梯度下降和参数更新</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理072.jpg" /></p>
+<h2 id="知名-cnn-架构">知名 CNN 架构</h2>
+<p><img src="/images/EE6427/视频信号处理073.jpg" /></p>
+<h2 id="应用">应用</h2>
+<h1 id="循环神经网络-rnn和长短期记忆-lstm">循环神经网络
+(RNN)和长短期记忆 (LSTM)</h1>
+<ul>
+<li>一种专门处理序列的神经网络。</li>
+<li>常用于涉及时间序列和状态序列预测和建模的应用。</li>
+<li>示例应用：股票价格预测、语言翻译。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理061.jpg" /></p>
+<h2 id="循环神经网络-rnn">循环神经网络 (RNN)</h2>
+<ul>
+<li>RNN 是一类神经网络，其输入形式为序列数据，例如时间序列数据。</li>
+<li>常用于时间/序列数据的分析。</li>
+<li>广泛应用于自然语言处理 (NLP)、机器翻译、图像字幕等应用。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理074.jpg" /></p>
+<p><img src="/images/EE6427/视频信号处理075.jpg" /></p>
+<p><img src="/images/EE6427/视频信号处理076.jpg" /></p>
+<figure>
+<img src="/images/EE6427/视频信号处理077.jpg"
+alt="普通循环神经网络/Elman RNN" />
+<figcaption aria-hidden="true">普通循环神经网络/Elman RNN</figcaption>
+</figure>
+<h3 id="rnn-训练与优化">RNN 训练与优化</h3>
+<p><img src="/images/EE6427/视频信号处理078.jpg" /></p>
+<h2 id="长短期记忆-lstm">长短期记忆 (LSTM)</h2>
+<p><img src="/images/EE6427/视频信号处理080.jpg" /></p>
+<p>• 一个可以随时间维持其状态的记忆单元。 • 由单元状态 (<span
+class="math inline">\(c_t\)</span>)、隐藏状态 (<span
+class="math inline">\(h_t\)</span>) 和 4 个门 (<span
+class="math inline">\(i\)</span>、<span
+class="math inline">\(f\)</span>、<span
+class="math inline">\(o\)</span>、<span
+class="math inline">\(g\)</span>) 组成。 • <span
+class="math inline">\(c_t\)</span>：长期记忆，<span
+class="math inline">\(h_t\)</span>：短期记忆。 • 单元状态 (<span
+class="math inline">\(c_t\)</span>) 通过忘记旧记忆（通过忘记 (<span
+class="math inline">\(f\)</span>) 门）和添加新记忆（通过输入 (<span
+class="math inline">\(i\)</span>) 门和门 (<span
+class="math inline">\(g\)</span>) 门）发生变化。 • 通过将单元状态 (<span
+class="math inline">\(c_t\)</span>) 传递到输出门来更新隐藏状态 (<span
+class="math inline">\(h_t\)</span>)。 • 门控制信息流向记忆。 • 门通过
+sigmoid/tanh 层获得，它们使用逐点乘法运算符更新 <span
+class="math inline">\(c_t\)</span> 和 <span
+class="math inline">\(h_t\)</span> 单元状态。</p>
+<h2 id="应用-1">应用</h2>
+<h1 id="transformer">Transformer</h1>
+<ul>
+<li>一种使用注意力机制并行处理输入序列的网络。</li>
+<li>擅长对长程依赖性进行建模。</li>
+<li>在许多视觉和NLP应用中实现最先进的性能。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理062.jpg.jpg" /></p>
+<ul>
+<li><p>注意力机制用于确定哪些输入标记（例如，NLP 中的单词、CV
+中的图像块）与当前输入/标记相关。</p></li>
+<li><p>注意力机制通过两个向量之间的相关性（点积）计算得出。</p></li>
+<li><p>相关性 -&gt; 相似性/相关性/重要性 -&gt; 注意力</p></li>
+<li><p>每个输入标记生成 3 个向量：查询 (q)、键 (k) 和值
+(v)。这些向量通过线性映射 (WQ、WK、Wv)
+提供更灵活的表示，以学习输入标记之间的潜在关系/注意力。</p></li>
+<li><p>注意力使用以下方法计算：</p>
+<ul>
+<li>步骤 1：计算查询 (q) 和键 (k) 向量之间的相关性 (点积)。</li>
+<li>步骤 2：使用 Softmax 函数对步骤 1 中的相关值进行缩放和规范化。</li>
+<li>步骤 3：将步骤 2 中的输出乘以相应的值 (v) 向量并将它们相加。</li>
+</ul></li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理081.jpg" /></p>
+<ul>
+<li>Transformer 使用注意力机制并行处理输入序列。</li>
+<li>使用注意力机制和密集/前馈/MLP 层。</li>
+<li>高度可并行化。</li>
+<li>可以提供全局注意力。</li>
+<li>擅长建模长程依赖关系。</li>
+<li>在许多视觉和 NLP 应用中实现最先进的性能。</li>
+<li>引领其他 SOTA 方法，如 BERT：用于语言的深度双向 Transformer
+的预训练。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理082.jpg" /></p>
+<p><img src="/images/EE6427/视频信号处理083.jpg" /></p>
+<ul>
+<li>最初设计用于神经机器翻译。</li>
+<li>后来扩展到视觉任务，如识别、检测等，并取得了巨大成功。</li>
+<li>利用注意力机制来分析一个 token（单词/图像块）相对于其他
+token/图像块的重要性。</li>
+<li>由 transformer 编码器和 transformer 解码器组成。</li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理084.jpg" /></p>
+<h2 id="transformer编码器">Transformer编码器</h2>
+<ul>
+<li>输入预处理：
+<ul>
+<li>将输入单词/标记（例如法语单词）映射到文本嵌入/向量中。</li>
+<li>添加输入单词的位置编码信息。</li>
+</ul></li>
+<li>编码器：
+<ul>
+<li>使用注意机制将预处理中的输入向量映射到上下文向量中。</li>
+<li>上下文向量通过前馈层生成编码器输出。</li>
+<li>由于注意机制，编码器输出比输入向量具有更好的表示，因为它们利用了其他输入标记的上下文信息。</li>
+</ul></li>
+</ul>
+<h2 id="transformer解码器">Transformer解码器</h2>
+<ul>
+<li>输出预处理：
+<ul>
+<li>将输出单词/标记（例如英文单词）映射到文本嵌入中。</li>
+<li>添加输出单词的位置编码信息。</li>
+</ul></li>
+<li>解码器：
+<ul>
+<li>输出掩蔽自注意力：将输出向量映射到输出单词（例如英文单词）的上下文向量中。掩蔽用于在训练期间隐藏看不见的单词。</li>
+<li>编码器解码器自注意力（或交叉注意力）：在自注意力阶段的上下文向量（例如英文单词）和编码器输出（例如法语单词）之间执行交叉注意力。</li>
+<li>结果向量通过前馈层生成解码器输出。</li>
+<li>解码器输出利用（1）英文单词的自注意力和（2）法语-英文单词交叉注意力来获得更好的表示。</li>
+</ul></li>
+<li>输出后处理：
+<ul>
+<li>使用 Softmax
+函数将解码器输出映射到概率中以生成下一个输出单词（即英文单词）。</li>
+</ul></li>
+</ul>
+<p><img src="/images/EE6427/视频信号处理085.jpg" /></p>
+<p><img src="/images/EE6427/视频信号处理086.jpg" /></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -787,172 +1727,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/09/05/%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E7%9A%84%E7%BB%93%E6%9E%84%E5%92%8C%E7%AD%96%E7%95%A5/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/09/02/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%EF%BC%9A%E7%AE%80%E4%BB%8B%E5%92%8C%E7%AE%80%E5%8F%B2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Sifr">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FORTH">
-      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | FORTH">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/09/02/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%EF%BC%9A%E7%AE%80%E4%BB%8B%E5%92%8C%E7%AE%80%E5%8F%B2/" class="post-title-link" itemprop="url">人工智能：简介和简史</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-09-02 20:51:14" itemprop="dateCreated datePublished" datetime="2024-09-02T20:51:14+08:00">2024-09-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-09-11 13:38:55" itemprop="dateModified" datetime="2024-09-11T13:38:55+08:00">2024-09-11</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>讲了一些人工智能的东西，非常的水。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/09/02/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%EF%BC%9A%E7%AE%80%E4%BB%8B%E5%92%8C%E7%AE%80%E5%8F%B2/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/09/02/%E5%9B%BE%E5%83%8F%E5%8E%8B%E7%BC%A9%E5%92%8CJPEG%E6%A0%87%E5%87%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Sifr">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FORTH">
-      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | FORTH">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/09/02/%E5%9B%BE%E5%83%8F%E5%8E%8B%E7%BC%A9%E5%92%8CJPEG%E6%A0%87%E5%87%86/" class="post-title-link" itemprop="url">图像压缩和JPEG标准</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-09-02 20:28:17" itemprop="dateCreated datePublished" datetime="2024-09-02T20:28:17+08:00">2024-09-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-09-11 13:38:35" itemprop="dateModified" datetime="2024-09-11T13:38:35+08:00">2024-09-11</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>讲解了JPEG图像压缩的原理，包括离散余弦变换（DCT）、Huffman编码等。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/09/02/%E5%9B%BE%E5%83%8F%E5%8E%8B%E7%BC%A9%E5%92%8CJPEG%E6%A0%87%E5%87%86/">
                 阅读全文 &raquo;
               </a>
             </div>
