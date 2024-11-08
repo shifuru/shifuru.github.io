@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在监督学习中，分类模型是使用标记数据进行训练的。我们如何了解模型的性能？接下来，我们介绍一些模型评估程序和指标。 评估程序 保留方法 在此方法中，可用数据的一部分&#x2F;子集被保留下来（这就是“保留”这个名称的由来）用于评估模型。该数据子集用作测试数据，用于评估已训练分类器的性能。  一旦使用训练数据训练了模型，就可以使用训练后的模型预测测试数据的标签。然后将预测值与标签的实际值进行比较。这是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分类器性能评估">
+<meta property="og:url" content="https://shifuru.github.io/2024/11/07/%E5%88%86%E7%B1%BB%E5%99%A8%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="在监督学习中，分类模型是使用标记数据进行训练的。我们如何了解模型的性能？接下来，我们介绍一些模型评估程序和指标。 评估程序 保留方法 在此方法中，可用数据的一部分&#x2F;子集被保留下来（这就是“保留”这个名称的由来）用于评估模型。该数据子集用作测试数据，用于评估已训练分类器的性能。  一旦使用训练数据训练了模型，就可以使用训练后的模型预测测试数据的标签。然后将预测值与标签的实际值进行比较。这是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6407/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0034.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6407/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0035.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6407/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0036.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6407/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0037.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6407/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0038.jpg">
+<meta property="article:published_time" content="2024-11-07T11:36:12.000Z">
+<meta property="article:modified_time" content="2024-11-08T13:31:40.595Z">
+<meta property="article:author" content="Sifr">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shifuru.github.io/images/EE6407/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0034.jpg">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2024/11/07/%E5%88%86%E7%B1%BB%E5%99%A8%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2024/11/07/%E5%88%86%E7%B1%BB%E5%99%A8%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0/","path":"2024/11/07/分类器性能评估/","title":"分类器性能评估"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>分类器性能评估 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.</span> <span class="nav-text">评估程序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%9D%E7%95%99%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">保留方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E4%BF%9D%E7%95%99%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">重复保留法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k%E6%8A%98%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">K折交叉验证方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%95%99%E4%B8%80%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81-loocv"><span class="nav-number">1.4.</span> <span class="nav-text">留一交叉验证 (LOOCV)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%A4%8Dk%E6%8A%98%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="nav-number">1.5.</span> <span class="nav-text">重复K折交叉验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%A9%E6%95%88%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87"><span class="nav-number">2.</span> <span class="nav-text">绩效评估指标</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5"><span class="nav-number">2.1.</span> <span class="nav-text">混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E7%A1%AE%E7%8E%87"><span class="nav-number">2.2.</span> <span class="nav-text">准确率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E7%8E%87"><span class="nav-number">2.3.</span> <span class="nav-text">错误率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%81%B5%E6%95%8F%E5%BA%A6%E5%92%8C%E7%89%B9%E5%BC%82%E6%80%A7"><span class="nav-number">2.4.</span> <span class="nav-text">灵敏度和特异性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%BE%E7%A1%AE%E7%8E%87%E5%92%8C%E5%8F%AC%E5%9B%9E%E7%8E%87"><span class="nav-number">2.5.</span> <span class="nav-text">精确率和召回率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#f%E5%88%86%E6%95%B0"><span class="nav-number">2.6.</span> <span class="nav-text">F分数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E6%94%B6%E8%80%85%E6%93%8D%E4%BD%9C%E7%89%B9%E5%BE%81-roc-%E6%9B%B2%E7%BA%BF"><span class="nav-number">2.7.</span> <span class="nav-text">接收者操作特征 (ROC) 曲线</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意に満ちた人間は絶滅すべき</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">80</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/11/07/%E5%88%86%E7%B1%BB%E5%99%A8%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="分类器性能评估 | FORTH">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分类器性能评估
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-07 19:36:12" itemprop="dateCreated datePublished" datetime="2024-11-07T19:36:12+08:00">2024-11-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-08 21:31:40" itemprop="dateModified" datetime="2024-11-08T21:31:40+08:00">2024-11-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在监督学习中，分类模型是使用标记数据进行训练的。我们如何了解模型的性能？接下来，我们介绍一些模型评估程序和指标。</p>
+<h1 id="评估程序">评估程序</h1>
+<h2 id="保留方法">保留方法</h2>
+<p>在此方法中，可用数据的一部分/子集被保留下来（这就是“保留”这个名称的由来）用于评估模型。该数据子集用作测试数据，用于评估已训练分类器的性能。</p>
+<p><img src="/images/EE6407/机器学习034.jpg" /></p>
+<p>一旦使用训练数据训练了模型，就可以使用训练后的模型预测测试数据的标签。然后将预测值与标签的实际值进行比较。这是可能的，因为测试数据是具有已知标签的可用数据的一部分。模型的性能通过各种指标来衡量，这些指标将在后面介绍。</p>
+<p>通常，70%–80%的可用数据（随机抽样）用于分类器训练，剩余的20%–30%用作测试数据。</p>
+<p>通常，可用数据分为 3 个部分 -
+训练和测试数据以及验证数据。验证数据用于在训练阶段测量模型性能。在通过训练和验证数据确定模型后，测试数据仅使用一次，用于测量和报告模型的最终性能。</p>
+<p><img src="/images/EE6407/机器学习035.jpg" /></p>
+<p>该方法的一个明显问题是，不同类别的数据划分为训练数据和测试数据可能不成比例。如果与某些类别相关的数据总体百分比远低于其他类别（即类别不平衡问题），这种情况会更糟。尽管采用随机抽样来选择测试数据，但这种情况仍可能发生。</p>
+<p>可以通过应用分层随机抽样代替随机抽样在一定程度上解决此问题。在分层随机抽样中，对每个单独的类别进行随机抽样。例如，每个类别中
+70% 和 30%
+的样本被随机选择为训练数据和测试数据。这确保生成的随机分区具有相等的每个类别的比例。</p>
+<h2 id="重复保留法">重复保留法</h2>
+<p>保留方法的一种特殊变体称为重复保留，通常用于确保所组成的训练和测试数据集的随机性。</p>
+<p>在重复保留中，使用多个随机保留来衡量模型性能。最后，取所有性能的平均值。</p>
+<p>由于已抽取多个保留，因此训练和测试数据（以及验证数据，如果已抽取）更有可能包含来自所有类别的代表性数据，并且与原始输入数据非常相似。</p>
+<h2 id="k折交叉验证方法">K折交叉验证方法</h2>
+<p>重复保留的过程是k折交叉验证技术的基础。k折交叉验证中，数据集被分成k个完全不同或不重叠的随机分区，称为折叠。</p>
+<p>每个<span
+class="math inline">\(k\)</span>折叠都有机会用作保留测试集，而所有其他折叠则集体用作训练数据集。在<span
+class="math inline">\(k\)</span>保留测试集上共拟合和评估了<span
+class="math inline">\(k\)</span>个模型，平均性能报告如下图所示。</p>
+<p><img src="/images/EE6407/机器学习036.jpg" /></p>
+<h2 id="留一交叉验证-loocv">留一交叉验证 (LOOCV)</h2>
+<p><span
+class="math inline">\(k\)</span>折交叉验证的一个极端情况是设置<span
+class="math inline">\(k=N\)</span>，即样本总数。在这种极端情况下，在每一折中，只有一个样本用作测试数据，其余<span
+class="math inline">\(N-1\)</span>个样本用作训练数据。这种极端情况称为留一交叉验证。</p>
+<p>这样做是为了最大化用于训练模型的数据数量。很明显，它必须运行的迭代次数（即倍数）等于数据集中的样本总数。因此，它在计算上非常昂贵，并且仅在样本数量较少时使用。</p>
+<h2 id="重复k折交叉验证">重复K折交叉验证</h2>
+<p>通过K折交叉验证估计模型性能可能会很嘈杂。这意味着每次运行该过程时，都会使用不同的数据集拆分为<span
+class="math inline">\(k\)</span>折，从而获得不同的模型性能平均估计值。从一次K折交叉验证运行到另一次运行的估计性能差异量取决于训练测试数据划分的差异。</p>
+<p>解决该问题的方法之一是多次重复K折交叉验证过程，并报告所有倍数和所有重复的平均性能。这种方法通常称为重复K折交叉验证。</p>
+<h1 id="绩效评估指标">绩效评估指标</h1>
+<p>对于二分类问题，我们假设一个类是正类，另一个是负类。通常，我们感兴趣的类被命名为正类，例如，“癌症”被命名为正类，而“正常”被命名为负类。样本的分类结果可能有四种情况：</p>
+<ol type="1">
+<li>真阳性（TP）：正类样本被正确分类为正类</li>
+<li>假阳性（FP）：负类样本被错误分类为正类</li>
+<li>真阴性（TN）：负类样本被正确分类为负类</li>
+<li>假阴性（FN）：正类样本被错误分类为负类</li>
+</ol>
+<h2 id="混淆矩阵">混淆矩阵</h2>
+<p>混淆矩阵是分类结果的总结，如下所示：</p>
+<p><img src="/images/EE6407/机器学习037.jpg" /></p>
+<h2 id="准确率">准确率</h2>
+<p>准确率是正确分类的样本的比例：</p>
+<p><span class="math display">\[
+\text{Acc}=\frac{\text{TP}+\text{TN}}{\text{TP}+\text{TN}+\text{FP}+\text{FN}}
+\]</span></p>
+<h2 id="错误率">错误率</h2>
+<p>错误率是错误分类的样本所占的比例：</p>
+<p><span class="math display">\[
+\text{Err}=\frac{\text{FP}+\text{FN}}{\text{TP}+\text{TN}+\text{FP}+\text{FN}}
+\]</span></p>
+<h2 id="灵敏度和特异性">灵敏度和特异性</h2>
+<p>分类器的灵敏度衡量被正确分类的正样本的比例。其测量方法如下：</p>
+<p><span class="math display">\[
+\text{Sensitivity}=\frac{\text{TP}}{\text{TP}+\text{FN}}
+\]</span></p>
+<p>分类器的特异性衡量被正确分类的负样本的比例。其测量方法如下：</p>
+<p><span class="math display">\[
+\text{Specificity}=\frac{\text{TN}}{\text{TN}+\text{FP}}
+\]</span></p>
+<h2 id="精确率和召回率">精确率和召回率</h2>
+<p>精确率表示的是真正为正的预测所占的比例：</p>
+<p><span class="math display">\[
+\text{Precision}=\frac{\text{TP}}{\text{TP}+\text{FP}}
+\]</span></p>
+<p>召回率衡量的是正确预测的正结果占正结果总数的比例：</p>
+<p><span class="math display">\[
+\text{Recall}=\frac{\text{TP}}{\text{TP}+\text{FN}}
+\]</span></p>
+<h2 id="f分数">F分数</h2>
+<p>F分数是分类器性能的衡量标准，它结合了精确度和召回率：</p>
+<p><span class="math display">\[
+\text
+F=\frac{2\times\text{Precision}\times\text{Recall}}{\text{Precision}+\text{Recall}}
+\]</span></p>
+<h2 id="接收者操作特征-roc-曲线">接收者操作特征 (ROC) 曲线</h2>
+<p><a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Fw4m1i72L/">【官方双语】ROC
+&amp; AUC 详细解释！</a></p>
+<p>在分类问题中，我们使用判别函数来决定样本属于哪个类。在贝叶斯决策规则中，这个判别函数是后验概率。对于二分类问题：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Decide }&amp;\omega_1\text{ if }P(\omega_1\vert x)\gt
+P(\omega_2\vert x)\\
+\text{Decide }&amp;\omega_2\text{ if }P(\omega_2\vert x)\gt
+P(\omega_1\vert x)
+\end{aligned}
+\]</span></p>
+<p>在这个决策规则中，我们隐式地假设阈值为0.5。如果属于某个类别的后验概率高于0.5，则样本被分配到该类别。但在某些应用中，例如将患者诊断为“癌症”或“正常”，使用不同的阈值（而不是0.5）可能是更谨慎的选择。</p>
+<p>设置不同的阈值来对正类进行分类将不可避免地改变混淆矩阵中的4个指标：TP、FP、TN、FN，从而改变分类模型的其他评估指标。其中一个阈值可能会比其他阈值产生更好的结果，这取决于我们的目标是降低假阴性还是假阳性的数量。</p>
+<p>我们可以生成不同的混淆矩阵并比较各种指标。但这样做并不明智。相反，我们可以做的是绘制其中一些指标之间的图，以便我们可以轻松地看到哪个阈值可以给我们带来更好的结果。</p>
+<p>ROC曲线正好解决了这个问题。</p>
+<p>接收者操作特性 (ROC)
+可视化分类模型在检测真阳性同时避免出现假阳性的效率。</p>
+<p>我们定义以下措施：</p>
+<ul>
+<li>真阳性率（TPR）：<span
+class="math inline">\(\text{TPR}=\frac{\text{TP}}{\text{TP}+\text{FN}}=\text{Recall}=\text{Sensitivity}\)</span></li>
+<li>假阳性率（FPR）：<span
+class="math inline">\(\text{FPR}=\frac{\text{FP}}{\text{FP}+\text{TN}}=1-\text{Specificity}\)</span></li>
+</ul>
+<p>在 ROC
+曲线中，在不同分类阈值下绘制了假阳性率（横轴）与真阳性率（纵轴）。</p>
+<p><img src="/images/EE6407/机器学习038.jpg" /></p>
+<p>曲线下面积（AUC），即上图中的阴影部分，是衡量分类器区分类别能力的指标。</p>
+<ol type="1">
+<li>当AUC=1时，分类器能够完美地区分所有正类和负类点；</li>
+<li>当AUC=0时，分类器会将所有负类预测为正类，将所有正类预测为负类。</li>
+<li>当AUC=0.5时，分类器无法区分正类和负类点，这意味着分类器预测的是随机类。</li>
+<li>当0.5&lt;AUC&lt;1时，分类器很有可能能够区分正类和负类，这意味着分类器能够检测到的真阳性和真阴性的数量多于假阴性和假阳性的数量。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/11/06/%E5%88%86%E7%B1%BB%E6%A0%91/" rel="prev" title="分类树">
+                  <i class="fa fa-angle-left"></i> 分类树
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/11/08/%E9%99%8D%E7%BB%B4%E5%92%8C%E5%88%86%E7%B1%BB%E7%9A%84%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9/" rel="next" title="降维和分类的特征选择">
+                  降维和分类的特征选择 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

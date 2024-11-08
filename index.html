@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -157,6 +157,879 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/11/08/%E8%81%9A%E7%B1%BB%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | FORTH">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/08/%E8%81%9A%E7%B1%BB%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">聚类分析</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-08 21:32:25" itemprop="dateCreated datePublished" datetime="2024-11-08T21:32:25+08:00">2024-11-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="介绍">介绍</h1>
+<p>到目前为止，我们假设使用的训练样本是标记数据。使用标记数据的程序被称为监督学习。现在我们将探索使用未标记样本的无监督学习。</p>
+<p>无监督学习不需要监督标记的训练数据集，因此它是一种理想的机器学习技术，可用于发现数据背后的模式和分组。无监督学习主要涉及两个主题：聚类分析和关联分析。本课程将重点介绍聚类分析，该分析已广泛应用于市场细分、搜索结果分组等。</p>
+<h1 id="聚类分析基础">聚类分析基础</h1>
+<p>粗略地说，聚类过程以具有很强内部相似性的数据点的聚类或分组的形式产生数据描述。正式的聚类过程使用标准函数并寻求优化标准函数的分组。</p>
+<h2 id="相似度测量">相似度测量</h2>
+<p>一旦我们将聚类问题描述为在一组数据中寻找自然分组的问题，我们就需要定义：</p>
+<ol type="1">
+<li>自然分组是什么意思？</li>
+<li>在什么意义上，一个簇/组中的样本比其他簇中的样本更相似？</li>
+</ol>
+<p>两个样本之间的相似性最明显的衡量标准是它们之间的距离。预计同一簇中的样本之间的距离明显小于不同簇中的样本之间的距离，如下所示。</p>
+<p><img src="/images/EE6407/机器学习043.jpg" /></p>
+<p>一大类距离度量具有以下形式：</p>
+<p><span class="math display">\[
+d(\mathbf x,\mathbf x&#39;)=\left(\sum_{i=1}^d\left\lvert
+x_i-x_i&#39;\right\rvert^q\right)^\frac1q
+\]</span></p>
+<p>其中<span
+class="math inline">\(q\geq1\)</span>是可选参数。这种距离度量称为闵可夫斯基距离。</p>
+<p>如果<span
+class="math inline">\(q=2\)</span>，则距离度量是常用的欧几里得距离。</p>
+<p>如果<span
+class="math inline">\(q=1\)</span>，则距离度量称为曼哈顿或城市街区距离。</p>
+<p>也可以使用一些其他距离度量，例如Mahalanobis距离和余弦相似度度量。</p>
+<h2 id="聚类算法的类型">聚类算法的类型</h2>
+<p>聚类算法有多种类型，包括</p>
+<ol type="1">
+<li>基于质心的聚类（分区方法）</li>
+<li>层次聚类</li>
+<li>基于分布的聚类</li>
+<li>基于密度的聚类</li>
+</ol>
+<h3 id="基于质心的聚类">基于质心的聚类</h3>
+<p>基于质心的方法也称为分区方法。它是一种将数据划分为非层次组的聚类方法。分区聚类最常见的例子是
+K-Means聚类算法。</p>
+<h3 id="层次聚类">层次聚类</h3>
+<p>层次聚类可以作为分区聚类的替代方案，因为不需要预先指定要创建的聚类数量。在此技术中，数据集被划分为聚类以创建树状结构，也称为树状图。</p>
+<h3 id="基于分布的聚类">基于分布的聚类</h3>
+<p>在基于分布的聚类方法中，数据是根据数据集属于特定分布的概率进行划分的。分组是通过假设某些分布（例如高斯分布）来完成的。</p>
+<p>此类型的例子是高斯混合模型（GMM）。</p>
+<h3 id="基于密度的聚类">基于密度的聚类</h3>
+<p>基于密度的聚类方法将密度高的区域连接成簇，只要密集区域能够连接起来，就可以形成任意形状的分布。</p>
+<p>该算法通过识别数据集中的不同聚类并将高密度区域连接成聚类来实现这一点。数据空间中的密集区域被稀疏区域相互划分。</p>
+<p>如果数据集的密度各不相同且维度较高，算法在对数据点进行聚类时可能会遇到困难。</p>
+<h1 id="基于质心的聚类-1">基于质心的聚类</h1>
+<p>基于质心的聚类被认为是最简单但最有效的聚类算法之一。基于质心的聚类背后的直觉是，一个聚类由一个中心向量来表征和表示，而靠近这些中心向量的数据点被分配到相应的聚类中。</p>
+<h2 id="k-means聚类算法">k-Means聚类算法</h2>
+<p>K 均值聚类是最流行的基于质心的方法。</p>
+<p>假设我们有一组<span class="math inline">\(n\)</span>个样本，<span
+class="math inline">\(\mathbf x_1,\mathbf x_2,\cdots,\mathbf
+x_n\)</span>，我们希望将其划分为恰好<span
+class="math inline">\(k\)</span>个不相交的子集<span
+class="math inline">\(D_1,D_2,\cdots,D_k\)</span>。每个子集代表一个聚类，同一聚类中的样本在某种程度上比不同聚类中的样本更相似。</p>
+<p>那么问题就是找到使标准函数极值的分区。接下来，我们研究标准函数的特征，然后研究如何找到最佳分区。</p>
+<h2 id="聚类内平方和标准-wcss">聚类内平方和标准 (WCSS)</h2>
+<p>K-Means聚类采用聚类内平方和 (WCSS) 作为标准。设<span
+class="math inline">\(n_i\)</span>为<span
+class="math inline">\(D_i\)</span>中的样本数，设<span
+class="math inline">\(\mathbf m_i\)</span>为这些样本的平均值：</p>
+<p><span class="math display">\[
+\mathbf m_i=\frac1{n_i}\sum_{\mathbf x\in D_i}\mathbf x
+\]</span></p>
+<p>然后，聚类内平方和 (WCSS) 定义为：</p>
+<p><span class="math display">\[
+\text{WCSS}=\sum_{i=1}^k\sum_{\mathbf x\in D_i}\lVert\mathbf x-\mathbf
+m_i\rVert^2
+\]</span></p>
+<p>该标准函数有一个简单的解释：对于给定的聚类<span
+class="math inline">\(D_i\)</span>：均值向量<span
+class="math inline">\(\mathbf m_i\)</span>是<span
+class="math inline">\(D_i\)</span>中样本的最佳代表，因为它最小化了<span
+class="math inline">\(D_i\)</span>中“误差”向量<span
+class="math inline">\(\mathbf x-\mathbf
+m_i\)</span>的平方和。因此，WCSS测量用<span
+class="math inline">\(k\)</span>个聚类中心<span
+class="math inline">\(\mathbf m_1,\mathbf m_2,\cdots,\mathbf
+m_k\)</span>表示<span class="math inline">\(n\)</span>个样本<span
+class="math inline">\(\mathbf x_1,\mathbf x_2,\cdots,\mathbf
+x_n\)</span>所产生的总平方误差。</p>
+<p>WCSS的值取决于样本如何分组到簇中以及簇的数量。最佳分割定义为最小化WCSS的分割。</p>
+<p>什么样的聚类问题适合WCSS标准？基本上，当聚类形成紧密的云并且彼此分离得相当好时，这是一个合适的标准，如下所示。</p>
+<p><img src="/images/EE6407/机器学习044.jpg" /></p>
+<p>k-Means聚类算法由两个主要操作的迭代组成：</p>
+<ol type="1">
+<li>将样本分配到最近的聚类</li>
+<li>计算新的聚类中心（质心）</li>
+</ol>
+<p>k-Means聚类算法总结如下：</p>
+<ul>
+<li>步骤 1：设置数字<span
+class="math inline">\(k\)</span>来决定聚类的数量。</li>
+<li>步骤 2：随机生成<span
+class="math inline">\(k\)</span>个点或质心作为初始聚类中心。它们也可以从数据中随机选择。</li>
+<li>步骤 3：将每个数据点分配到它们最近的质心，这将形成预定义的<span
+class="math inline">\(k\)</span>聚类。</li>
+<li>步骤 4：计算每个聚类的新质心。</li>
+<li>步骤 5：重复步骤 3-4，直到质心和样本分配不再发生变化。</li>
+</ul>
+<p>如何选择k-Means聚类中的<span class="math inline">\(k\)</span>值？</p>
+<p>肘部法是查找最佳聚类数的最流行方法之一。此方法使用WCSS，它定义了聚类内总的变化</p>
+<p>为了找到聚类的最佳值，肘部法遵循以下步骤：</p>
+<ol type="1">
+<li>对给定数据集执行不同k值的k-Means聚类</li>
+<li>对于每个k值，计算WCSS值。</li>
+<li>绘制WCSS值与k值的曲线</li>
+<li>图的弯曲尖点被视为k的最佳值。</li>
+</ol>
+<p><img src="/images/EE6407/机器学习045.jpg" /></p>
+<h1 id="层次聚类-1">层次聚类</h1>
+<p>这两个EE6483都讲过了……</p>
+<p>层次聚类是概括数据结构属性最常用的方法之一。层次树是样本划分的嵌套集合，用树形图或树状图表示，如下图所示：</p>
+<p><img src="/images/EE6407/机器学习046.jpg" /></p>
+<p>有几种不同的算法可用于查找层次树：</p>
+<ol type="1">
+<li>聚合算法，也称为自下而上的方法，从<span
+class="math inline">\(N\)</span>个子簇开始，每个子簇只有一个样本，然后依次聚合成对的簇，直到所有簇都合并为一个包含所有样本的簇</li>
+<li>分裂算法，也称为自上而下的方法，从包含所有样本的单个簇开始，然后依次拆分簇，直到每个子簇只包含一个样本。</li>
+</ol>
+<p>层次聚类的优点是它不需要我们指定簇的数量，这与<span
+class="math inline">\(k\)</span>均值聚类算法不同。</p>
+<h1 id="基于分布的聚类-1">基于分布的聚类</h1>
+<p>在现实生活中，许多数据集可以用高斯分布（单变量或多变量）建模。因此，假设数据来自不同的高斯分布是非常自然和直观的。因此，我们可以尝试将数据集建模为几种高斯分布的混合。这是高斯混合模型（GMM）的核心思想。</p>
+<p>在监督学习中，GMM用于对类条件概率密度函数进行建模。在这里，它用于无监督学习中的聚类。</p>
+<p>假设数据底层有<span
+class="math inline">\(m\)</span>个聚类，每个聚类中的数据服从正态（高斯）分布。那么数据的分布可以建模为：</p>
+<p><span class="math display">\[
+p(\mathbf x)=\sum_{i=1}^m\alpha_iN(\mathbf x\vert\mu_i,\Sigma_i)
+\]</span></p>
+<p>其中<span class="math inline">\(\mu_i\)</span>和<span
+class="math inline">\(\Sigma_i\)</span>分别是第<span
+class="math inline">\(i\)</span>个高斯分量（即聚类）的均值向量（即聚类中心）和协方差矩阵。<span
+class="math inline">\(\alpha_i\)</span>是第<span
+class="math inline">\(i\)</span>个高斯分量的权重，</p>
+<p><span class="math display">\[
+\sum_{i=1}^m\alpha_i=1
+\]</span></p>
+<p>GMM模型参数可以使用期望最大化 (EM)
+算法进行估计。有关基于EM的GMM模型参数估计的详细信息，请参阅第 3
+部分的讲义。</p>
+<ul>
+<li>步骤 1：设置数字<span
+class="math inline">\(m\)</span>来决定聚类的数量。</li>
+<li>步骤 2：用随机值初始化<span
+class="math inline">\(\hat\alpha_i(0)\)</span>，<span
+class="math inline">\(\hat\mu_i(0)\)</span>，<span
+class="math inline">\(\hat\Sigma_i(0)\)</span></li>
+<li>步骤 3：使用期望最大化算法估计高斯混合模型的参数。</li>
+<li>步骤
+4：高斯分量的均值向量是聚类中心。将每个数据点分配给其最近的聚类中心。</li>
+</ul>
+<h1 id="基于密度的聚类-1">基于密度的聚类</h1>
+<p>K-Means和层次聚类非常适合寻找球形聚类或凸聚类。换句话说，它们仅适用于紧凑且分离良好的聚类。</p>
+<p>但许多真实的数据集可能包含不规则现象，例如：</p>
+<ol type="1">
+<li>任意形状的簇</li>
+<li>带有噪声的数据。</li>
+</ol>
+<p>基于密度的聚类可以解决这些问题。基于密度的噪声空间聚类（DBSCAN）聚类方法是目前最流行的基于密度的聚类方法。</p>
+<p>DBSCAN算法基于“聚类”和“噪声”的直观概念。</p>
+<p>簇是数据空间中的密集区域，由密度较低的点区域分隔。对于簇中的每个点，给定半径的邻域必须至少包含最小数量的点。</p>
+<p>相比之下，密度较低的区域的点则被视为噪声。这与k均值聚类非常不同，在k均值聚类中，每个数据点都被分配到一个聚类中。</p>
+<p>DBSCAN 算法使用两个参数：</p>
+<ol type="1">
+<li>MinPts：聚集在一起的点的最小数量（阈值），使某个区域被视为密集。例如，MinPts=4
+表示至少需要4个点才能形成一个密集的簇</li>
+<li>eps (<span
+class="math inline">\(\epsilon\)</span>)：一种距离测量，用于定位任何点邻域中的点，即，如果两点之间的距离低于或等于“eps”，则它们被视为邻居，即
+<span class="math inline">\(\epsilon\)</span> 邻域。</li>
+</ol>
+<p>在这个算法中，我们有3种类型的数据点：</p>
+<ol type="1">
+<li>核心点：如果某个点在 <span class="math inline">\(\epsilon\)</span>
+范围内有超过 MinPts 个点，则该点为核心点。</li>
+<li>边界点：<span class="math inline">\(\epsilon\)</span>
+范围内的点数少于 MinPts，但位于核心点的邻域内。</li>
+<li>噪声或异常值：不是核心点或边界点的点</li>
+</ol>
+<p>如果我们探索可达性和连通性两个概念，就能更好地理解这些参数。</p>
+<p>可达性表示一个数据点是否可以直接或间接地从另一个数据点访问，而连通性表示两个数据点是否属于同一个簇。就可达性和连通性而言，DBSCAN
+中的两个点可能是：</p>
+<ol type="1">
+<li>直接密度可达</li>
+<li>密度可达</li>
+<li>密度连通</li>
+</ol>
+<p>如果点（或样本）p 位于核心点 q 的 <span
+class="math inline">\(\epsilon\)</span> 邻域内，则 p 可以从点 q
+直接密度到达</p>
+<p>如果存在一组从 q 到 p 的核心点，则 p 从 q 密度可达。</p>
+<p>如果存在一个核心点，且从该核心点出发两个点都是密度可达的，则称这两个点密度连通。</p>
+<h2 id="dbscan-的参数设置">DBSCAN 的参数设置</h2>
+<h3 id="minpts">MinPts</h3>
+<p>根据经验法则，可以从数据集的维数<span
+class="math inline">\(D\)</span>中得出最小值，例如<span
+class="math inline">\(\text{MinPts}\geq
+D+1\)</span>。MinPts的最小值必须至少为3</p>
+<p>但是，对于有噪声的数据集，值越大越好，并且会产生更显著的聚类。根据经验，可以使用<span
+class="math inline">\(\text{MinPts}=2\cdots
+D\)</span>，但对于非常大的数据、噪声数据或包含许多重复项的数据，可能需要选择更大的值。</p>
+<h3 id="epsilon"><span class="math inline">\(\epsilon\)</span></h3>
+<p>然后可以通过绘制与<span
+class="math inline">\(k=\text{MinPts}−1\)</span>最近邻的距离（从最大值到最小值排序）来选择
+<span class="math inline">\(\epsilon\)</span> 的值。 <span
+class="math inline">\(\epsilon\)</span>
+的良好值是此图显示“肘部”（最大曲率）的位置。 通常，<span
+class="math inline">\(\epsilon\)</span>
+的值较小是可取的，并且根据经验法则，只有一小部分点应该在此距离内。</p>
+<p>DBSCAN 通过检查数据集中每个点的 <span
+class="math inline">\(\epsilon\)</span>
+邻域来搜索数据集中的聚类。如果数据点的 <span
+class="math inline">\(\epsilon\)</span> 邻域包含的邻居数量超过最小值
+MinPts，则创建一个以点 p
+为核心的新聚类。然后，该算法直接从这些核心点组装密度可达点，以合并所有密度可达聚类。</p>
+<p>当没有新点可添加到任何组时，此过程终止。不属于任何聚类的点被视为噪声或异常值。</p>
+<h2 id="dbscan-算法">DBSCAN 算法</h2>
+<ul>
+<li>步骤 1 设置 MinPts 和 <span class="math inline">\(\epsilon\)</span>
+的值，并从数据集中随机选取一个数据点作为起点。</li>
+<li>步骤 2
+递归查找其所有密度连通点，并将它们分配到与核心点相同的簇中。</li>
+<li>步骤 3 在前面步骤中未访问过的点中随机选择另一个点，然后转到步骤
+2</li>
+<li>步骤 4
+当所有点都被访问后，此过程结束。不属于任何簇的点被视为噪声。</li>
+</ul>
+<h2 id="dbscan-的优点">DBSCAN 的优点</h2>
+<ul>
+<li>DBSCAN 算法对异常值（噪声点）具有很强的鲁棒性。</li>
+<li>DBSCAN 非常擅长将高密度簇与低密度簇分离。</li>
+<li>与 K-means 不同，DBSCAN 不需要预先指定簇的数量。</li>
+<li>DBSCAN 支持具有不规则结构的簇。</li>
+</ul>
+<h2 id="dbscan-的缺点">DBSCAN 的缺点</h2>
+<ul>
+<li>DBSCAN 不适用于密度不同的簇。</li>
+<li>DBSCAN 算法不是确定性的，因为它会在不同的试验中形成不同的簇。</li>
+<li>有时，选择 <span class="math inline">\(\epsilon\)</span>
+的值可能很困难，尤其是当数据处于较高维度时。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/11/08/%E9%99%8D%E7%BB%B4%E5%92%8C%E5%88%86%E7%B1%BB%E7%9A%84%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | FORTH">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/08/%E9%99%8D%E7%BB%B4%E5%92%8C%E5%88%86%E7%B1%BB%E7%9A%84%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9/" class="post-title-link" itemprop="url">降维和分类的特征选择</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-11-08 16:34:32 / 修改时间：21:31:48" itemprop="dateCreated datePublished" datetime="2024-11-08T16:34:32+08:00">2024-11-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="介绍">介绍</h1>
+<p>在前面的部分中，我们在分类器的设计中使用了所有可用的特征。与模式识别相关的一个问题是所谓的维数灾难，它指的是处理高维数据时出现的问题。数据集的维度对应于数据集中存在的特征数量。由于高维数据而导致的与训练机器学习模型相关的困难被称为“维数灾难”。维数灾难的主要方面是数据稀疏性和距离集中。</p>
+<p>将特征数量减少到足够小的原因不止一个。计算复杂性是显而易见的。另一个主要原因是分类器的泛化能力。通常，训练样本数量与自由分类器参数数量之比越高，所得分类器的泛化性能就越好。</p>
+<p>大量的特征直接转化为大量的分类器参数（例如神经网络中的突触权重，线性分类器中的权重）。因此，对于有限且通常有限数量的训练样本，保持特征数量尽可能少符合我们设计具有良好泛化能力的分类器的愿望。</p>
+<p>此部分的主要任务现可概括如下：</p>
+<blockquote>
+<p>给定若干个特征，如何选出最重要的特征，以减少其数量，同时尽可能多地保留其类别区分信息？</p>
+</blockquote>
+<p>这个问题被称为特征选择或特征减少。</p>
+<p>这一步非常关键。如果我们选择的特征辨别能力较弱，那么分类器的后续设计将导致性能不佳。另一方面，如果选择信息丰富的特征，分类器的性能将很好。</p>
+<p>必须指出的是，文献中关于特征选择和特征提取的术语存在一些混淆。</p>
+<p>简单来说，特征选择就是从原始特征中选取一个特征子集，以降低模型复杂度，提高模型的计算效率，提高泛化能力。</p>
+<p>特征提取是从原始特征集中提取或导出信息以创建新的特征子空间。特征提取背后的主要思想是压缩数据，以保留大部分相关信息。常用的主成分分析
+(PCA) 是一种特征提取方法。</p>
+<h1 id="峰值现象">峰值现象</h1>
+<p>如上所述，为了设计具有良好泛化性能的分类器，训练样本的数量<span
+class="math inline">\(N\)</span>必须相对于特征的数量<span
+class="math inline">\(l\)</span>（即特征空间的维数）足够大。以设计线性分类器的情况为例：</p>
+<p><span class="math display">\[y=\mathbf w^\intercal\mathbf
+x+w_0\]</span></p>
+<p>未知参数的数量为<span
+class="math inline">\(l+1\)</span>。为了对这些参数进行良好的估计，样本数量<span
+class="math inline">\(N\)</span>必须大于<span
+class="math inline">\(l+1\)</span>。<span
+class="math inline">\(N\)</span>越大，估计效果越好，因为我们可以滤除噪声的影响，同时最小化异常值的影响。</p>
+<p>实际上，对于有限的<span
+class="math inline">\(N\)</span>，通过增加特征数量，可以获得性能的初始改进，但在临界值之后，进一步增加特征数量会导致错误概率增加。这种现象称为峰值现象，如下所示：</p>
+<p><img src="/images/EE6407/机器学习039.jpg" /></p>
+<p>上图说明了通过使用特征数量<span
+class="math inline">\(l\)</span>和训练数据集的大小<span
+class="math inline">\(N\)</span>，人们期望在实践中体验到的总体趋势。</p>
+<ol type="1">
+<li>对于<span class="math inline">\(N_2\gg N_1\)</span>，<span
+class="math inline">\(N_2\)</span>对应的误差值低于<span
+class="math inline">\(N_1\)</span>产生的误差值，并且当<span
+class="math inline">\(l_2\gg l_1\)</span>时会出现峰值现象。</li>
+<li>对于<span class="math inline">\(N\)</span>的每个值，随着<span
+class="math inline">\(l\)</span>的增加，误差概率开始减小，直到误差开始增大的临界值。</li>
+</ol>
+<p>因此，在实际应用中，如果训练数据较少，则必须使用较少的特征。如果训练数据较多，则可以使用较多的特征以获得更好的性能。</p>
+<h1 id="个别特征评估">个别特征评估</h1>
+<p>特征选择的第一步是单独或分开查看每个特征，并测试它们对当前问题的单独判别能力。尽管单独查看特征远非最佳方法，但此过程有助于我们识别和丢弃“坏”特征。这将减轻稍后将介绍的基于集合的特征评估和选择不必要的计算负担。</p>
+<p>在这里，我们将介绍两种单独的特征评估方法，基于对良好特征的两种不同解释，包括类可分离性和特征的相关性。</p>
+<h2 id="费舍尔比率">费舍尔比率</h2>
+<p>如前所述，好的特征应该在不同的类别中采取不同的值。</p>
+<p>特征的类可分性可以用Fisher比率来评估。假设两个类中样本的平均值和标准差分别为<span
+class="math inline">\(m_1\)</span>、<span
+class="math inline">\(\sigma_1\)</span>、<span
+class="math inline">\(m_2\)</span>和<span
+class="math inline">\(\sigma_1\)</span>，则 Fisher 比率定义为：</p>
+<p><span class="math display">\[
+R=\frac{(m_1-m_2)^2}{\sigma_1^2+\sigma_2^2}
+\]</span></p>
+<p>费舍尔比率的分子其实就是类间（或称类间）差异，分母则是类内（或称类内）散度。</p>
+<p>从 Fisher 比率可以看出，一个好的特征应该具有：</p>
+<ol type="1">
+<li>类间差异大；</li>
+<li>类内散度或方差小。</li>
+</ol>
+<p>费舍尔比率越大，特征的判别性越强。费舍尔比率通常用于连续变量。</p>
+<h2 id="相互信息">相互信息</h2>
+<p>一个好的特征应该包含大量信息来决定类标签的值。特征的相关性可以根据特征和类标签之间的互信息来评估。</p>
+<p>两个变量的互信息 (MI)
+是两个变量之间相互依赖性的度量。更具体地说，它量化了通过观察另一个变量获得的有关一个变量的信息量。</p>
+<p>特征<span class="math inline">\(x\)</span>和类标签<span
+class="math inline">\(y\)</span>之间的互信息可以通过以下方式测量：</p>
+<p><span class="math display">\[
+\text{MI}(x,y)=E(x)+E(y)-E(x,y)
+\]</span></p>
+<p>其中<span class="math inline">\(E(x)\)</span>、<span
+class="math inline">\(E(y)\)</span>是<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(y\)</span>的熵，<span
+class="math inline">\(E(x,y)\)</span>是<span
+class="math inline">\(x\)</span>和<span
+class="math inline">\(y\)</span>的联合熵：</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(x)&amp;=-\sum_{u_i\in x}p(x=u_i)\times\log p(x=u_i)\\
+E(y)&amp;=-\sum_{c_i\in y}p(y=c_i)\times\log p(y=c_i)\\
+E(x,y)&amp;=-\sum_{u_i\in x}\sum_{c_i\in y}p(x=u_i,y=c_i)\times\log
+p(x=u_i,y=c_i)
+\end{aligned}
+\]</span></p>
+<p>其中<span class="math inline">\(p(x=u_i)\)</span>表示未来<span
+class="math inline">\(x\)</span>取<span
+class="math inline">\(u_i\)</span>值的概率。互信息通常用于离散特征。</p>
+<h1 id="特征子集选择">特征子集选择</h1>
+<p>特征子集选择问题可以定义如下：</p>
+<p>给出完整的特征集：</p>
+<p><span class="math display">\[
+X=\{x_1,x_2,\cdots,x_n\}
+\]</span></p>
+<p>选择一个子集</p>
+<p><span class="math display">\[
+Z=\{z_1,z_2,\cdots,z_m\},z_i\in X
+\]</span></p>
+<p>以产生最佳分类性能。</p>
+<p>由于峰值现象，应选择所有可用特征的一个子集并将其用作模式分类模型的输入。上文介绍了对单个特征的评估。是否可以通过简单选择排名靠前的特征来获得特征子集？</p>
+<p>答案是否定的。</p>
+<p>这是因为排名靠前的特征之间可能存在很强的相关性，这样选择的特征子集可能会表现出严重的冗余。一个好的特征子集应该具有最大的相关性和最小的冗余性。</p>
+<p>特征子集选择算法由两个主要部分组成：</p>
+<ol type="1">
+<li>搜索算法</li>
+<li>评估标准</li>
+</ol>
+<p>搜索算法的目标是生成候选特征子集，而评估标准旨在评估搜索算法生成的候选特征子集的优劣，如下所示</p>
+<p><img src="/images/EE6407/机器学习040.jpg" /></p>
+<h2 id="搜索算法">搜索算法</h2>
+<h3 id="穷举搜索法">穷举搜索法</h3>
+<p>顾名思义，穷举搜索将穷举所有可能的子集。换句话说，它会生成<span
+class="math inline">\(n\)</span>特征的所有可能组合。</p>
+<p>穷举搜索当然不会错过最佳特征子集，但如果<span
+class="math inline">\(n\)</span>很大，计算复杂度就会过高。实际上，只有当<span
+class="math inline">\(n\)</span>很小时才使用穷举搜索。</p>
+<h3 id="顺序前向选择">顺序前向选择</h3>
+<p>顺序前向搜索是一种自下而上的方法。它从一个空的特征集开始，逐步添加特征以形成特征子集。在每一步中，根据一定的标准在未选定的特征中选择最佳特征。特征子集不断增长，直到满足停止标准。</p>
+<h3 id="顺序后向消除">顺序后向消除</h3>
+<p>顺序后向消除法是一种自上而下的方法。它从一组完整的特征开始。每次删除一个特征。每次根据某个标准删除最不重要的特征。特征集不断缩小，直到满足停止标准。</p>
+<h2 id="评估标准">评估标准</h2>
+<p>为了选择一个好的特征子集，我们需要一种测量特征子集准确区分两个或多个类别的能力的方法。这可以通过定义针对可能的特征子集进行优化的类可分离性度量来实现。</p>
+<p>我们可以通过两种方式评估特征子集：</p>
+<h3 id="分类器的分类性能">分类器的分类性能</h3>
+<p>在这个方法中，我们在特征子集上训练一个分类器，然后以分类效果作为评价标准。选择特征子集来匹配分类器。不同的分类器可能会选择不同的特征子集。</p>
+<h3 id="可分离性度量">可分离性度量</h3>
+<p>这种方法估计了数据来源分布之间的重叠，并倾向于重叠最小的分布，即最大可分离性。这样选择的特征子集与最终使用的分类器无关。此标准不需要训练大量模式分类器，因此在计算上更高效。</p>
+<p>缺点是，估计数据分布重叠时所做的假设通常很粗略，可能与真实分布不太吻合。</p>
+<p>接下来，介绍一些可分离性度量。</p>
+<h4
+id="基于mahalanobis距离的可分离性测量">基于Mahalanobis距离的可分离性测量</h4>
+<p>可分离性可以通过特征子集空间中两个均值向量之间的Mahalanobis距离来衡量。</p>
+<p>对于多类问题，我们可以使用成对可分离性度量的总和</p>
+<p><span class="math display">\[
+J=\sum_i\sum_{j\ne i}J_{i,j}
+\]</span></p>
+<h4 id="基于散度的可分离性测量">基于散度的可分离性测量</h4>
+<p><span class="math display">\[
+J=\text{Tr}(\mathbf S_W^{-1}\mathbf S_B)
+\]</span></p>
+<p>或</p>
+<p><span class="math display">\[
+J=\frac{\text{Tr}(\mathbf S_B)}{\text{Tr}(\mathbf S_W)}
+\]</span></p>
+<p>其中<span class="math inline">\(\mathbf S_B\)</span>和<span
+class="math inline">\(\mathbf
+S_W\)</span>分别为类间和类内散度矩阵。<span
+class="math inline">\(\text{Tr}(\mathbf A)\)</span>表示矩阵<span
+class="math inline">\(\mathbf A\)</span>的迹，定义为<span
+class="math inline">\(\mathbf A\)</span>主对角线上元素之和。</p>
+<h3 id="特征子集选择算法">特征子集选择算法</h3>
+<p>特征子集选择算法由搜索算法和特征子集评价标准组成。根据所使用的评价标准，特征选择算法通常分为三类：过滤方法、包装方法和嵌入式方法。</p>
+<p>包装方法在循环中包含一个分类器，并使用分类性能（例如准确率或错误率）作为特征子集评价标准。</p>
+<p>过滤方法在循环中不包含分类器，而是采用类可分离性度量作为特征子集评价标准。</p>
+<h4 id="包装方法">包装方法</h4>
+<p><img src="/images/EE6407/机器学习041.jpg" /></p>
+<p>停止标准可以是</p>
+<ol type="1">
+<li>已达到要选择的特征数量，或</li>
+<li>分类准确率（在验证集上）达到最佳，或</li>
+<li>其他</li>
+</ol>
+<h4 id="过滤方法">过滤方法</h4>
+<p><img src="/images/EE6407/机器学习041.jpg" /></p>
+<ol type="1">
+<li>已达到要选择的特征数量，或</li>
+<li>可分离性度量不再提高，或</li>
+<li>其他</li>
+</ol>
+<h5 id="顺序前向特征选择算法">顺序前向特征选择算法</h5>
+<p>接下来，我们结合顺序前向搜索和评估标准来形成特征选择算法。</p>
+<ol type="1">
+<li>将每个特征视为候选特征 <span
+class="math inline">\(F^{(i)}=\{x_i\}\)</span>
+评估可分离性度量（过滤器） <span
+class="math inline">\(J^{F(i)}=\frac{\text{Tr}(\mathbf
+S_B^{F(i)})}{\text{Tr}(\mathbf S_W^{F(i)})}\)</span>
+或者训练分类器并找到分类准确率（包装器） <span
+class="math inline">\(C^{F(i)}=\text{Classifier Trained on }
+F(i)\)</span> <span
+class="math inline">\(J^{F(i)}=\text{Accuracy}(C^{F(i)})\)</span>
+选择具有最大可分离性（过滤方法）或最佳分类性能（包装器方法）的特征作为第一个特征：
+<span class="math inline">\(k=\arg\max J^{F(i)}\)</span> <span
+class="math inline">\(z_1=x_k\)</span></li>
+<li>将剩余的<span
+class="math inline">\(n-1\)</span>个特征中的每一个视为第二个特征的候选，
+<span class="math inline">\(F^{(i)}=\{z_1,x_i\},i\ne k\)</span>
+评估可分离性度量（过滤方法）： <span
+class="math inline">\(J^{F(i)}=\frac{\text{Tr}(\mathbf
+S_B^{F(i)})}{\text{Tr}(\mathbf S_W^{F(i)})}\)</span>
+或者训练分类器并找到分类准确率（包装方法） <span
+class="math inline">\(C^{F(i)}=\text{Classifier Trained on }
+F(i)\)</span> <span
+class="math inline">\(J^{F(i)}=\text{Accuracy}(C^{F(i)})\)</span>
+选择达到最大可分离性（过滤方法）或最佳分类性能（包装方法）的特征作为第二个特征。</li>
+<li>选择过程持续进行，直到满足停止标准</li>
+</ol>
+<h5 id="顺序后向特征消除算法">顺序后向特征消除算法</h5>
+<ol type="1">
+<li>将每个特征视为要消除的候选特征， <span
+class="math inline">\(F^{(i)}=\{x_1,x_2,\cdots,x_n\}-x_i\)</span>
+评估相应的可分离性度量（过滤器） <span
+class="math inline">\(J^{F(i)}=\frac{\text{Tr}(\mathbf
+S_B^{F(i)})}{\text{Tr}(\mathbf S_W^{F(i)})}\)</span>
+或者训练一个分类器并找到相应的分类准确率（包装器） <span
+class="math inline">\(C^{F(i)}=\text{Classifier Trained on }
+F(i)\)</span> <span
+class="math inline">\(J^{F(i)}=\text{Accuracy}(C^{F(i)})\)</span>
+找出对可分离性度量（过滤方法）或分类性能（包装方法）影响最小的特征，并将其作为第一个要删除的特征。</li>
+<li>消除过程持续进行，直到满足停止标准。</li>
+</ol>
+<h4 id="嵌入方法">嵌入方法</h4>
+<p>嵌入式方法结合了过滤器和包装器方法的特性。它由具有内置特征选择方法的算法实现。这种方法最流行的例子是
+Lasso（最小绝对收缩和选择运算符,L1正则化），它具有内置机制，通过将与最不重要的特征相关的系数收缩为零来惩罚模型中的特征数量（参见第
+8 章）。</p>
+<p><span class="math display">\[
+\begin{aligned}
+J_{\text{Lasso}}(\Theta)&amp;=\frac12\left\{\sum_{i=1}^N(\hat
+y_i-y_i)^2+\lambda\sum_{j=0}^m\lvert\theta_j\rvert\right\}\\
+&amp;=\frac12\{(\mathbf y-\Phi\Theta)^\intercal(\mathbf
+y-\Phi\Theta)+\lambda\lVert\Theta\rVert\}
+\end{aligned}
+\]</span></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/11/07/%E5%88%86%E7%B1%BB%E5%99%A8%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | FORTH">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/07/%E5%88%86%E7%B1%BB%E5%99%A8%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0/" class="post-title-link" itemprop="url">分类器性能评估</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-07 19:36:12" itemprop="dateCreated datePublished" datetime="2024-11-07T19:36:12+08:00">2024-11-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-08 21:31:40" itemprop="dateModified" datetime="2024-11-08T21:31:40+08:00">2024-11-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在监督学习中，分类模型是使用标记数据进行训练的。我们如何了解模型的性能？接下来，我们介绍一些模型评估程序和指标。</p>
+<h1 id="评估程序">评估程序</h1>
+<h2 id="保留方法">保留方法</h2>
+<p>在此方法中，可用数据的一部分/子集被保留下来（这就是“保留”这个名称的由来）用于评估模型。该数据子集用作测试数据，用于评估已训练分类器的性能。</p>
+<p><img src="/images/EE6407/机器学习034.jpg" /></p>
+<p>一旦使用训练数据训练了模型，就可以使用训练后的模型预测测试数据的标签。然后将预测值与标签的实际值进行比较。这是可能的，因为测试数据是具有已知标签的可用数据的一部分。模型的性能通过各种指标来衡量，这些指标将在后面介绍。</p>
+<p>通常，70%–80%的可用数据（随机抽样）用于分类器训练，剩余的20%–30%用作测试数据。</p>
+<p>通常，可用数据分为 3 个部分 -
+训练和测试数据以及验证数据。验证数据用于在训练阶段测量模型性能。在通过训练和验证数据确定模型后，测试数据仅使用一次，用于测量和报告模型的最终性能。</p>
+<p><img src="/images/EE6407/机器学习035.jpg" /></p>
+<p>该方法的一个明显问题是，不同类别的数据划分为训练数据和测试数据可能不成比例。如果与某些类别相关的数据总体百分比远低于其他类别（即类别不平衡问题），这种情况会更糟。尽管采用随机抽样来选择测试数据，但这种情况仍可能发生。</p>
+<p>可以通过应用分层随机抽样代替随机抽样在一定程度上解决此问题。在分层随机抽样中，对每个单独的类别进行随机抽样。例如，每个类别中
+70% 和 30%
+的样本被随机选择为训练数据和测试数据。这确保生成的随机分区具有相等的每个类别的比例。</p>
+<h2 id="重复保留法">重复保留法</h2>
+<p>保留方法的一种特殊变体称为重复保留，通常用于确保所组成的训练和测试数据集的随机性。</p>
+<p>在重复保留中，使用多个随机保留来衡量模型性能。最后，取所有性能的平均值。</p>
+<p>由于已抽取多个保留，因此训练和测试数据（以及验证数据，如果已抽取）更有可能包含来自所有类别的代表性数据，并且与原始输入数据非常相似。</p>
+<h2 id="k折交叉验证方法">K折交叉验证方法</h2>
+<p>重复保留的过程是k折交叉验证技术的基础。k折交叉验证中，数据集被分成k个完全不同或不重叠的随机分区，称为折叠。</p>
+<p>每个<span
+class="math inline">\(k\)</span>折叠都有机会用作保留测试集，而所有其他折叠则集体用作训练数据集。在<span
+class="math inline">\(k\)</span>保留测试集上共拟合和评估了<span
+class="math inline">\(k\)</span>个模型，平均性能报告如下图所示。</p>
+<p><img src="/images/EE6407/机器学习036.jpg" /></p>
+<h2 id="留一交叉验证-loocv">留一交叉验证 (LOOCV)</h2>
+<p><span
+class="math inline">\(k\)</span>折交叉验证的一个极端情况是设置<span
+class="math inline">\(k=N\)</span>，即样本总数。在这种极端情况下，在每一折中，只有一个样本用作测试数据，其余<span
+class="math inline">\(N-1\)</span>个样本用作训练数据。这种极端情况称为留一交叉验证。</p>
+<p>这样做是为了最大化用于训练模型的数据数量。很明显，它必须运行的迭代次数（即倍数）等于数据集中的样本总数。因此，它在计算上非常昂贵，并且仅在样本数量较少时使用。</p>
+<h2 id="重复k折交叉验证">重复K折交叉验证</h2>
+<p>通过K折交叉验证估计模型性能可能会很嘈杂。这意味着每次运行该过程时，都会使用不同的数据集拆分为<span
+class="math inline">\(k\)</span>折，从而获得不同的模型性能平均估计值。从一次K折交叉验证运行到另一次运行的估计性能差异量取决于训练测试数据划分的差异。</p>
+<p>解决该问题的方法之一是多次重复K折交叉验证过程，并报告所有倍数和所有重复的平均性能。这种方法通常称为重复K折交叉验证。</p>
+<h1 id="绩效评估指标">绩效评估指标</h1>
+<p>对于二分类问题，我们假设一个类是正类，另一个是负类。通常，我们感兴趣的类被命名为正类，例如，“癌症”被命名为正类，而“正常”被命名为负类。样本的分类结果可能有四种情况：</p>
+<ol type="1">
+<li>真阳性（TP）：正类样本被正确分类为正类</li>
+<li>假阳性（FP）：负类样本被错误分类为正类</li>
+<li>真阴性（TN）：负类样本被正确分类为负类</li>
+<li>假阴性（FN）：正类样本被错误分类为负类</li>
+</ol>
+<h2 id="混淆矩阵">混淆矩阵</h2>
+<p>混淆矩阵是分类结果的总结，如下所示：</p>
+<p><img src="/images/EE6407/机器学习037.jpg" /></p>
+<h2 id="准确率">准确率</h2>
+<p>准确率是正确分类的样本的比例：</p>
+<p><span class="math display">\[
+\text{Acc}=\frac{\text{TP}+\text{TN}}{\text{TP}+\text{TN}+\text{FP}+\text{FN}}
+\]</span></p>
+<h2 id="错误率">错误率</h2>
+<p>错误率是错误分类的样本所占的比例：</p>
+<p><span class="math display">\[
+\text{Err}=\frac{\text{FP}+\text{FN}}{\text{TP}+\text{TN}+\text{FP}+\text{FN}}
+\]</span></p>
+<h2 id="灵敏度和特异性">灵敏度和特异性</h2>
+<p>分类器的灵敏度衡量被正确分类的正样本的比例。其测量方法如下：</p>
+<p><span class="math display">\[
+\text{Sensitivity}=\frac{\text{TP}}{\text{TP}+\text{FN}}
+\]</span></p>
+<p>分类器的特异性衡量被正确分类的负样本的比例。其测量方法如下：</p>
+<p><span class="math display">\[
+\text{Specificity}=\frac{\text{TN}}{\text{TN}+\text{FP}}
+\]</span></p>
+<h2 id="精确率和召回率">精确率和召回率</h2>
+<p>精确率表示的是真正为正的预测所占的比例：</p>
+<p><span class="math display">\[
+\text{Precision}=\frac{\text{TP}}{\text{TP}+\text{FP}}
+\]</span></p>
+<p>召回率衡量的是正确预测的正结果占正结果总数的比例：</p>
+<p><span class="math display">\[
+\text{Recall}=\frac{\text{TP}}{\text{TP}+\text{FN}}
+\]</span></p>
+<h2 id="f分数">F分数</h2>
+<p>F分数是分类器性能的衡量标准，它结合了精确度和召回率：</p>
+<p><span class="math display">\[
+\text
+F=\frac{2\times\text{Precision}\times\text{Recall}}{\text{Precision}+\text{Recall}}
+\]</span></p>
+<h2 id="接收者操作特征-roc-曲线">接收者操作特征 (ROC) 曲线</h2>
+<p><a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Fw4m1i72L/">【官方双语】ROC
+&amp; AUC 详细解释！</a></p>
+<p>在分类问题中，我们使用判别函数来决定样本属于哪个类。在贝叶斯决策规则中，这个判别函数是后验概率。对于二分类问题：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Decide }&amp;\omega_1\text{ if }P(\omega_1\vert x)\gt
+P(\omega_2\vert x)\\
+\text{Decide }&amp;\omega_2\text{ if }P(\omega_2\vert x)\gt
+P(\omega_1\vert x)
+\end{aligned}
+\]</span></p>
+<p>在这个决策规则中，我们隐式地假设阈值为0.5。如果属于某个类别的后验概率高于0.5，则样本被分配到该类别。但在某些应用中，例如将患者诊断为“癌症”或“正常”，使用不同的阈值（而不是0.5）可能是更谨慎的选择。</p>
+<p>设置不同的阈值来对正类进行分类将不可避免地改变混淆矩阵中的4个指标：TP、FP、TN、FN，从而改变分类模型的其他评估指标。其中一个阈值可能会比其他阈值产生更好的结果，这取决于我们的目标是降低假阴性还是假阳性的数量。</p>
+<p>我们可以生成不同的混淆矩阵并比较各种指标。但这样做并不明智。相反，我们可以做的是绘制其中一些指标之间的图，以便我们可以轻松地看到哪个阈值可以给我们带来更好的结果。</p>
+<p>ROC曲线正好解决了这个问题。</p>
+<p>接收者操作特性 (ROC)
+可视化分类模型在检测真阳性同时避免出现假阳性的效率。</p>
+<p>我们定义以下措施：</p>
+<ul>
+<li>真阳性率（TPR）：<span
+class="math inline">\(\text{TPR}=\frac{\text{TP}}{\text{TP}+\text{FN}}=\text{Recall}=\text{Sensitivity}\)</span></li>
+<li>假阳性率（FPR）：<span
+class="math inline">\(\text{FPR}=\frac{\text{FP}}{\text{FP}+\text{TN}}=1-\text{Specificity}\)</span></li>
+</ul>
+<p>在 ROC
+曲线中，在不同分类阈值下绘制了假阳性率（横轴）与真阳性率（纵轴）。</p>
+<p><img src="/images/EE6407/机器学习038.jpg" /></p>
+<p>曲线下面积（AUC），即上图中的阴影部分，是衡量分类器区分类别能力的指标。</p>
+<ol type="1">
+<li>当AUC=1时，分类器能够完美地区分所有正类和负类点；</li>
+<li>当AUC=0时，分类器会将所有负类预测为正类，将所有正类预测为负类。</li>
+<li>当AUC=0.5时，分类器无法区分正类和负类点，这意味着分类器预测的是随机类。</li>
+<li>当0.5&lt;AUC&lt;1时，分类器很有可能能够区分正类和负类，这意味着分类器能够检测到的真阳性和真阴性的数量多于假阴性和假阳性的数量。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/11/06/%E5%88%86%E7%B1%BB%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | FORTH">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/06/%E5%88%86%E7%B1%BB%E6%A0%91/" class="post-title-link" itemprop="url">分类树</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-06 18:46:33" itemprop="dateCreated datePublished" datetime="2024-11-06T18:46:33+08:00">2024-11-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-08 21:31:52" itemprop="dateModified" datetime="2024-11-08T21:31:52+08:00">2024-11-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Classification trees</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/11/06/%E5%88%86%E7%B1%BB%E6%A0%91/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1395,338 +2268,6 @@ token/图像块的重要性。</li>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/09/08/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%80%E4%BB%8B%E4%B8%8E%E5%85%B3%E8%81%94%E5%88%86%E6%9E%90/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/09/07/%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E8%A7%86%E8%A7%89%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB%EF%BC%9A%E4%BB%8E%E5%8C%B9%E9%85%8D%E5%88%B0%E5%88%86%E7%B1%BB%E5%86%8D%E5%88%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Sifr">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FORTH">
-      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | FORTH">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/09/07/%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E8%A7%86%E8%A7%89%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB%EF%BC%9A%E4%BB%8E%E5%8C%B9%E9%85%8D%E5%88%B0%E5%88%86%E7%B1%BB%E5%86%8D%E5%88%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">直观理解视觉对象识别：从匹配到分类再到机器学习</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-09-07 16:01:03" itemprop="dateCreated datePublished" datetime="2024-09-07T16:01:03+08:00">2024-09-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-09-11 13:42:16" itemprop="dateModified" datetime="2024-09-11T13:42:16+08:00">2024-09-11</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>以及其复杂的语言讲解了k-近邻算法的原理。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/09/07/%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E8%A7%86%E8%A7%89%E5%AF%B9%E8%B1%A1%E8%AF%86%E5%88%AB%EF%BC%9A%E4%BB%8E%E5%8C%B9%E9%85%8D%E5%88%B0%E5%88%86%E7%B1%BB%E5%86%8D%E5%88%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/09/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Sifr">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FORTH">
-      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | FORTH">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/09/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">机器学习简介</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-09-06 16:08:54" itemprop="dateCreated datePublished" datetime="2024-09-06T16:08:54+08:00">2024-09-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-09-11 13:41:50" itemprop="dateModified" datetime="2024-09-11T13:41:50+08:00">2024-09-11</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>纯简（大噓）介机器学习，很细。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/09/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/09/05/%E5%90%AF%E5%8F%91%E5%BC%8F%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%8D%9A%E5%BC%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Sifr">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FORTH">
-      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | FORTH">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/09/05/%E5%90%AF%E5%8F%91%E5%BC%8F%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%8D%9A%E5%BC%88/" class="post-title-link" itemprop="url">启发式搜索与博弈</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-09-05 19:43:05" itemprop="dateCreated datePublished" datetime="2024-09-05T19:43:05+08:00">2024-09-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-09-11 13:40:00" itemprop="dateModified" datetime="2024-09-11T13:40:00+08:00">2024-09-11</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>讲解了启发式搜索，以及博弈中的Minimax算法和Alpha-Beta剪枝。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/09/05/%E5%90%AF%E5%8F%91%E5%BC%8F%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%8D%9A%E5%BC%88/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/09/05/%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E7%9A%84%E7%BB%93%E6%9E%84%E5%92%8C%E7%AD%96%E7%95%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Sifr">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FORTH">
-      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | FORTH">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/09/05/%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E7%9A%84%E7%BB%93%E6%9E%84%E5%92%8C%E7%AD%96%E7%95%A5/" class="post-title-link" itemprop="url">状态空间搜索的结构和策略</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-09-05 16:15:17" itemprop="dateCreated datePublished" datetime="2024-09-05T16:15:17+08:00">2024-09-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-09-11 13:39:27" itemprop="dateModified" datetime="2024-09-11T13:39:27+08:00">2024-09-11</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>介绍了深度优先搜索、广度优先搜索、迭代加深深度优先搜索等</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/09/05/%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E7%9A%84%E7%BB%93%E6%9E%84%E5%92%8C%E7%AD%96%E7%95%A5/">
                 阅读全文 &raquo;
               </a>
             </div>

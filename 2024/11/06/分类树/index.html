@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CLobster+Two:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CUbuntu+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shifuru.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Classification trees">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分类树">
+<meta property="og:url" content="https://shifuru.github.io/2024/11/06/%E5%88%86%E7%B1%BB%E6%A0%91/index.html">
+<meta property="og:site_name" content="FORTH">
+<meta property="og:description" content="Classification trees">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6407/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0032.jpg">
+<meta property="og:image" content="https://shifuru.github.io/images/EE6407/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0033.jpg">
+<meta property="article:published_time" content="2024-11-06T10:46:33.000Z">
+<meta property="article:modified_time" content="2024-11-08T13:31:52.653Z">
+<meta property="article:author" content="Sifr">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shifuru.github.io/images/EE6407/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0032.jpg">
+
+
+<link rel="canonical" href="https://shifuru.github.io/2024/11/06/%E5%88%86%E7%B1%BB%E6%A0%91/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://shifuru.github.io/2024/11/06/%E5%88%86%E7%B1%BB%E6%A0%91/","path":"2024/11/06/分类树/","title":"分类树"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>分类树 | FORTH</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FORTH</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Take off, toward a dream.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%88%86%E7%B1%BB%E6%A0%91"><span class="nav-number">1.</span> <span class="nav-text">什么是分类树？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E6%A0%91%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="nav-number">1.1.</span> <span class="nav-text">分类树的好处</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E6%A0%91"><span class="nav-number">2.</span> <span class="nav-text">如何构建分类树？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E7%9A%84%E5%88%86%E8%A3%82%E6%AC%A1%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">每个节点的分裂次数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E9%80%89%E6%8B%A9%E5%92%8C%E8%8A%82%E7%82%B9%E4%B8%8D%E7%BA%AF%E5%BA%A6"><span class="nav-number">2.2.</span> <span class="nav-text">查询选择和节点不纯度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%95%E6%97%B6%E5%81%9C%E6%AD%A2%E5%88%86%E8%A3%82"><span class="nav-number">2.3.</span> <span class="nav-text">何时停止分裂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%AA%E6%9E%9D"><span class="nav-number">2.4.</span> <span class="nav-text">剪枝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%B6%E8%8A%82%E7%82%B9%E6%A0%87%E7%AD%BE%E7%9A%84%E5%88%86%E9%85%8D"><span class="nav-number">2.5.</span> <span class="nav-text">叶节点标签的分配</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%85%B8%E5%9E%8B%E7%9A%84%E5%88%86%E7%B1%BB%E6%A0%91"><span class="nav-number">3.</span> <span class="nav-text">一些典型的分类树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97"><span class="nav-number">4.</span> <span class="nav-text">随机森林</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">4.1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.2.</span> <span class="nav-text">建立随机森林的步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E8%BF%9B%E8%A1%8C%E5%88%86%E7%B1%BB%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.3.</span> <span class="nav-text">使用随机森林进行分类的步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">4.4.</span> <span class="nav-text">随机森林的特点</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sifr"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Sifr</p>
+  <div class="site-description" itemprop="description">悪意に満ちた人間は絶滅すべき</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">80</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shifuru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shifuru" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://shifuru.github.io/2024/11/06/%E5%88%86%E7%B1%BB%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Sifr">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FORTH">
+      <meta itemprop="description" content="悪意に満ちた人間は絶滅すべき">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="分类树 | FORTH">
+      <meta itemprop="description" content="Classification trees">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分类树
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-06 18:46:33" itemprop="dateCreated datePublished" datetime="2024-11-06T18:46:33+08:00">2024-11-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-08 21:31:52" itemprop="dateModified" datetime="2024-11-08T21:31:52+08:00">2024-11-08</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Classification trees</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>之前课程中讨论的分类方法，例如 LDA 和
+SVM，将数据视为实值和离散值数字的特征向量，并且向量之间存在自然的距离度量。</p>
+<p>然而，在某些应用中，分类问题涉及名义数据，其定义为用于命名或标记变量的数据，没有任何定量值。例如，对于变量“交通方式”，它可以采用“火车”、“汽车”、“航空”、“海运”等值。在这种情况下，传统的基于距离度量的分类器可能无法很好地工作。为了解决涉及名义数据的模式分类问题，我们可以使用非度量方法，例如分类树。</p>
+<h1 id="什么是分类树">什么是分类树？</h1>
+<p><img src="/images/EE6407/机器学习032.jpg" /></p>
+<p>如上所示，分类树是一种具有树结构的流程图。它通过一系列问题对模式进行分类。</p>
+<p>此类问题序列在节点处提出，按照惯例，根节点位于顶部，通过连续（定向）链接或分支连接到其他节点，直到我们到达终端或叶节点，这些节点没有进一步的链接，并带有类标签。</p>
+<p>在每个节点处提出的问题涉及样本的特定属性（即特征或属性）。所有问题都以“是/否”或“真/假”或“值（属性）是一组值的一个元素”的形式提出。</p>
+<h2 id="分类树的好处">分类树的好处</h2>
+<p>简单的分类树说明了树的好处：可解释性。这种可解释性有两种表现形式：</p>
+<ol type="1">
+<li>我们可以轻松地将任何测试数据的决策解释为沿其对应叶节点的路径的决策的结合。
+例如，如果属性是{口味，颜色，形状，大小}，则数据x =
+{甜，黄色，薄，中等}将被归类为香蕉，因为它是（颜色=黄色）和（形状=薄）。</li>
+<li>分类树提供了一种自然的方式来整合来自人类专家的先验知识</li>
+</ol>
+<h1 id="如何构建分类树">如何构建分类树？</h1>
+<p>现在我们来讨论关键问题：如何使用训练数据来创建分类树？</p>
+<p>我们假设我们有一组标记的训练数据D，并且我们知道可以用来区分模式的属性集，但我们不知道如何将它们组织成树。</p>
+<p>要构建分类树，基本上我们需要回答以下问题：</p>
+<ol type="1">
+<li>属性（即特性/特征）是否应限制为二值或允许多值？即每个节点有多少个分割？</li>
+<li>节点应使用哪个属性？</li>
+<li>何时应将节点声明为叶节点？</li>
+<li>如果树变得“太大”，如何使其更小更简单，即修剪？</li>
+<li>如果叶节点不纯，应如何分配类别标签？</li>
+</ol>
+<h2 id="每个节点的分裂次数">每个节点的分裂次数</h2>
+<p>每个节点都会提出一个或多个问题，这些问题会分割训练数据的一个子集。根节点会分割整个训练集；每个后续节点会分割数据的一个子集。</p>
+<p>节点的分割数与问题1密切相关，指定在节点上进行哪种特定分割。一般来说，分割数由设计者设置，并且可能在整个树中有所不同。</p>
+<p>从节点向下延伸的链接数有时称为节点的<strong>分支因子</strong>或<strong>分支比</strong>。</p>
+<h2 id="查询选择和节点不纯度">查询选择和节点不纯度</h2>
+<p>设计树的大部分工作是决定在每个节点上应该测试哪个属性（即特征）查询。树创建的基本原则是简单性：我们更喜欢那些导致简单、紧凑且节点较少的决策。换句话说，解释数据的最简单的模型是首选。</p>
+<p>为此，我们在每个节点 N 上寻找一个属性测试
+T，使到达直接后代节点的数据尽可能“纯净”。在形式化这个概念时，定义节点的不纯度比纯度更方便。</p>
+<p>可以使用几种不同的不纯度测量方法。接下来我们介绍一些最流行的方法。</p>
+<p>令<span class="math inline">\(i(N)\)</span>表示节点<span
+class="math inline">\(N\)</span>的不纯度。在所有情况下，如果到达节点的所有样本都具有相同的类别标签，我们希望<span
+class="math inline">\(i(N)\)</span>为<span
+class="math inline">\(0\)</span>；如果类别的表示方式相同，我们希望<span
+class="math inline">\(i(N)\)</span>较大</p>
+<ol type="1">
+<li>熵不纯度
+最流行的度量是熵不纯度（或偶尔称为信息不纯度），其定义如下： <span
+class="math display">\[i_{\mathrm
+E}(N)=-\sum_jP(\omega_j)\log_2P(\omega_j)\]</span> 其中<span
+class="math inline">\(P(\omega_j)\)</span>是节点<span
+class="math inline">\(N\)</span>中属于<span
+class="math inline">\(\omega_j\)</span>类别的样本比例。
+如果所有样本都属于同一类别，则不纯度为<span
+class="math inline">\(0\)</span>；否则为正，当不同类别的可能性相等时，不纯度值最大。</li>
+<li>方差和基尼不纯度
+方差不纯度在二分类情况下特别有用。当节点仅表示单个类别的模式时，希望不纯度为零，最简单的形式是：
+<span
+class="math display">\[i_\mathrm{Var}(N)=P(\omega_1)P(\omega_2)\]</span>
+方差不纯度的概括，适用于两个或多个类别，是基尼不纯度： <span
+class="math display">\[i_\mathrm{Gini}(N)=\sum_{j\ne
+k}P(\omega_j)P(\omega_k)=\frac12\left[1-\sum_jP^2(\omega_j)\right]\]</span></li>
+<li>误分类不纯度 该不纯度衡量了训练样本在节点<span
+class="math inline">\(N\)</span>处被错误分类的最小概率： <span
+class="math display">\[i_\mathrm{MC}(N)=1-\max_jP(\omega_j)\]</span></li>
+</ol>
+<p>熵不纯度由于其计算简单且基于信息论而被经常使用，尽管基尼不纯度也受到了广泛关注。通常，结果不会受到不同不纯度测量的太大影响。</p>
+<p>现在我们来谈谈关键问题——给定一个到节点<span
+class="math inline">\(N\)</span>的部分树，我们应该选择什么属性和什么值来进行属性测试？一个明显的启发式方法是选择尽可能减少不纯度的那个。不纯度的下降定义为：</p>
+<p><span class="math display">\[\Delta i(N)=i(N)-[P_Li(N_L) +
+P_Ri(N_R)]\]</span></p>
+<p>其中<span class="math inline">\(N_L\)</span>和<span
+class="math inline">\(N_R\)</span>分别为左、右后代节点，<span
+class="math inline">\(i(N_L)\)</span>和<span
+class="math inline">\(i(N_R)\)</span>为它们的不纯度，<span
+class="math inline">\(P_L\)</span>和<span
+class="math inline">\(P_R\)</span>分别为节点<span
+class="math inline">\(N\)</span>处将传输至<span
+class="math inline">\(N_L\)</span>和<span
+class="math inline">\(N_R\)</span>的数据比例。</p>
+<p>不纯度的最大下降量相当于后代节点的最小不纯度<span
+class="math inline">\([P_Li(N_L) + P_Ri(N_R)]\)</span></p>
+<p>对于多重分裂，二元分裂不纯度下降的直观扩展如下：</p>
+<p><span class="math display">\[\Delta
+i(N)=i(N)-\sum_{k=1}^BP_ki(N_k)\]</span></p>
+<p>其中<span class="math inline">\(P_k\)</span>是节点<span
+class="math inline">\(N\)</span>处将通过链路发送到节点<span
+class="math inline">\(N_k\)</span>的训练数据比例，<span
+class="math inline">\(B\)</span>是节点<span
+class="math inline">\(N\)</span>处的分支数，并且</p>
+<p><span class="math display">\[\sum_{k=1}^BP_k=1\]</span></p>
+<p>研究发现，无论较大的分割是否实际上代表数据中有意义的结构，该测量都有利于较大的<span
+class="math inline">\(B\)</span>。</p>
+<p>为了避免这个缺点，我们可以按如下方式调整上述措施：</p>
+<p><span class="math display">\[\Delta
+i&#39;(N)=\frac{i(N)}{-\sum_{k=1}^BP_k\log_2P_k}\]</span></p>
+<p>最佳测试值是最大化二元分割的<span class="math inline">\(\Delta
+i(N)\)</span>或多重分割的<span class="math inline">\(\Delta
+i&#39;(N)\)</span>的选择。上述度量也称为增益比。</p>
+<h2 id="何时停止分裂">何时停止分裂</h2>
+<p>现在考虑在二叉树训练期间决定何时停止分裂的问题。如果我们继续完全生长树，直到每个叶节点对应于最低不纯度，那么数据通常已经过度拟合。</p>
+<ol type="1">
+<li>在极端但罕见的情况下，每个叶子对应一个训练数据，而整棵树仅仅是查找表的方便实现；因此不能指望它能很好地概括。</li>
+<li>相反，如果过早停止分裂，那么训练数据上的错误就不够低，因此性能可能会受到影响。</li>
+</ol>
+<p>一种传统方法是使用交叉验证。也就是说，使用数据子集训练树，其余部分作为验证集。我们继续在连续的层中分割节点，直到验证数据的误差最小化。</p>
+<p>另一种方法是设置一个（小的）不纯度减少阈值。如果节点上的最佳候选分割使不纯度减少的量小于预设量，则停止分割。这种方法有两个主要好处。首先，与交叉验证不同，树是直接使用所有训练数据进行训练的。其次，叶节点可以位于树的不同级别，当数据的复杂性在整个输入范围内变化时，这是可取的。</p>
+<p>当节点的点数少于某个阈值（例如
+10）或总训练集的某个固定百分比时，我们也可以停止分裂。</p>
+<p>也可以使用权衡标准：</p>
+<p><span
+class="math display">\[J=\alpha\times\mathrm{size}+\sum_{N\in\text{leaf
+node}}i(N)\]</span></p>
+<p>这里<span
+class="math inline">\(\mathrm{size}\)</span>可以是节点或链接的数量，<span
+class="math inline">\(\alpha\)</span>是某个正常数。树的大小是分类器复杂度的度量，而不纯度的总和是分类器在训练数据上的性能的度量。这个权衡标准旨在在树复杂度和树性能之间取得平衡。</p>
+<h2 id="剪枝">剪枝</h2>
+<p>顾名思义，剪枝就是修建树。树建好后，可能会过度拟合。</p>
+<p>在修剪过程中，所有相邻的叶节点对（即链接到上一级的公共先行节点的节点）都将被考虑删除。任何删除后不纯度含量会令人满意地（小幅）增加的节点对都会被删除，而公共先行节点则被宣布为叶节点（反过来，这个先行节点本身也可以被修剪）。</p>
+<p>显然，这两个叶节点的合并或连接是分裂的逆过程</p>
+<h2 id="叶节点标签的分配">叶节点标签的分配</h2>
+<p>为叶节点分配类别标签是树构建中最简单的步骤。如果连续节点被尽可能地分割，并且每个叶节点对应于单个类别中的模式（零不纯度），那么当然会将此类别标签分配给叶节点。</p>
+<p>然而，极小的不纯度并不一定是可取的，因为它可能表明树过度拟合训练数据。</p>
+<p>在更典型的情况下，无论是使用停止分裂还是剪枝，叶节点的不纯度都是正的。因此，每个叶节点都应该用样本最多的类别进行标记。</p>
+<h1 id="一些典型的分类树">一些典型的分类树</h1>
+<p>几乎所有基于树的分类技术都采用了上述基本技术。以下是一些典型的分类树：</p>
+<ol type="1">
+<li>CART（分类和回归树）。事实上，上面讨论的技术是 CART
+的核心思想。</li>
+<li>ID3。ID3代表迭代二分法3，之所以这样命名，是因为该算法在每个步骤中迭代（重复）将特征二分（划分）为两个或多个组。它仅适用于名义（无序）输入。如果问题涉及实值变量，则首先将它们分成区间，每个区间被视为无序名义属性。</li>
+<li>C4.5。C4.5算法是ID3的继承者和改进，是一系列“分类”树方法中最受欢迎的算法。在算法中，实值变量的处理方式与CART相同。使用多个（B&gt;2）分割对名义数据进行分割，就像ID3中一样，使用增益比杂质。该算法使用基于分割统计显著性的启发式方法进行剪枝。</li>
+<li>随机森林。顾名思义，随机森林由许多决策树组成，这些决策树在完整训练数据的不同子集上进行训练。随机森林是一种集成学习方法。随机森林中的每棵树都会产生一个类预测，得票最多的类将成为模型的预测。接下来将介绍详细信息。</li>
+</ol>
+<h1 id="随机森林">随机森林</h1>
+<h2 id="动机">动机</h2>
+<p>分类（或决策）树由贪婪算法构建：优化手头的节点分割，而不是考虑该分割对整个树的影响。由贪婪算法训练的模型容易出现过度拟合和高方差。</p>
+<p>为了解决上述问题，我们可以使用随机森林，它是基于Bagging（Bootstrap
+Aggregation的缩写）的集成技术开发的。</p>
+<p>Bagging的Bootstrapping部分是指重采样方法，其中从数据集中抽取多个随机样本并替换。因此，Bootstrapping会从同一分布中创建多个较小的随机数据集。</p>
+<p>每个引导数据集都用于训练分类树。对于测试样本，多个分类树的输出将通过从所有树中挑选最常见的结果（即多数投票）聚合成一个最终结果。</p>
+<p><img src="/images/EE6407/机器学习033.jpg" /></p>
+<p>这实际上如何帮助减少方差？</p>
+<p>每棵树都在不同的数据集上进行训练。因此，不可避免地，每棵树都会犯不同的错误，并具有不同的误差和方差。在聚合步骤中，误差和方差都会减少。</p>
+<h2 id="建立随机森林的步骤">建立随机森林的步骤</h2>
+<p>假设训练数据集由具有<span class="math inline">\(d\)</span>特征的<span
+class="math inline">\(N\)</span>个样本组成。</p>
+<ol type="1">
+<li>通过bootstrapping创建<span
+class="math inline">\(n\)</span>个数据子集：子集<span
+class="math inline">\(1\)</span>，<span
+class="math inline">\(\cdots\)</span>，子集<span
+class="math inline">\(n\)</span>。注意：<span class="math inline">\(n\lt
+N\)</span>。</li>
+<li>对于每个数据子集，从原始<span
+class="math inline">\(d\)</span>个特征中随机选择<span
+class="math inline">\(m\)</span>个特征，并使用这<span
+class="math inline">\(m\)</span>个特征构建分类树。注意：<span
+class="math inline">\(m\lt d\)</span></li>
+<li>重复步骤2，直到所有<span
+class="math inline">\(n\)</span>个子集都已使用。</li>
+</ol>
+<h2 id="使用随机森林进行分类的步骤">使用随机森林进行分类的步骤</h2>
+<p>给定具有未知类别标签的测试样本</p>
+<ol type="1">
+<li>将测试样本通过每棵<span
+class="math inline">\(n\)</span>分类树运行，从每棵分类树中获得预测类。</li>
+<li>计算每个预测类的投票数。</li>
+<li>输出投票数最高的预测类作为最终的类预测</li>
+</ol>
+<h2 id="随机森林的特点">随机森林的特点</h2>
+<ol type="1">
+<li>多样性：在创建一棵树时，并非所有属性/变量/特征都会被考虑；每棵树都是不同的。</li>
+<li>不受维数灾难的影响：由于每棵树都不会考虑所有特征，因此特征空间会减少。</li>
+<li>并行化：每棵树都是由不同的数据和属性独立创建的。</li>
+<li>训练-测试分割：在随机森林中，我们不必分割数据进行训练和测试，因为决策树总会有看不见的数据。</li>
+<li>稳定性：稳定性的产生是因为结果基于多数投票/平均。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/10/24/%E8%A7%86%E9%A2%91%E5%8E%8B%E7%BC%A9%E5%92%8C%E6%A0%87%E5%87%86/" rel="prev" title="视频压缩和标准">
+                  <i class="fa fa-angle-left"></i> 视频压缩和标准
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/11/07/%E5%88%86%E7%B1%BB%E5%99%A8%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0/" rel="next" title="分类器性能评估">
+                  分类器性能评估 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Sifr</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/shifuru" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
